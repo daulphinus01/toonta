@@ -1,56 +1,142 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="@color/screen_1_bg"
     tools:context="com.toonta.app.HomePageActivity">
 
-    <android.support.v7.widget.AppCompatButton
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:text="@string/toonta_skip_this"
-        android:background="@color/blue_bcgnd"/>
+        android:background="@drawable/button_bg"/>
 
-    <!-- The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc. -->
-    <TextView
-        android:id="@+id/fullscreen_content"
+    <ViewFlipper
+        android:id="@+id/view_flipper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="@string/dummy_content"
-        android:textColor="#33b5e5"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/screen1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/screen1_img_top"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.45"
+                android:layout_gravity="top|center"
+                android:alpha="0.44"
+                android:scaleType="fitXY"
+                android:contentDescription="@string/screen1_img1_desc" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"
+                android:text="@string/screen_1_middle_text"
+                android:textColor="@color/screen_1_text"
+                android:textSize="22sp"
+                android:gravity="center"/>
+
+            <ImageView
+                android:id="@+id/screen1_img_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.45"
+                android:layout_gravity="bottom|center"
+                android:alpha="0.44"
+                android:scaleType="fitXY"
+                android:contentDescription="@string/screen1_img2_desc" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/screen2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/screen2_img_top"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.45"
+                android:layout_gravity="top|center"
+                android:alpha="0.44"
+                android:scaleType="fitXY"
+                android:contentDescription="@string/screen1_img1_desc" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"
+                android:text="@string/screen_2_middle_text"
+                android:textColor="@color/screen_1_text"
+                android:textSize="22sp"
+                android:gravity="center"/>
+
+            <ImageView
+                android:id="@+id/screen2_img_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.45"
+                android:layout_gravity="bottom|center"
+                android:alpha="0.44"
+                android:scaleType="fitXY"
+                android:contentDescription="@string/screen1_img2_desc" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/screen3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/screen3_img_top"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.45"
+                android:layout_gravity="top|center"
+                android:alpha="0.44"
+                android:scaleType="fitXY"
+                android:contentDescription="@string/screen1_img2_desc" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.1"
+                android:text="@string/screen_3_middle_text"
+                android:textColor="@color/screen_1_text"
+                android:textSize="22sp"
+                android:gravity="center"/>
+
+            <ImageView
+                android:id="@+id/screen3_img_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.45"
+                android:layout_gravity="bottom|center"
+                android:alpha="0.44"
+                android:scaleType="fitXY"
+                android:contentDescription="@string/screen1_img2_desc" />
+
+        </LinearLayout>
+
+    </ViewFlipper>
+
+    <android.support.v7.widget.AppCompatImageButton
+        android:id="@+id/toonta_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:src="@mipmap/toonta_logo" />
 
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
 
-        <LinearLayout
-            android:id="@+id/fullscreen_content_controls"
-            style="?metaButtonBarStyle"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|start"
-            android:background="@color/black_overlay"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent">
 
-            <android.support.v7.widget.AppCompatImageButton
-                android:id="@+id/toonta_logo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@mipmap/ic_launcher_nat" />
-
-        </LinearLayout>
-    </FrameLayout>
-
-</FrameLayout>
+</RelativeLayout>

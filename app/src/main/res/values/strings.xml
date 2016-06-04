@@ -5,4 +5,9 @@
     <string name="dummy_content">WELCOME TO TOONTA APP</string>
 
     <string name="toonta_skip_this">Skip this</string>
+    <string name="screen_1_middle_text">Toonta is all about sharing thoughts and opinions.</string>
+    <string name="screen1_img1_desc">Sharing knowledge</string>
+    <string name="screen1_img2_desc">Sharing knowledge</string>
+    <string name="screen_2_middle_text">At Toonta we recognise information is valuable!</string>
+    <string name="screen_3_middle_text">As such we celebrate loyalty when it drives quality.</string>
 </resources>
