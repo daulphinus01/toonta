@@ -2,5 +2,7 @@
     <string name="app_name">TOONTA</string>
 
     <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="dummy_content">WELCOME TO TOONTA APP</string>
+
+    <string name="toonta_skip_this">Skip this</string>
 </resources>
