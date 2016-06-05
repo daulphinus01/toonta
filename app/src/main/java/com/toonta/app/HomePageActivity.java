@@ -16,7 +16,6 @@ import java.io.InputStream;
 /**
  * @author Marcellin RWEGO
  * @since 1.0.0 [03/05/2016]
- *
  */
 public class HomePageActivity extends AppCompatActivity {
 
@@ -35,10 +34,6 @@ public class HomePageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_home_page);
-
-        // mVisible = true;
-        // mControlsView = findViewById(R.id.fullscreen_content_controls);
-        // mContentView = findViewById(R.id.fullscreen_content);
 
         // Disabling actionbar
         ActionBar actionBar = getSupportActionBar();
@@ -69,11 +64,6 @@ public class HomePageActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
-        // delayedHide(100);
     }
 
     @Override
