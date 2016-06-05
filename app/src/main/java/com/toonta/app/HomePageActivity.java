@@ -79,7 +79,9 @@ public class HomePageActivity extends AppCompatActivity {
 
         viewFlipper = (ViewFlipper) findViewById(R.id.view_flipper);
 
-        viewFlipper.startFlipping();
+        if (viewFlipper != null) {
+            viewFlipper.startFlipping();
+        }
 
 
         // Upon interacting with UI controls, delay any scheduled hide()
