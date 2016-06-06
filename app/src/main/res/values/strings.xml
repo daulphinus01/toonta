@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TOONTA</string>
+    <string name="app_name">Toonta</string>
 
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">WELCOME TO TOONTA APP</string>
@@ -10,4 +10,29 @@
     <string name="screen1_img2_desc">Sharing knowledge</string>
     <string name="screen_2_middle_text">At Toonta we recognise information is valuable!</string>
     <string name="screen_3_middle_text">As such we celebrate loyalty when it drives quality.</string>
+    <string name="title_activity_toonta_login">Login</string>
+    <string name="text_toonta_login">Toonta is happy to see you back!</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Login</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="toonta_sign_up">Sign up</string>
+    <string name="toonta_sign_in">Sign in</string>
+    <string name="sign_up_screen_img">Sign up screen</string>
+    <string name="text_toonta_sign_up">You are almost there</string>
+    <string name="confirm_pwd">Confirm password</string>
+    <string name="phone_number">Phone number</string>
+    <string name="button_profile_text">Profile</string>
+    <string name="button_bank_text">Bank</string>
+    <string name="unanswered_surveys">Unanswered surveys</string>
+    <string name="row_access">Access</string>
 </resources>
