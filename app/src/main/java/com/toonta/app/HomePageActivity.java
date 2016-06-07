@@ -17,7 +17,7 @@ import android.widget.ViewFlipper;
 
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoModule;
-import com.toonta.app.com.toonta.app.forms.ToontaLogin;
+import com.toonta.app.forms.ToontaLogin;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,6 +65,7 @@ public class HomePageActivity extends AppCompatActivity {
         screen3ImgBottom = (ImageView) findViewById(R.id.screen3_img_bottom);
 
         Button skipThisButton = (Button) findViewById(R.id.skip_this_button);
+        assert skipThisButton != null;
         skipThisButton.setTransformationMethod(null);
 
         AppCompatImageButton toontaLogoButton = (AppCompatImageButton) findViewById(R.id.toonta_logo);

@@ -35,4 +35,5 @@
     <string name="button_bank_text">Bank</string>
     <string name="unanswered_surveys">Unanswered surveys</string>
     <string name="row_access">Access</string>
+    <string name="bank_solde">Solde :</string>
 </resources>

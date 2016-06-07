@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.toonta.app.R;
-import com.toonta.app.com.toonta.app.model.Survey;
+import com.toonta.app.model.Survey;
 
 import java.util.List;
 
@@ -22,13 +22,16 @@ import java.util.List;
  */
 public class SurveysAdapter extends ArrayAdapter<Survey> {
 
+    private int totalSurvey;
+
     public SurveysAdapter(Context context, List<Survey> surveyList) {
         super(context, 0, surveyList);
+        this.totalSurvey = surveyList.size();
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return totalSurvey;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {

@@ -25,19 +25,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".com.toonta.app.forms.ToontaLogin"
+            android:name=".forms.ToontaLogin"
             android:label="@string/title_activity_toonta_login"
             android:parentActivityName=".HomePageActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.toonta.app.HomePageActivity" />
         </activity>
-        <activity android:name=".com.toonta.app.forms.SignUpActivity"></activity>
-        <activity android:name=".HomeConnectedActivity"
+        <activity android:name=".forms.SignUpActivity" />
+        <activity
+            android:name=".HomeConnectedActivity"
             android:parentActivityName=".HomePageActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.toonta.app.HomePageActivity"/>
+                android:value="com.toonta.app.HomePageActivity" />
+        </activity>
+        <activity
+            android:name=".BankDetailActivity"
+            android:parentActivityName=".HomeConnectedActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.toonta.app.HomeConnectedActivity"/>
         </activity>
     </application>
 
