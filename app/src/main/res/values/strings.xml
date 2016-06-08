@@ -37,4 +37,14 @@
     <string name="row_access">Access</string>
     <string name="bank_solde">Solde :</string>
     <string name="grands_moulins">Grands Moulins</string>
+    <string name="fisrt_name">Fisrt Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="birth_date">Birth Date</string>
+    <string name="email_address">Email address</string>
+    <string name="phone__number">Phone number</string>
+    <string name="activity_profession">Activity / Profession</string>
+    <string name="place_of_residence">Place of residence</string>
+    <string name="cumulated_points">Cumulated points</string>
+    <string name="label_three">Label Three</string>
+    <string name="upload_photo">Upload photo</string>
 </resources>

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.toonta.app.model.Survey;
+import com.toonta.app.utils.ProfileActivit;
 import com.toonta.app.utils.SurveysAdapter;
 
 import java.util.ArrayList;
@@ -27,7 +28,10 @@ public class HomeConnectedActivity extends AppCompatActivity {
         setupActionBar();
 
         Button bankButton = (Button) findViewById(R.id.bank_button);
-        toontaSetOnClickListener("Solde", bankButton, BankDetailActivity.class);
+        toontaSetOnClickListener(bankButton, BankDetailActivity.class);
+
+        Button profileButton = (Button) findViewById(R.id.profile_button);
+        toontaSetOnClickListener(profileButton, ProfileActivit.class);
 
         ListView listView = (ListView) findViewById(R.id.list_surveys);
 
@@ -69,13 +73,12 @@ public class HomeConnectedActivity extends AppCompatActivity {
         return surveys;
     }
 
-    private void toontaSetOnClickListener(final String unComputeredLabel, View button, final Class<?> cls) {
+    private void toontaSetOnClickListener(View button, final Class<?> cls) {
         if (button != null && cls != null) {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getBaseContext(), cls);
-                    intent.putExtra("UN_COMPUTERED_LABEL", unComputeredLabel);
                     startActivity(intent);
                 }
             });
