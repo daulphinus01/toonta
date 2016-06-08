@@ -45,7 +45,14 @@
             android:parentActivityName=".HomeConnectedActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.toonta.app.HomeConnectedActivity"/>
+                android:value="com.toonta.app.HomeConnectedActivity" />
+        </activity>
+        <activity
+            android:name=".BankDetailQstActivity"
+            android:parentActivityName=".BankDetailActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.toonta.app.BankDetailActivity" />
         </activity>
     </application>
 

@@ -1,13 +1,10 @@
 package com.toonta.app;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.AdapterView;
+import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,43 +15,33 @@ import com.toonta.app.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BankDetailActivity extends AppCompatActivity {
+public class BankDetailQstActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bank_detail);
+        setContentView(R.layout.activity_bank_detail_qst);
 
         // Actionbar
         setupActionBar();
 
-        TextView rightLabel = (TextView) findViewById(R.id.right_label);
-        TextView leftLabel = (TextView) findViewById(R.id.left_label);
+        TextView rightLabel = (TextView) findViewById(R.id.right_label_qst);
+        TextView leftLabel = (TextView) findViewById(R.id.left_label_qst);
 
-        ListView listView = (ListView) findViewById(R.id.bank_items);
+        ListView listView = (ListView) findViewById(R.id.bank_items_qst);
 
+        List<Bank> bankList = generateDetailedBank();
         assert leftLabel != null;
-        leftLabel.setText(R.string.bank_solde);
+        leftLabel.setText(Utils.computeBanksTotalToons(bankList));
         leftLabel.setTransformationMethod(null);
 
-        List<Bank> bankList = generateSurveys();
         assert rightLabel != null;
-        rightLabel.setText(Utils.computeBanksTotalToons(bankList));
+        rightLabel.setText(R.string.grands_moulins);
         rightLabel.setTransformationMethod(null);
-
-
 
         BankDetailAdapter bankDetailAdapter = new BankDetailAdapter(getBaseContext(), bankList);
         assert listView != null;
         listView.setAdapter(bankDetailAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getBaseContext(), BankDetailQstActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -74,13 +61,14 @@ public class BankDetailActivity extends AppCompatActivity {
         }
     }
 
-    private List<Bank> generateSurveys() {
+    private List<Bank> generateDetailedBank() {
         List<Bank> banks = new ArrayList<>();
-        banks.add(new Bank("Total Senegal", "", 74));
-        banks.add(new Bank("Grands Moulins", "", 412));
-        banks.add(new Bank("MTN Corporation", "", 87));
-        banks.add(new Bank("BICIS Banque", "", 365));
-        banks.add(new Bank("Presidential standard banque", "", 32));
+        banks.add(new Bank("Daily products & Urban zones", "", 90));
+        banks.add(new Bank("Colors & Value in packaging", "", 50));
+        banks.add(new Bank("Local rice appeal vs price", "", 70));
+        banks.add(new Bank("Acts & Relationships in buying", "", 100));
+        banks.add(new Bank("Biscao Biscuits & Kids' taste", "", 60));
+        banks.add(new Bank("Loyalty bonus", "", 32));
         return banks;
     }
 }

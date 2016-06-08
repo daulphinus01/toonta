@@ -18,8 +18,6 @@ import java.util.List;
 
 public class HomeConnectedActivity extends AppCompatActivity {
 
-    private Button bankButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +26,8 @@ public class HomeConnectedActivity extends AppCompatActivity {
         // Actionbar
         setupActionBar();
 
-        bankButton = (Button) findViewById(R.id.bank_button);
-        toontaSetOnClickListener(bankButton, BankDetailActivity.class);
+        Button bankButton = (Button) findViewById(R.id.bank_button);
+        toontaSetOnClickListener("Solde", bankButton, BankDetailActivity.class);
 
         ListView listView = (ListView) findViewById(R.id.list_surveys);
 
@@ -42,8 +40,8 @@ public class HomeConnectedActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        this.finish();
         super.onStop();
+        this.finish();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -71,12 +69,13 @@ public class HomeConnectedActivity extends AppCompatActivity {
         return surveys;
     }
 
-    private void toontaSetOnClickListener(View button, final Class<?> cls) {
+    private void toontaSetOnClickListener(final String unComputeredLabel, View button, final Class<?> cls) {
         if (button != null && cls != null) {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getBaseContext(), cls);
+                    intent.putExtra("UN_COMPUTERED_LABEL", unComputeredLabel);
                     startActivity(intent);
                 }
             });

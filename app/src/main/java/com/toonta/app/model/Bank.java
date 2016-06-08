@@ -3,11 +3,13 @@
  */
 package com.toonta.app.model;
 
+import java.io.Serializable;
+
 /**
  * @author Marcellin RWEGO
  * @since 1.0.0 [07/06/2016]
  */
-public class Bank extends Survey {
+public class Bank extends Survey implements Serializable {
 
     private int totalToons;
 
