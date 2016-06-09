@@ -8,6 +8,8 @@
 
     <color name="blue_bcgnd">#33b5e5</color>
 
+    <color name="white_bg">#ffffff</color>
+
     <!-- SCREEN 1 -->
     <color name="screen_1_bg">#14A1A7</color>
     <color name="screen_1_text">#FB9D02</color>

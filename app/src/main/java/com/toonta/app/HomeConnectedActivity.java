@@ -7,12 +7,17 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.toonta.app.model.Survey;
 import com.toonta.app.utils.ProfileActivit;
 import com.toonta.app.utils.SurveysAdapter;
+import com.toonta.app.utils.ToontaConstants;
+import com.toonta.app.utils.ToontaQuestionActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +45,17 @@ public class HomeConnectedActivity extends AppCompatActivity {
         SurveysAdapter surveysAdapter = new SurveysAdapter(getBaseContext(), surveys);
         assert listView != null;
         listView.setAdapter(surveysAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getBaseContext(), ToontaQuestionActivity.class);
+                View titleView = ((RelativeLayout) view).getChildAt(0);
+                String titleText = ((TextView)titleView).getText().toString();
+                intent.putExtra(ToontaConstants.QUESTION_TITLE, titleText);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

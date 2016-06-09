@@ -54,7 +54,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.toonta.app.BankDetailActivity" />
         </activity>
-        <activity android:name=".utils.ProfileActivit"></activity>
+        <activity android:name=".utils.ProfileActivit" />
+        <activity android:name=".utils.ToontaQuestionActivity"></activity>
     </application>
 
 </manifest>
