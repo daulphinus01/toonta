@@ -13,4 +13,6 @@ public class ToontaConstants {
 
     public static final String QUESTION_TITLE = "questionEnCours";
 
+    public static final int QUESTION_ZONE_LINE_NBR = 4;
+
 }

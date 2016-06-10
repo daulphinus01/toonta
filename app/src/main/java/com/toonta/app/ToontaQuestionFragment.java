@@ -91,11 +91,13 @@ public class ToontaQuestionFragment extends Fragment {
                 editText.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
                 editText.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
                 editText.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+                editText.setMinLines(ToontaConstants.QUESTION_ZONE_LINE_NBR);
                 linearLayout.addView(editText, llpQstRep);
                 break;
             default:
                 LinearLayout linearLayoutBoxes = new LinearLayout(getContext());
                 linearLayoutBoxes.setOrientation(LinearLayout.VERTICAL);
+                linearLayoutBoxes.setBackgroundResource(R.drawable.qst_zone_border);
 
                 for (String answer : toontaQuestion.getResponses()) {
                     CheckBox checkBox = new CheckBox(getContext());
