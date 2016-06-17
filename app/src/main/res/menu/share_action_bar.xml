@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toonta="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menu_item_share"
+        android:title="@string/string_dashboard_activity_share_button"
+        android:icon="@android:drawable/ic_menu_share"
+        toonta:showAsAction="always"
+        android:actionProviderClass="android.widget.ShareActionProvider" />
+</menu>

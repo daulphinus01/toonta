@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:background="@color/screen_1_bg"
-    tools:context="com.toonta.app.utils.ProfileActivit">
+    tools:context=".utils.ProfileActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -232,7 +232,7 @@
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/cumilated_points"
+                android:id="@+id/toonta_cumilated_points"
                 android:inputType="number"
                 android:layout_weight="0.9"
                 android:background="@android:color/transparent"

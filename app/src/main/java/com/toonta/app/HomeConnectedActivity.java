@@ -1,28 +1,32 @@
 package com.toonta.app;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.toonta.app.model.Survey;
-import com.toonta.app.utils.ProfileActivit;
+import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
+import com.toonta.app.utils.ProfileActivity;
 import com.toonta.app.utils.SurveysAdapter;
 import com.toonta.app.utils.ToontaConstants;
 import com.toonta.app.utils.ToontaQuestionActivity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomeConnectedActivity extends AppCompatActivity {
+
+    private NewSurveysInteractor newSurveysInteractor;
+    private ProgressDialog progressDialog;
+    private SurveysAdapter surveysAdapter;
+    private ListView surviesListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,26 +40,72 @@ public class HomeConnectedActivity extends AppCompatActivity {
         toontaSetOnClickListener(bankButton, BankDetailActivity.class);
 
         Button profileButton = (Button) findViewById(R.id.profile_button);
-        toontaSetOnClickListener(profileButton, ProfileActivit.class);
+        toontaSetOnClickListener(profileButton, ProfileActivity.class);
 
-        ListView listView = (ListView) findViewById(R.id.list_surveys);
+        // Progress mechanisme when verifying credential
+        progressDialog = new ProgressDialog(HomeConnectedActivity.this);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.string_loading_survies_activity));
 
-        List<Survey> surveys = generateSurveys();
+        surviesListView = (ListView) findViewById(R.id.list_surveys);
 
-        SurveysAdapter surveysAdapter = new SurveysAdapter(getBaseContext(), surveys);
-        assert listView != null;
-        listView.setAdapter(surveysAdapter);
+        surveysAdapter = new SurveysAdapter(getBaseContext());
+        assert surviesListView != null;
+        surviesListView.setAdapter(surveysAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        surviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getBaseContext(), ToontaQuestionActivity.class);
-                View titleView = ((RelativeLayout) view).getChildAt(0);
-                String titleText = ((TextView)titleView).getText().toString();
-                intent.putExtra(ToontaConstants.QUESTION_TITLE, titleText);
+                // View titleView = ((RelativeLayout) view).getChildAt(0);
+                // String titleText = ((TextView)titleView).getText().toString();
+                ToontaDAO.SurveysListAnswer.SurveyElement surveyElement = surveysAdapter.getItem(position);
+                intent.putExtra(ToontaConstants.QUESTION_TITLE, surveyElement.name);
+                intent.putExtra(ToontaConstants.SURVEY_ID, surveyElement.surveyId);
+                intent.putExtra(ToontaConstants.SURVEY_REWRD, surveyElement.reward);
+
                 startActivity(intent);
             }
         });
+
+        // Showing loading window
+        progressDialog.show();
+        newSurveysInteractor = new NewSurveysInteractor(getApplicationContext(), new NewSurveysInteractor.NewSurveysViewUpdater() {
+            @Override
+            public void onNewSurveys(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList, boolean reset) {
+                // TODO Empty method
+            }
+
+            @Override
+            public void onPopulateSurvies(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList) {
+                // Dismissing loading window
+                if (progressDialog != null && progressDialog.isShowing())
+                progressDialog.dismiss();
+
+                surveysAdapter.addElements(surveyElementArrayList);
+            }
+
+            @Override
+            public void onRefreshProgress() {
+                // TODO Empty method
+            }
+
+            @Override
+            public void onRefreshDone() {
+                // TODO Empty method
+            }
+
+            @Override
+            public void onFailure(String error) {
+                // newSurveysListView.setEmptyView(findViewById(R.id.new_surveys_activity_empty));
+                if (surviesListView.getChildCount() == 0) {
+                    Snackbar.make(findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        // Fetching survies
+        newSurveysInteractor.fetchAllSurvies();
     }
 
     @Override
@@ -75,20 +125,6 @@ public class HomeConnectedActivity extends AppCompatActivity {
         }
     }
 
-    private List<Survey> generateSurveys() {
-        List<Survey> surveys = new ArrayList<>();
-        surveys.add(new Survey("Length of television programs", ""));
-        surveys.add(new Survey("Telephone Credit & Internet Data", ""));
-        surveys.add(new Survey("Presidential elections for 2017", ""));
-        surveys.add(new Survey("Length of television programs", ""));
-        surveys.add(new Survey("Telephone Credit & Internet Data", ""));
-        surveys.add(new Survey("Presidential elections for 2017", ""));
-        surveys.add(new Survey("Length of television programs", ""));
-        surveys.add(new Survey("Telephone Credit & Internet Data", ""));
-        surveys.add(new Survey("Presidential elections for 2017", ""));
-        return surveys;
-    }
-
     private void toontaSetOnClickListener(View button, final Class<?> cls) {
         if (button != null && cls != null) {
             button.setOnClickListener(new View.OnClickListener() {
@@ -100,5 +136,4 @@ public class HomeConnectedActivity extends AppCompatActivity {
             });
         }
     }
-
 }

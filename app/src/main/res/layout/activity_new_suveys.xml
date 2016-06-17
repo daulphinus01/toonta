@@ -1,0 +1,24 @@
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/new_surveys_activity_refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/new_surveys_activity_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ListView>
+
+        <TextView android:id="@+id/new_surveys_activity_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/string_list_survey_activity_empty_list"
+            android:gravity="center" />
+    </LinearLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

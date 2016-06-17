@@ -9,14 +9,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:background="@color/screen_1_bg"
-    tools:context="com.toonta.app.com.toonta.app.forms.SignUpActivity">
+    tools:context="com.toonta.app.forms.SignUpActivity">
 
     <ImageView
         android:id="@+id/toonta_logo"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="0.25"
-        android:scaleType="fitXY"
         android:layout_gravity="center"
         android:contentDescription="@string/sign_up_screen_img" />
 
@@ -44,7 +43,7 @@
         android:layout_height="0dp"
         android:layout_weight="0.65"
         android:orientation="vertical"
-        android:background="@color/cadre_login">
+        android:background="@drawable/qst_zone_border">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <AutoCompleteTextView
-                    android:id="@+id/phone_number"
+                    android:id="@+id/phone_number_sign_up"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/phone_number"
@@ -69,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <EditText
-                    android:id="@+id/password"
+                    android:id="@+id/password_sign_up"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"

@@ -47,7 +47,9 @@ public class HomePageActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_home_page);
 
-        Iconify.with(new EntypoModule());
+        ToontaSharedPreferences.init(getApplicationContext());
+        ToontaDAO.init(getApplicationContext());
+
 
         context = this;
 
@@ -78,6 +80,7 @@ public class HomePageActivity extends AppCompatActivity {
         viewFlipper = (ViewFlipper) findViewById(R.id.view_flipper);
 
         if (viewFlipper != null) {
+            viewFlipper.setFlipInterval(10000);
             viewFlipper.startFlipping();
         }
 

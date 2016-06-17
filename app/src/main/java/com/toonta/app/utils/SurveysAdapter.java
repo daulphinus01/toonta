@@ -12,26 +12,42 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.toonta.app.R;
-import com.toonta.app.model.Survey;
+import com.toonta.app.ToontaDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Marcellin RWEGO
  * @since 1.0.0 [06/06/2016]
  */
-public class SurveysAdapter extends ArrayAdapter<Survey> {
+public class SurveysAdapter extends ArrayAdapter<ToontaDAO.SurveysListAnswer.SurveyElement> {
 
-    private int totalSurvey;
+    private List<ToontaDAO.SurveysListAnswer.SurveyElement> surveyList;
 
-    public SurveysAdapter(Context context, List<Survey> surveyList) {
-        super(context, 0, surveyList);
-        this.totalSurvey = surveyList.size();
+    public SurveysAdapter(Context context) {
+        super(context, 0);
+        this.surveyList = new ArrayList<>();
     }
 
     @Override
     public int getCount() {
-        return totalSurvey;
+        return surveyList.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return surveyList.get(position).name.hashCode();
+    }
+
+    @Override
+    public ToontaDAO.SurveysListAnswer.SurveyElement getItem(int position) {
+        return surveyList.get(position);
+    }
+
+    public void addElements(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList) {
+        this.surveyList.addAll(surveyElementArrayList);
+        notifyDataSetChanged();
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -48,10 +64,10 @@ public class SurveysAdapter extends ArrayAdapter<Survey> {
         }
 
         //getItem(position) va récupérer l'item [position] de la List<Survey> surveyList
-        Survey survey = getItem(position);
+        ToontaDAO.SurveysListAnswer.SurveyElement survey = getItem(position);
 
         //il ne reste plus qu'à remplir notre vue
-        viewHolder.textView.setText(survey.getTitle());
+        viewHolder.textView.setText(survey.name);
         viewHolder.textView.setTransformationMethod(null);
         viewHolder.textView.setTextColor(getContext().getResources().getColor(R.color.screen_1_text));
         viewHolder.imageView.setImageResource(R.mipmap.ic_plus_sign);

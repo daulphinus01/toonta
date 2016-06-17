@@ -8,5 +8,15 @@ package com.toonta.app.model;
  * @since 1.0.0 [08/06/2016]
  */
 public enum QuestionType {
-    MULT_CHOICE, SINGLE_CHOICE, OPEN_QUESTION
+    BASIC("BASIC"), YES_NO("YES_NO"), MULTIPLE_CHOICE("MULTIPLE_CHOICE");
+
+    private String value;
+
+    QuestionType(String value) {
+        this.value = value;
+    }
+
+    public String getValueStr() {
+        return value;
+    }
 }

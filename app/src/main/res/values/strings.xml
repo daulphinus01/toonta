@@ -51,4 +51,63 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="submit">Submit</string>
+
+
+
+
+    <string name="string_error_no_server">Server error</string>
+    <string name="string_error_no_network">Can not connect to internet</string>
+    <string name="string_error_auth_failure">Authentication error</string>
+
+
+
+    <!-- Strings related to login -->
+    <string name="string_login_activity_email_placeholder">Email</string>
+    <string name="string_login_activity_password_placeholder">Password</string>
+    <string name="string_login_activity_login_button">Login</string>
+    <string name="string_login_activity_sign_up_button">No account yet? Create one</string>
+    <string name="string_login_activity_password_error">Between 4 and 10 alphanumeric characters</string>
+    <string name="string_login_activity_email_error">Enter a valid email address</string>
+    <string name="string_login_activity_authenticating">Authenticating…</string>
+    <string name="string_login_activity_failed_login">Wrong phone number or password</string>
+
+    <!-- Strings related to signup -->
+    <string name="string_sign_up_activity_first_name_placeholder">First name</string>
+    <string name="string_sign_up_activity_last_name_placeholder">Last name</string>
+    <string name="string_sign_up_activity_phone_number_placeholder">Phone number</string>
+    <string name="string_sign_up_activity_sign_up_button">Create account</string>
+    <string name="string_sign_up_activity_name_error">Enter a valid name</string>
+    <string name="string_sign_up_activity_phone_number_error">Enter a valid phone number</string>
+    <string name="string_sign_up_activity_creating_new_account">Creating new account…</string>
+    <string name="string_sign_up_activity_account_already_exists">Account already exists</string>
+    <string name="title_activity_first_use_slider">FirstUseSlider</string>
+
+    <!-- Strings related to first use slider -->
+    <string name="string_first_use_activity_1">Toonta is all about sharing thoughts and opinions</string>
+    <string name="string_first_use_activity_2">At Toonta we recognise that information is valuable</string>
+    <string name="string_first_use_activity_3">As such we celebrate loyalty when it drives quality</string>
+
+    <!-- Strings related to dashboard use slider -->
+    <string name="string_dashboard_activity_profile_button">Profile</string>
+    <string name="string_dashboard_activity_new_surveys_button">Answer a survey</string>
+    <string name="string_dashboard_activity_old_surveys_button">Past surveys</string>
+    <string name="string_dashboard_activity_share_button">Share</string>
+    <string name="string_dashboard_activity_share_dialog_title">Share via</string>
+    <string name="string_dashboard_activity_share_sentence">Get money, fuck bitches</string>
+    <string name="string_dashboard_activity_logout_button">Logout</string>
+
+    <!-- Strings related to survey list -->
+    <string name="string_list_survey_activity_empty_list">No survey !</string>
+    <string name="connected_fetching_survies">Fetching survies...</string>
+    <string name="string_loading_survies_activity">Loading survies…</string>
+    <string name="no_qst_for_survey">No questions to display for this survey</string>
+    <string name="toonta_radio_button_yes">Yes</string>
+    <string name="toonta_radio_button_no">No</string>
+    <string name="button_previous">Previous</string>
+    <string name="next_button_next_as_text">Next</string>
+    <string name="select_one_button">Check one of the answer</string>
+    <string name="smth_wrong_re_answer_the_qst">Something went wrong, re-answer the question</string>
+    <string name="answer_qst_before_moving_to_next">The question must be answered to be able to move to next</string>
+
+
 </resources>

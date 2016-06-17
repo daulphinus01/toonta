@@ -12,26 +12,43 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.toonta.app.R;
+import com.toonta.app.ToontaDAO;
 import com.toonta.app.model.Bank;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Marcellin RWEGO
  * @since 1.0.0 [07/06/2016]
  */
-public class BankDetailAdapter extends ArrayAdapter<Bank> {
+public class BankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAnswer.SurveyElement> {
 
-    private int totalBankRow;
+    private List<ToontaDAO.SurveysListAnswer.SurveyElement> surveyList;
 
-    public BankDetailAdapter(Context context, List<Bank> bankList) {
-        super(context, 0, bankList);
-        this.totalBankRow = bankList.size();
+    public BankDetailAdapter(Context context) {
+        super(context, 0);
+        this.surveyList = new ArrayList<>();
     }
 
     @Override
     public int getCount() {
-        return totalBankRow;
+        return surveyList.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return surveyList.get(position).name.hashCode();
+    }
+
+    @Override
+    public ToontaDAO.SurveysListAnswer.SurveyElement getItem(int position) {
+        return surveyList.get(position);
+    }
+
+    public void addElements(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList) {
+        this.surveyList.addAll(surveyElementArrayList);
+        notifyDataSetChanged();
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -49,16 +66,19 @@ public class BankDetailAdapter extends ArrayAdapter<Bank> {
         }
 
         //getItem(position) va récupérer l'item [position] de la List<Survey> surveyList
-        Bank bank = getItem(position);
+        ToontaDAO.SurveysListAnswer.SurveyElement survey = getItem(position);
+
+        // getItem(position) va récupérer l'item [position] de la List<Survey> surveyList
+        //Bank bank = getItem(position);
 
         //il ne reste plus qu'à remplir notre vue
         int textColor = getContext().getResources().getColor(R.color.screen_1_text);
 
-        viewHolder.bankTitleTextView.setText(bank.getTitle());
+        viewHolder.bankTitleTextView.setText(survey.name);
         viewHolder.bankTitleTextView.setTransformationMethod(null);
         viewHolder.bankTitleTextView.setTextColor(textColor);
 
-        viewHolder.bankToonsTextView.setText(bank.print());
+        viewHolder.bankToonsTextView.setText(survey.print());
         viewHolder.bankToonsTextView.setTransformationMethod(null);
         viewHolder.bankToonsTextView.setTextColor(textColor);
 
