@@ -15,19 +15,46 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.2"
-        android:orientation="vertical">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/photo_ic"
-            android:layout_gravity="center|start"
-            android:contentDescription="@string/upload_photo"/>
+        android:orientation="horizontal">
 
-        <TextView
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/photo_ic"
+                android:layout_gravity="center|start"
+                android:contentDescription="@string/upload_photo"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/upload_photo"
+                android:textColor="@color/screen_1_text"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/toonta_layout_save_changes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/upload_photo"
-            android:textColor="@color/screen_1_text"/>
+            android:layout_gravity="center">
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/toonta_save_changes_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/toonta_save_changes"
+                android:background="@drawable/button_bg"
+                android:paddingStart="5sp"
+                android:paddingLeft="5sp"
+                android:paddingEnd="5sp"
+                android:paddingRight="5sp"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -53,10 +80,12 @@
                 android:hint="@string/fisrt_name"/>
 
             <ImageView
+                android:id="@+id/_first_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.1"
-                android:src="@mipmap/crayon"/>
+                android:src="@mipmap/crayon"
+                android:onClick="setEditable"/>
 
         </LinearLayout>
 
@@ -76,10 +105,12 @@
                 android:hint="@string/last_name"/>
 
             <ImageView
+                android:id="@+id/_last_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.1"
-                android:src="@mipmap/crayon"/>
+                android:src="@mipmap/crayon"
+                android:onClick="setEditable"/>
 
         </LinearLayout>
 
@@ -100,10 +131,12 @@
                 android:hint="@string/birth_date"/>
 
             <ImageView
+                android:id="@+id/_birth_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.1"
-                android:src="@mipmap/crayon"/>
+                android:src="@mipmap/crayon"
+                android:onClick="setEditable"/>
 
         </LinearLayout>
 
@@ -135,10 +168,12 @@
                 android:hint="@string/email_address"/>
 
             <ImageView
+                android:id="@+id/_email_address"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.1"
-                android:src="@mipmap/crayon"/>
+                android:src="@mipmap/crayon"
+                android:onClick="setEditable"/>
 
         </LinearLayout>
 
@@ -159,10 +194,12 @@
                 android:hint="@string/phone__number"/>
 
             <ImageView
+                android:id="@+id/_phone_number"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.1"
-                android:src="@mipmap/crayon"/>
+                android:src="@mipmap/crayon"
+                android:onClick="setEditable"/>
 
         </LinearLayout>
 
@@ -183,10 +220,12 @@
                 android:hint="@string/activity_profession"/>
 
             <ImageView
+                android:id="@+id/_professional_activity"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.1"
-                android:src="@mipmap/crayon"/>
+                android:src="@mipmap/crayon"
+                android:onClick="setEditable"/>
 
         </LinearLayout>
 
@@ -215,10 +254,12 @@
                 android:hint="@string/place_of_residence"/>
 
             <ImageView
+                android:id="@+id/_residence_place"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.1"
-                android:src="@mipmap/crayon"/>
+                android:src="@mipmap/crayon"
+                android:onClick="setEditable"/>
 
         </LinearLayout>
 
@@ -239,10 +280,12 @@
                 android:hint="@string/cumulated_points"/>
 
             <ImageView
+                android:id="@+id/_toonta_cumilated_points"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.1"
-                android:src="@mipmap/crayon"/>
+                android:src="@mipmap/crayon"
+                android:onClick="setEditable"/>
 
         </LinearLayout>
 
@@ -263,10 +306,12 @@
                 android:background="@android:color/transparent"/>
 
             <ImageView
+                android:id="@+id/_label_three"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.1"
-                android:src="@mipmap/crayon"/>
+                android:src="@mipmap/crayon"
+                android:onClick="setEditable"/>
 
         </LinearLayout>
 

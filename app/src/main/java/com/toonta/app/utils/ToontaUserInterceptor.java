@@ -16,6 +16,7 @@ import com.toonta.app.forms.ToontaUser;
 public class ToontaUserInterceptor {
     public interface ToontaUserViewUpdater {
         void onToontaUserGet(ToontaUser toontaUser);
+        void onToontaUserUpdate(String error);
         void onFailure(String error);
     }
 
@@ -41,6 +42,20 @@ public class ToontaUserInterceptor {
         });
     }
 
+    public void updateToontaUser(ToontaUser toontaUser) {
+        ToontaDAO.updateToontaUser(toontaUser, new ToontaDAO.UpdateToontaUserNetworkCallInterface() {
+            @Override
+            public void onSuccess(ToontaDAO.NetworkAnswer networkAnswer) {
+                toontaUserViewUpdater.onToontaUserUpdate(getDescriptionForError(networkAnswer));
+            }
+
+            @Override
+            public void onFailure(ToontaDAO.NetworkAnswer error) {
+                toontaUserViewUpdater.onFailure(getDescriptionForError(error));
+            }
+        });
+    }
+
     //Own methods
 
     private String getDescriptionForError(ToontaDAO.NetworkAnswer networkAnswer) {
@@ -48,6 +63,12 @@ public class ToontaUserInterceptor {
             return context.getString(R.string.string_error_auth_failure);
         } else if (networkAnswer == ToontaDAO.NetworkAnswer.NO_SERVER) {
             return context.getString(R.string.string_error_no_server);
+        } else if (networkAnswer == ToontaDAO.NetworkAnswer.FAILED_UPDATING) {
+            return "Failed to update modified fields";
+        } else if (networkAnswer == ToontaDAO.NetworkAnswer.FORBIDDEN) {
+            return context.getString(R.string.no_modif_wright);
+        } else if (networkAnswer == ToontaDAO.NetworkAnswer.OK_UPDATING) {
+            return context.getString(R.string.profile_change_success);
         } else {
             return context.getString(R.string.string_error_no_network);
         }

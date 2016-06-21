@@ -83,12 +83,6 @@ public class HomePageActivity extends AppCompatActivity {
             viewFlipper.setFlipInterval(10000);
             viewFlipper.startFlipping();
         }
-
-
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        // findViewById(R.id.toonta_logo).setOnTouchListener(mDelayHideTouchListener);
     }
 
     @Override
@@ -153,8 +147,13 @@ public class HomePageActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent loginIntent = new Intent(context, ToontaLogin.class);
-                    startActivity(loginIntent);
+                    Intent intent = null;
+                    if (ToontaSharedPreferences.isLoggedIn()) {
+                        intent = new Intent(context, HomeConnectedActivity.class);
+                    } else {
+                        intent = new Intent(context, ToontaLogin.class);
+                    }
+                    startActivity(intent);
                 }
             });
         }

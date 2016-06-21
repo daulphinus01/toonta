@@ -77,6 +77,17 @@
             android:name="com.toonta.app.activities.LoadingActivity"
             android:theme="@style/SplashTheme">
         </activity>
+
+
+        <activity
+            android:name=".utils.ToontaQuestionNoAnswerActivity"
+            android:parentActivityName=".BankDetailQstActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".BankDetailQstActivity" />
+        </activity>
+
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="cf87f022df53725b6f9b1a1488b253acbc085a37" />

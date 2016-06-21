@@ -130,22 +130,6 @@ public class ToontaLogin extends AppCompatActivity{
         super.onStop();
     }
 
-/*    @Override
-    public void onResume() {
-        super.onResume();
-        if (!ToontaSharedPreferences.isLoggedIn()) {
-            Intent intent = new Intent(getApplicationContext(), ToontaLogin.class);
-            if (!ToontaSharedPreferences.isFistUseSliderValidated()) {
-                intent.putExtra(NEED_FIRST_USE_SLIDER, true);
-            }
-            startActivity(intent);
-        } else {
-            startActivity(new Intent(getApplicationContext(), HomeConnectedActivity.class));
-        }
-        finish();
-    }*/
-
-
     private void loadLogo() {
         try {
             // get input stream

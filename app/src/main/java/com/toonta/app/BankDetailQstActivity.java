@@ -17,6 +17,8 @@ import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
 import com.toonta.app.model.Bank;
 import com.toonta.app.utils.BankDetailAdapter;
 import com.toonta.app.utils.ToontaConstants;
+import com.toonta.app.utils.ToontaQuestionActivity;
+import com.toonta.app.utils.ToontaQuestionNoAnswerActivity;
 import com.toonta.app.utils.Utils;
 
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ public class BankDetailQstActivity extends AppCompatActivity {
 
     // ListeView's interceptor
     private NewSurveysInteractor newSurveysInteractor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +82,10 @@ public class BankDetailQstActivity extends AppCompatActivity {
         surviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getBaseContext(), BankDetailQstActivity.class);
-
                 ToontaDAO.SurveysListAnswer.SurveyElement surveyElement = bankDetailAdapter.getItem(position);
+                Intent intent = new Intent(getBaseContext(), ToontaQuestionNoAnswerActivity.class);
                 intent.putExtra(ToontaConstants.QUESTION_TITLE, surveyElement.name);
                 intent.putExtra(ToontaConstants.SURVEY_ID, surveyElement.surveyId);
-                intent.putExtra(ToontaConstants.SURVEY_REWRD, surveyElement.reward);
 
                 startActivity(intent);
             }
@@ -141,7 +142,6 @@ public class BankDetailQstActivity extends AppCompatActivity {
 
         // Fetching survies
         newSurveysInteractor.fetchAllSurvies();
-
     }
 
     @Override
@@ -160,5 +160,4 @@ public class BankDetailQstActivity extends AppCompatActivity {
             }
         }
     }
-
 }

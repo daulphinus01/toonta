@@ -22,6 +22,7 @@ import com.toonta.app.utils.ToontaConstants;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +34,7 @@ import java.util.Map;
 public class ToontaDAO extends Application {
 
     public enum NetworkAnswer {
-        NO_NETWORK, NO_SERVER, BAD_REQUEST, FAILED_LOGIN, OK_LOGIN, ACCOUNT_ALREADY_EXISTS, AUTH_FAILURE
+        NO_NETWORK, NO_SERVER, BAD_REQUEST, FAILED_LOGIN, OK_LOGIN, ACCOUNT_ALREADY_EXISTS, AUTH_FAILURE, FAILED_UPDATING, FORBIDDEN, OK_UPDATING
     }
     private static String API = "http://92.222.90.138:8080/toonta-api/";
     private static String USER = "user/";
@@ -178,6 +179,11 @@ public class ToontaDAO extends Application {
 
     public interface ToontaUserNetworkCallInterface {
         void onSuccess(ToontaUser toontaUser);
+        void onFailure(NetworkAnswer error);
+    }
+
+    public interface UpdateToontaUserNetworkCallInterface {
+        void onSuccess(ToontaDAO.NetworkAnswer networkAnswer);
         void onFailure(NetworkAnswer error);
     }
 
@@ -663,5 +669,80 @@ public class ToontaDAO extends Application {
             return toontaUser;
         }
         return toontaUser;
+    }
+
+
+    /**
+     * Updates toonta user info
+     * @param toontaUser
+     * @param updateToontaUserNetworkCallInterface
+     */
+    public static void updateToontaUser(ToontaUser toontaUser, final UpdateToontaUserNetworkCallInterface updateToontaUserNetworkCallInterface) {
+        try {
+            JSONObject content = new JSONObject();
+            content.put("birthdate", toontaUser.birthdate);
+            content.put("city", "Paris");
+            content.put("country", "France");
+            content.put("email", toontaUser.email);
+            content.put("firstname", toontaUser.firstname);
+            content.put("lastname", toontaUser.lastname);
+            content.put("name", "Jean Dupond");
+            content.put("password", "qwerty12");
+            content.put("phoneNumber", "rwego123");
+            content.put("profession", "ALL");
+            content.put("sexe", "M");
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT,
+                    API+USER+"update/" + ToontaSharedPreferences.toontaSharedPreferences.userId,
+                    content,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.v(TAG + " Update ToontaUser", response.toString());
+                            String responseStatus = "";
+                            try {
+                                responseStatus = response.getString("status");
+                            } catch (JSONException e) {
+                                // Nothing to do, responseStatus stays empty and is dealt with
+                                // in the underneath part.
+                            }
+
+                            if (responseStatus.isEmpty()) {
+                                updateToontaUserNetworkCallInterface.onFailure(NetworkAnswer.FAILED_UPDATING);
+                            } else if (responseStatus.equals(HttpStatus.CREATED.name())){
+                                updateToontaUserNetworkCallInterface.onSuccess(NetworkAnswer.OK_UPDATING);
+                            } else if (responseStatus.equals(HttpStatus.FORBIDDEN)) {
+                                updateToontaUserNetworkCallInterface.onSuccess(NetworkAnswer.FORBIDDEN);
+                            } else {
+                                updateToontaUserNetworkCallInterface.onFailure(NetworkAnswer.FAILED_UPDATING);
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e(TAG + " Update ToontaUser", error.toString());
+                            if (error instanceof NoConnectionError) {
+                                updateToontaUserNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
+                            } else {
+                                updateToontaUserNetworkCallInterface.onFailure(NetworkAnswer.NO_SERVER);
+                            }
+                        }
+                    })
+            {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String>  params = new HashMap<>();
+                    params.put("userId", ToontaSharedPreferences.toontaSharedPreferences.userId);
+                    params.put("userToken", ToontaSharedPreferences.toontaSharedPreferences.requestToken);
+
+                    return params;
+                }
+            };
+
+            requestQueue.add(jsonObjectRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

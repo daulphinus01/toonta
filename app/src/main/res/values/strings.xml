@@ -108,6 +108,13 @@
     <string name="select_one_button">Check one of the answer</string>
     <string name="smth_wrong_re_answer_the_qst">Something went wrong, re-answer the question</string>
     <string name="answer_qst_before_moving_to_next">The question must be answered to be able to move to next</string>
+    <string name="toonta_field_modif">Fields modification</string>
+    <string name="toonta_field_modif_msg">All modified fields will be saved automatically when living this page</string>
+    <string name="toonat_ok">Ok</string>
+    <string name="toonta_cancel">Cancel</string>
+    <string name="toonta_save_changes">Save changes</string>
+    <string name="no_modif_wright">You have no wright of modification</string>
+    <string name="profile_change_success">Profile updated successefuly</string>
 
 
 </resources>

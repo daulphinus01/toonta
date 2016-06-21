@@ -59,15 +59,16 @@ public class ToontaUser {
         }
     }
 
-    public String birthdate;
-    public String email;
-    public String firstname;
-    public String id;
-    public String lastname;
-    public String name;
+    public String birthdate = "";
+    public String email = "";
+    public String firstname = "";
+    public String id = "";
+    public String lastname = "";
+    public String name = "";
+    // Obligatoire a tout les coups
     public String phoneNumber;
-    public String profession;
-    public String sexe;
+    public String profession = "";
+    public String sexe = "";
 
     public Address address = new Address();
     public Bank_ bank_ = new Bank_();
