@@ -73,7 +73,9 @@
 
             <EditText
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
                 android:id="@+id/first_name"
                 android:layout_weight="0.9"
                 android:background="@android:color/transparent"
@@ -98,7 +100,9 @@
 
             <EditText
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
                 android:id="@+id/last_name"
                 android:layout_weight="0.9"
                 android:background="@android:color/transparent"
@@ -123,7 +127,9 @@
 
             <EditText
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
                 android:id="@+id/birth_date"
                 android:inputType="date"
                 android:layout_weight="0.9"
@@ -160,7 +166,9 @@
 
             <EditText
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
                 android:id="@+id/email_address"
                 android:inputType="textEmailAddress"
                 android:layout_weight="0.9"
@@ -186,7 +194,9 @@
 
             <EditText
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
                 android:id="@+id/phone_number"
                 android:inputType="phone"
                 android:layout_weight="0.9"
@@ -212,7 +222,9 @@
 
             <EditText
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
                 android:id="@+id/professional_activity"
                 android:inputType="phone"
                 android:layout_weight="0.9"
@@ -247,7 +259,9 @@
 
             <EditText
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
                 android:id="@+id/residence_place"
                 android:layout_weight="0.9"
                 android:background="@android:color/transparent"
@@ -272,7 +286,9 @@
 
             <EditText
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
                 android:id="@+id/toonta_cumilated_points"
                 android:inputType="number"
                 android:layout_weight="0.9"
@@ -298,7 +314,9 @@
 
             <EditText
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
                 android:id="@+id/label_three"
                 android:inputType="text"
                 android:layout_weight="0.9"

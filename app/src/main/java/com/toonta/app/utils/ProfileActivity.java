@@ -143,9 +143,6 @@ public class ProfileActivity extends AppCompatActivity {
         saveChangesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.v("--------------> Id ", ToontaSharedPreferences.toontaSharedPreferences.userId);
-                Log.v("--------------> Token ", ToontaSharedPreferences.toontaSharedPreferences.requestToken);
-
                 ToontaUser user = new ToontaUser(
                         birthDate.getText().toString(),
                         emailAddress.getText().toString(),

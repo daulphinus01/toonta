@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -118,11 +119,53 @@ public class HomeConnectedActivity extends AppCompatActivity {
     private void setupActionBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             // Show the Up button in the action bar.
-            ActionBar actionBar = getSupportActionBar();
+            /*ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
-            }
+            }*/
+
+
+
+
+            ActionBar mActionBar = getSupportActionBar();
+            assert mActionBar != null;
+            mActionBar.setDisplayShowHomeEnabled(false);
+            mActionBar.setDisplayShowTitleEnabled(false);
+            LayoutInflater mInflater = LayoutInflater.from(this);
+
+            View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
+            /*TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
+            mTitleTextView.setText("My Own Title");*/
+
+            /*ImageButton imageButton = (ImageButton) mCustomView
+                    .findViewById(R.id.imageButton);
+            imageButton.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getApplicationContext(), "Refresh Clicked!",
+                            Toast.LENGTH_LONG).show();
+                }
+            });*/
+
+            mActionBar.setCustomView(mCustomView);
+            mActionBar.setDisplayShowCustomEnabled(true);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     private void toontaSetOnClickListener(View button, final Class<?> cls) {

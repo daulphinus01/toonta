@@ -6,9 +6,8 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -36,15 +35,11 @@
                 android:value="com.toonta.app.HomePageActivity" />
         </activity>
         <activity
-            android:windowSoftInputMode="stateHidden"
-            android:name=".forms.SignUpActivity" />
-        <activity
-            android:name=".HomeConnectedActivity"
-            android:parentActivityName=".HomePageActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.toonta.app.HomePageActivity" />
-        </activity>
+            android:name=".forms.SignUpActivity"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity android:name=".HomeConnectedActivity"/>
+
         <activity
             android:name=".BankDetailActivity"
             android:parentActivityName=".HomeConnectedActivity">
@@ -64,7 +59,7 @@
             android:parentActivityName=".HomeConnectedActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HomeConnectedActivity"/>
+                android:value=".HomeConnectedActivity" />
         </activity>
         <activity
             android:name=".utils.ToontaQuestionActivity"
@@ -74,11 +69,8 @@
                 android:value=".HomeConnectedActivity" />
         </activity>
         <activity
-            android:name="com.toonta.app.activities.LoadingActivity"
-            android:theme="@style/SplashTheme">
-        </activity>
-
-
+            android:name=".activities.LoadingActivity"
+            android:theme="@style/SplashTheme" />
         <activity
             android:name=".utils.ToontaQuestionNoAnswerActivity"
             android:parentActivityName=".BankDetailQstActivity">
@@ -87,16 +79,20 @@
                 android:value=".BankDetailQstActivity" />
         </activity>
 
-
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="cf87f022df53725b6f9b1a1488b253acbc085a37" />
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <!--
+     ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <activity android:name=".utils.ValidateQuestionActivity" />
+        <activity android:name=".forms.SurveyValidationAsAFriendActivity" />
+        <activity android:name=".forms.SMSValidationActivity"></activity>
     </application>
 
 </manifest>

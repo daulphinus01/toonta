@@ -14,7 +14,7 @@ public class ToontaConstants {
     public static final String QUESTION_TITLE = "questionEnCours";
     public static final String SURVEY_ID = "toonta_Survey_Id_String";
     public static final String SURVEY_REWRD = "toonta_Survey_Reward_Long";
-    public static final String SURVEY_RESPONSE = "toonta_survey_response_string";
+    public static final String SURVEY_RESPONSES_TO_BE_SENT = "toonta_survey_responses_to_be_sent";
 
     public static final int QUESTION_ZONE_LINE_NBR = 4;
 

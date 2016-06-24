@@ -14,6 +14,7 @@
 
     <!-- SCREEN 1 -->
     <color name="screen_1_bg">#14A1A7</color>
+    <color name="screen_bg_title_color">#138C91</color>
     <color name="screen_1_text">#FB9D02</color>
 
     <!-- LOGIN SCREEN -->

@@ -1,6 +1,7 @@
 package com.toonta.app.utils;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -83,7 +84,7 @@ public class ToontaQuestionActivity extends AppCompatActivity {
         questionsList = dummyData1();
 
         // Screen title
-        String titleQuestionScreen = getIntent().getStringExtra(ToontaConstants.QUESTION_TITLE);
+        final String titleQuestionScreen = getIntent().getStringExtra(ToontaConstants.QUESTION_TITLE);
         TextView textViewTitle = (TextView) findViewById(R.id.qustion_screen_title);
         assert textViewTitle != null;
         textViewTitle.setText(titleQuestionScreen);
@@ -134,16 +135,20 @@ public class ToontaQuestionActivity extends AppCompatActivity {
                 int currPos = mViewPager.getCurrentItem();
                 // Verification que les questions ont bien ete repondues
                 String msgRetour = validateQuestionAndPrepareToSend(questionsList.questionResponseElements.get(currPos));
-                if (msgRetour.trim().isEmpty()) {
+                if (/*msgRetour.trim().isEmpty()*/ true) {
                     // TODO Supprimer ce log
                     Log.v("=======================", responsesToBeSent.toString());
 
-                    if (currPos < nbrTotalPages) {
+                    /*if (currPos < nbrTotalPages) {
                         textViewQuestionPart.setText(questionsList.questionResponseElements.get(currPos + 1).question);
-                    }
-                    if (currPos == nbrTotalPages) {
+                    }*/
+                    if (/*currPos == nbrTotalPages*/ true) {
                         // TODO Renvoyer les reponses au serveur
                         // On envoie les reponses au serveur, om passe a une autre activite
+                        Intent validateQuestionActivityIntent = new Intent(ToontaQuestionActivity.this, ValidateQuestionActivity.class);
+                        validateQuestionActivityIntent.putExtra(ToontaConstants.SURVEY_RESPONSES_TO_BE_SENT, responsesToBeSent);
+                        validateQuestionActivityIntent.putExtra(ToontaConstants.QUESTION_TITLE, titleQuestionScreen);
+                        startActivity(validateQuestionActivityIntent);
                     } else if (currPos == (nbrTotalPages - 1)) {
                         nextSubmitButton.setText(R.string.submit);
                         mViewPager.setCurrentItem(currPos + 1);
