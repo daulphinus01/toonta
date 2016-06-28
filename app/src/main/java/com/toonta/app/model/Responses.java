@@ -100,7 +100,7 @@ public class Responses implements Parcelable {
     }
 
     public String respondentId;
-    public  String surveyId;
+    public String surveyId;
     public List<Response> responses = new ArrayList<>();
 
     public Response createResponse() {

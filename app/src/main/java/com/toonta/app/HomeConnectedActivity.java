@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
+import com.toonta.app.utils.MainBankDetailAdapter;
 import com.toonta.app.utils.ProfileActivity;
 import com.toonta.app.utils.SurveysAdapter;
 import com.toonta.app.utils.ToontaConstants;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
 public class HomeConnectedActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
-    private SurveysAdapter surveysAdapter;
+    private MainBankDetailAdapter surveysAdapter;
     private ListView surviesListView;
 
     @Override
@@ -79,7 +80,7 @@ public class HomeConnectedActivity extends AppCompatActivity {
 
         surviesListView = (ListView) findViewById(R.id.list_surveys);
 
-        surveysAdapter = new SurveysAdapter(getBaseContext());
+        surveysAdapter = new MainBankDetailAdapter(getBaseContext());
         assert surviesListView != null;
         surviesListView.setAdapter(surveysAdapter);
 

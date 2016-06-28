@@ -13,9 +13,12 @@ import android.widget.TextView;
 import com.toonta.app.R;
 import com.toonta.app.model.Responses;
 import com.toonta.app.utils.ToontaConstants;
+import com.toonta.app.utils.ToontaUserInterceptor;
 import com.toonta.app.utils.Utils;
 
 public class SMSValidationActivity extends AppCompatActivity {
+
+    private ToontaUserInterceptor toontaUserInterceptor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,31 @@ public class SMSValidationActivity extends AppCompatActivity {
         TextView screenTitle = (TextView) findViewById(R.id.toonta_validate_sms_form_screen_title);
         assert screenTitle != null;
         screenTitle.setText(titleQuestionScreen);
+
+        toontaUserInterceptor = new ToontaUserInterceptor(SMSValidationActivity.this, new ToontaUserInterceptor.ToontaUserViewUpdater() {
+            @Override
+            public void onToontaUserGet(ToontaUser toontaUser) {
+                // User existant et donc on peut utiliser son ID
+            }
+
+            @Override
+            public void onToontaUserUpdate(String error) {
+                // Rien a mettre la dedans
+            }
+
+            @Override
+            public void onFailure(String error) {
+                if (error.equals("Authentication error")){
+                    // User inconnu, on va creer un nouveau user
+
+                } else {
+                    // Probleme de connexion
+
+                }
+            }
+        });
+
+        // TODO Call toontaUserInterceptor.fetchToontaUserByPhoneNbr("User's phone nbr");
     }
 
     private void setupActionBar() {

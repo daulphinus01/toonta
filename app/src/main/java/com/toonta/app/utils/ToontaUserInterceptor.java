@@ -42,6 +42,20 @@ public class ToontaUserInterceptor {
         });
     }
 
+    public void fetchToontaUserByPhoneNbr(String phoneNbr) {
+        ToontaDAO.getToontaUser(phoneNbr, new ToontaDAO.ToontaUserNetworkCallInterface() {
+            @Override
+            public void onSuccess(ToontaUser toontaUser) {
+                toontaUserViewUpdater.onToontaUserGet(toontaUser);
+            }
+
+            @Override
+            public void onFailure(ToontaDAO.NetworkAnswer error) {
+                toontaUserViewUpdater.onFailure(getDescriptionForError(error));
+            }
+        });
+    }
+
     public void updateToontaUser(ToontaUser toontaUser) {
         ToontaDAO.updateToontaUser(toontaUser, new ToontaDAO.UpdateToontaUserNetworkCallInterface() {
             @Override

@@ -192,6 +192,9 @@ public class ToontaDAO extends Application {
         void onFailure(NetworkAnswer error);
     }
 
+
+
+
     public static void getSurveys(int page, final SurveysListNetworkCallInterface surveysListNetworkCallInterface) {
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
                 API+SURVEY+"list",
@@ -303,6 +306,43 @@ public class ToontaDAO extends Application {
         requestQueue.add(jsonArrayRequest);
     }
 
+    public static void getToontaUserByPhoneNbr(String phoneNbr, final ToontaUserNetworkCallInterface toontaUserNetworkCallInterface) {
+        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.GET,
+                API + USER + "?phone=" + phoneNbr,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.v(TAG + "ToontaUser ", response.toString());
+                        toontaUserNetworkCallInterface.onSuccess(parseToontaUser(response));
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG + "ToontaUser ", error.toString());
+                        if (error instanceof NoConnectionError) {
+                            toontaUserNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
+                        } else if (error instanceof AuthFailureError) {
+                            toontaUserNetworkCallInterface.onFailure(NetworkAnswer.AUTH_FAILURE);
+                        } else {
+                            toontaUserNetworkCallInterface.onFailure(NetworkAnswer.NO_SERVER);
+                        }
+                    }
+                })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<>();
+                params.put("userId", ToontaSharedPreferences.toontaSharedPreferences.userId);
+                params.put("userToken", ToontaSharedPreferences.toontaSharedPreferences.requestToken);
+
+                return params;
+            }
+        };
+        requestQueue.add(jsonArrayRequest);
+    }
+
     public static void postSurveyResponse(SurveyResponse surveyResponse, final SurveyPostNetworkCallInterface surveyPostNetworkCallInterface) {
         if (surveyResponse != null) {
             try {
@@ -354,6 +394,8 @@ public class ToontaDAO extends Application {
             public String name;
             public int reward = 0;
             public String surveyId;
+            public int receivedAnswer = 0;
+            public int target = 0;
 
             public SurveyElement(String name, int reward, String surveyId) {
                 this.name = name;
@@ -369,12 +411,30 @@ public class ToontaDAO extends Application {
             public String print() {
                 return reward + " toons";
             }
+
+            @Override
+            public String toString() {
+                return "SurveyElement{" +
+                        "name='" + name + '\'' +
+                        ", reward=" + reward +
+                        ", surveyId='" + surveyId + '\'' +
+                        ", receivedAnswer=" + receivedAnswer +
+                        ", target=" + target +
+                        '}';
+            }
         }
 
         ArrayList<SurveyElement> surveyElements;
 
         public SurveysListAnswer() {
             surveyElements = new ArrayList<>();
+        }
+
+        @Override
+        public String toString() {
+            return "SurveysListAnswer{" +
+                    "surveyElements=" + surveyElements +
+                    '}';
         }
     }
 
@@ -622,8 +682,13 @@ public class ToontaDAO extends Application {
                     String name = jsonObject.getString("name");
                     int reward = jsonObject.getInt("reward");
                     String surveyId = jsonObject.getString("id");
+                    int receivedAnswer = jsonObject.getInt("receivedAnswer");
+                    int target = jsonObject.getInt("target");
                     if (name != null) {
-                        surveysListAnswer.surveyElements.add(new SurveysListAnswer.SurveyElement(name, reward, surveyId));
+                        SurveysListAnswer.SurveyElement surveyElement = new SurveysListAnswer.SurveyElement(name, reward, surveyId);
+                        surveyElement.target = target;
+                        surveyElement.receivedAnswer = receivedAnswer;
+                        surveysListAnswer.surveyElements.add(surveyElement);
                     }
                 }
             }
