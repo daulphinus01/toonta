@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/screen_1_bg"
+    android:background="@color/screen_2_bg"
     android:orientation="vertical"
     tools:context=".forms.ToontaLogin">
 
@@ -14,7 +14,7 @@
         android:id="@+id/toonta_logo"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="0.25"
+        android:layout_weight="0.20"
         android:layout_gravity="center"/>
 
     <TextView
@@ -39,19 +39,25 @@
         android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.65"
+        android:layout_weight="0.7"
         android:orientation="vertical"
-        android:background="@drawable/qst_zone_border">
+        android:background="@drawable/big_button_bg">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.4"
-            android:orientation="vertical">
+            android:layout_weight="0.5"
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:orientation="vertical"
+            android:gravity="center">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@color/mi_text_color_primary_dark">
                 <AutoCompleteTextView
                     android:id="@+id/email"
                     android:layout_width="match_parent"
@@ -59,12 +65,15 @@
                     android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/mi_text_color_primary_dark">
                 <EditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"
@@ -83,30 +92,42 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.6"
-            android:orientation="horizontal"
-            android:paddingLeft="5dp"
-            android:paddingStart="5dp"
-            android:paddingRight="5dp"
-            android:paddingEnd="5dp">
+            android:layout_weight="0.5"
+            android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/toonta_sign_up"
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:text="@string/toonta_sign_up"
-                android:background="@drawable/big_button_bg"
-                android:layout_gravity="center"/>
+                android:gravity="center"
+                android:background="@drawable/qst_zone_border_1">
 
-            <Button
-                android:id="@+id/toonta_sign_in"
+                <Button
+                    android:id="@+id/toonta_sign_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/toonta_sign_up"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:background="@drawable/button_bg"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:text="@string/toonta_sign_in"
-                android:background="@drawable/big_button_bg"
-                android:layout_gravity="center"/>
+                android:gravity="center"
+                android:background="@drawable/qst_zone_border_1">
+                <Button
+                    android:id="@+id/toonta_sign_in"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/toonta_sign_in"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:background="@drawable/button_bg"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
 
         </LinearLayout>
 

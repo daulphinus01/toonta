@@ -5,18 +5,19 @@ package com.toonta.app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.joanzapata.iconify.Iconify;
-import com.joanzapata.iconify.fonts.EntypoModule;
 import com.toonta.app.forms.ToontaLogin;
 
 import java.io.IOException;
@@ -50,6 +51,11 @@ public class HomePageActivity extends AppCompatActivity {
         ToontaSharedPreferences.init(getApplicationContext());
         ToontaDAO.init(getApplicationContext());
 
+        final TextView[] toontaDots = new TextView[3];
+        toontaDots[0] = (TextView) findViewById(R.id.toonta_dot_1);
+        toontaDots[1] = (TextView) findViewById(R.id.toonta_dot_2);
+        toontaDots[2] = (TextView) findViewById(R.id.toonta_dot_3);
+
 
         context = this;
 
@@ -80,6 +86,28 @@ public class HomePageActivity extends AppCompatActivity {
         viewFlipper = (ViewFlipper) findViewById(R.id.view_flipper);
 
         if (viewFlipper != null) {
+            viewFlipper.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                @Override
+                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                    switch (viewFlipper.getCurrentView().getId()) {
+                        case R.id.screen1 :
+                            toontaDots[0].setTextColor(Color.WHITE);
+                            toontaDots[1].setTextColor(Color.BLACK);
+                            toontaDots[2].setTextColor(Color.BLACK);
+                            break;
+                        case R.id.screen2 :
+                            toontaDots[0].setTextColor(Color.BLACK);
+                            toontaDots[1].setTextColor(Color.WHITE);
+                            toontaDots[2].setTextColor(Color.BLACK);
+                            break;
+                        case R.id.screen3 :
+                            toontaDots[0].setTextColor(Color.BLACK);
+                            toontaDots[1].setTextColor(Color.BLACK);
+                            toontaDots[2].setTextColor(Color.WHITE);
+                            break;
+                    }
+                }
+            });
             viewFlipper.setFlipInterval(10000);
             viewFlipper.startFlipping();
         }

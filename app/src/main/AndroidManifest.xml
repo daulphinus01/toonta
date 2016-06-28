@@ -26,27 +26,38 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".forms.ToontaLogin"
             android:label="@string/title_activity_toonta_login"
-            android:parentActivityName=".HomePageActivity">
+            android:parentActivityName=".HomePageActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.toonta.app.HomePageActivity" />
         </activity>
+
         <activity
             android:name=".forms.SignUpActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:parentActivityName=".forms.ToontaLogin"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".forms.ToontaLogin"/>
+        </activity>
 
         <activity android:name=".HomeConnectedActivity"/>
 
         <activity
             android:name=".BankDetailActivity"
+            android:theme="@style/FullscreenTheme"
             android:parentActivityName=".HomeConnectedActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.toonta.app.HomeConnectedActivity" />
         </activity>
+
         <activity
             android:name=".BankDetailQstActivity"
             android:parentActivityName=".BankDetailActivity">
@@ -54,6 +65,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.toonta.app.BankDetailActivity" />
         </activity>
+
         <activity
             android:name=".utils.ProfileActivity"
             android:parentActivityName=".HomeConnectedActivity">
@@ -61,6 +73,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeConnectedActivity" />
         </activity>
+
         <activity
             android:name=".utils.ToontaQuestionActivity"
             android:parentActivityName=".HomeConnectedActivity">
@@ -68,9 +81,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeConnectedActivity" />
         </activity>
+
         <activity
             android:name=".activities.LoadingActivity"
             android:theme="@style/SplashTheme" />
+
         <activity
             android:name=".utils.ToontaQuestionNoAnswerActivity"
             android:parentActivityName=".BankDetailQstActivity">
@@ -90,9 +105,26 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".utils.ValidateQuestionActivity" />
-        <activity android:name=".forms.SurveyValidationAsAFriendActivity" />
-        <activity android:name=".forms.SMSValidationActivity"></activity>
+        <activity android:name=".utils.ValidateQuestionActivity"
+            android:parentActivityName=".utils.ToontaQuestionActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".utils.ToontaQuestionActivity" />
+        </activity>
+
+        <activity android:name=".forms.SurveyValidationAsAFriendActivity"
+            android:parentActivityName=".utils.ValidateQuestionActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".utils.ValidateQuestionActivity" />
+        </activity>
+
+        <activity android:name=".forms.SMSValidationActivity"
+            android:parentActivityName=".forms.SurveyValidationAsAFriendActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".forms.SurveyValidationAsAFriendActivity" />
+        </activity>
     </application>
 
 </manifest>

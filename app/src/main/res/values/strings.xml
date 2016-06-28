@@ -120,6 +120,10 @@
     <string name="you_have_received_a_confirmation_code">You have received a confirmation code</string>
     <string name="toonta_confirm_button">Confirm</string>
     <string name="toonta_write_here">write here</string>
+    <string name="toonta_dot">.</string>
+    <string name="toonta_logout_menu_text">Logout</string>
+    <string name="toonta_survey_validation_dialog_title">Survey Validation</string>
+    <string name="toonta_survey_validation_dialog_msg">Survey validated successfully</string>
 
 
 </resources>

@@ -31,11 +31,13 @@
         android:layout_alignParentRight="true">
 
         <ImageView
+            android:id="@+id/toonta_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_add_member"/>
 
         <ImageView
+            android:id="@+id/toonta_menu_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_settings"/>

@@ -4,8 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:background="@color/screen_1_bg"
@@ -16,10 +14,17 @@
         android:layout_height="0dp"
         android:layout_weight="0.1">
 
+        <ImageView
+            android:id="@+id/toonta_bank_detail_qst_up_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:src="@mipmap/ic_up"/>
+
         <TextView
             android:id="@+id/left_label_qst"
             android:layout_width="0dp"
-            android:layout_weight="0.5"
+            android:layout_weight="0.45"
             android:layout_height="match_parent"
             android:gravity="center_vertical|end"
             android:paddingEnd="15dp"
@@ -31,7 +36,7 @@
         <TextView
             android:id="@+id/right_label_qst"
             android:layout_width="0dp"
-            android:layout_weight="0.5"
+            android:layout_weight="0.45"
             android:layout_height="match_parent"
             android:gravity="center"
             android:textSize="25sp"

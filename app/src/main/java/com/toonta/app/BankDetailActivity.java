@@ -6,10 +6,17 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ActionMode;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,9 +38,6 @@ public class BankDetailActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private BankDetailAdapter bankDetailAdapter;
 
-    // ListeView's interceptor
-    private NewSurveysInteractor newSurveysInteractor;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +45,36 @@ public class BankDetailActivity extends AppCompatActivity {
 
         // Actionbar
         setupActionBar();
+
+        // Button up
+        ImageView upButton = (ImageView) findViewById(R.id.toonta_bank_detail_up_button);
+        assert upButton != null;
+        upButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavUtils.navigateUpFromSameTask(BankDetailActivity.this);
+            }
+        });
+
+
+        // Settings
+        ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
+        toontaMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActionMode(Utils.initActionModeCallBack(BankDetailActivity.this));
+                v.setSelected(true);
+            }
+        });
+
+        // Share
+        ImageView toontaShareButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_share);
+        toontaShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.startShareActionIntent(BankDetailActivity.this);
+            }
+        });
 
         // Total toons
         rightLabel = (TextView) findViewById(R.id.right_label);
@@ -80,7 +114,7 @@ public class BankDetailActivity extends AppCompatActivity {
 
         // Showing loading window
         progressDialog.show();
-        newSurveysInteractor = new NewSurveysInteractor(getApplicationContext(), new NewSurveysInteractor.NewSurveysViewUpdater() {
+        NewSurveysInteractor newSurveysInteractor = new NewSurveysInteractor(getApplicationContext(), new NewSurveysInteractor.NewSurveysViewUpdater() {
             @Override
             public void onNewSurveys(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList, boolean reset) {
                 // TODO Empty method
@@ -140,11 +174,16 @@ public class BankDetailActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void setupActionBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            // Show the Up button in the action bar.
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-            }
+            ActionBar mActionBar = getSupportActionBar();
+            assert mActionBar != null;
+            mActionBar.setDisplayShowHomeEnabled(false);
+            mActionBar.setDisplayShowTitleEnabled(false);
+            mActionBar.setDisplayHomeAsUpEnabled(false);
+            LayoutInflater mInflater = LayoutInflater.from(this);
+
+            View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
+            mActionBar.setCustomView(mCustomView);
+            mActionBar.setDisplayShowCustomEnabled(true);
         }
     }
 }

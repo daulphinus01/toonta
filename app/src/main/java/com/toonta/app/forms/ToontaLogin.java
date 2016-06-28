@@ -47,7 +47,7 @@ public class ToontaLogin extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_toonta_login);
-        setupActionBar();
+        //setupActionBar();
 
         toontaLogo = (ImageView) findViewById(R.id.toonta_logo);
         loadLogo();
@@ -124,11 +124,11 @@ public class ToontaLogin extends AppCompatActivity{
 
     }
 
-    @Override
+/*    @Override
     protected void onStop() {
         this.finish();
         super.onStop();
-    }
+    }*/
 
     private void loadLogo() {
         try {
@@ -146,7 +146,7 @@ public class ToontaLogin extends AppCompatActivity{
     /**
      * Set up the {@link android.app.ActionBar}, if the API is available.
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+/*    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void setupActionBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             // Show the Up button in the action bar.
@@ -155,5 +155,5 @@ public class ToontaLogin extends AppCompatActivity{
                 actionBar.setDisplayHomeAsUpEnabled(true);
             }
         }
-    }
+    }*/
 }

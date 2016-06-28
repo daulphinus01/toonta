@@ -2,9 +2,11 @@ package com.toonta.app.utils;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -12,11 +14,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -39,6 +43,8 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
     private Button previousButton;
     private Button nextSubmitButton;
     private LinearLayout qstRespPart;
+    private TextView[] progressBarDots;
+    private LinearLayout questionsProgressBar;
     private ToontaDAO.QuestionsList mQuestionsList;
 
     // Number of pages
@@ -60,10 +66,40 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
         qstRespPart = (LinearLayout) findViewById(R.id.qst_resp_part_screen_no_answer);
 
         setupActionBar();
+        ImageView upButton = (ImageView) findViewById(R.id.toonta_question_no_answer_up_button);
+        assert upButton != null;
+        upButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavUtils.navigateUpFromSameTask(ToontaQuestionNoAnswerActivity.this);
+            }
+        });
+
+        // Settings
+        ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
+        toontaMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActionMode(Utils.initActionModeCallBack(ToontaQuestionNoAnswerActivity.this));
+                v.setSelected(true);
+            }
+        });
+
+        // Share
+        ImageView toontaShareButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_share);
+        toontaShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.startShareActionIntent(ToontaQuestionNoAnswerActivity.this);
+            }
+        });
 
         TextView textViewTitle = (TextView) findViewById(R.id.qustion_screen_title_no_answer);
         assert textViewTitle != null;
         textViewTitle.setText(titleQuestionScreen);
+
+        questionsProgressBar = (LinearLayout) findViewById(R.id.toonta_question_no_answer_progress_bar);
+        progressBarDots = Utils.initProgressBar(dummyData1().questionResponseElements.size(), questionsProgressBar, ToontaQuestionNoAnswerActivity.this);
 
         // Screen Previous Buttons
         previousButton = (Button) findViewById(R.id.button_previous_no_answer);
@@ -82,6 +118,8 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
                         previousButton.setEnabled(false);
                     }
                     mViewPager.setCurrentItem(currPos - 1);
+                    progressBarDots[currPos].setTextColor(Color.BLACK);
+                    progressBarDots[currPos-1].setTextColor(Color.WHITE);
                     // If we were on the last page, we have to change submit text to next
                     nextSubmitButton.setEnabled(true);
                 }
@@ -102,6 +140,8 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
                     previousButton.setText(R.string.button_previous);
                     previousButton.setEnabled(true);
                 }
+                progressBarDots[currPos].setTextColor(Color.BLACK);
+                progressBarDots[currPos+1].setTextColor(Color.WHITE);
             }
         });
 
@@ -138,14 +178,20 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
         oneNewSurveysInteractor.fetchSurvey(surveyId);
     }
 
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void setupActionBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            // Show the Up button in the action bar.
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-            }
+            ActionBar mActionBar = getSupportActionBar();
+            assert mActionBar != null;
+            mActionBar.setDisplayShowHomeEnabled(false);
+            mActionBar.setDisplayShowTitleEnabled(false);
+            mActionBar.setDisplayHomeAsUpEnabled(false);
+            LayoutInflater mInflater = LayoutInflater.from(this);
+
+            View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
+            mActionBar.setCustomView(mCustomView);
+            mActionBar.setDisplayShowCustomEnabled(true);
         }
     }
 

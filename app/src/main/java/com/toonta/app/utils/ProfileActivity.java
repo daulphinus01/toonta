@@ -1,15 +1,21 @@
 package com.toonta.app.utils;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.toonta.app.R;
@@ -51,10 +57,40 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        setupActionBar();
+
+        ImageView profileButtonUp = (ImageView) findViewById(R.id.profile_button_up);
+        assert profileButtonUp != null;
+        profileButtonUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavUtils.navigateUpFromSameTask(ProfileActivity.this);
+            }
+        });
+
+        // Settings
+        ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
+        toontaMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActionMode(Utils.initActionModeCallBack(ProfileActivity.this));
+                v.setSelected(true);
+            }
+        });
+
+        // Share
+        ImageView toontaShareButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_share);
+        toontaShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.startShareActionIntent(ProfileActivity.this);
+            }
+        });
+
         // Shown when user decides to modify personal info
         saveChangesLayout = (LinearLayout) findViewById(R.id.toonta_layout_save_changes);
         assert saveChangesLayout != null;
-        saveChangesLayout.setVisibility(View.GONE);
+        saveChangesLayout.setVisibility(View.INVISIBLE);
 
         saveChangesButton = (Button) findViewById(R.id.toonta_save_changes_button);
         assert saveChangesButton != null;
@@ -162,6 +198,22 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private void setupActionBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ActionBar mActionBar = getSupportActionBar();
+            assert mActionBar != null;
+            mActionBar.setDisplayShowHomeEnabled(false);
+            mActionBar.setDisplayShowTitleEnabled(false);
+            mActionBar.setDisplayHomeAsUpEnabled(false);
+            LayoutInflater mInflater = LayoutInflater.from(this);
+
+            View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
+            mActionBar.setCustomView(mCustomView);
+            mActionBar.setDisplayShowCustomEnabled(true);
+        }
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -175,7 +227,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void setEditable(View view) {
         int saveChangesLayoutVisibility =  saveChangesLayout.getVisibility();
-        if (saveChangesLayoutVisibility == View.GONE) {
+        if (saveChangesLayoutVisibility == View.INVISIBLE) {
             saveChangesLayout.setVisibility(View.VISIBLE);
         }
 

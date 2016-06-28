@@ -5,11 +5,18 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ActionMode;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -56,6 +63,34 @@ public class BankDetailQstActivity extends AppCompatActivity {
 
         // Actionbar
         setupActionBar();
+
+        // Settings
+        ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
+        toontaMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActionMode(Utils.initActionModeCallBack(BankDetailQstActivity.this));
+                v.setSelected(true);
+            }
+        });
+
+        // Share
+        ImageView toontaShareButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_share);
+        toontaShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.startShareActionIntent(BankDetailQstActivity.this);
+            }
+        });
+
+        ImageView upButton = (ImageView) findViewById(R.id.toonta_bank_detail_qst_up_button);
+        assert upButton != null;
+        upButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavUtils.navigateUpFromSameTask(BankDetailQstActivity.this);
+            }
+        });
 
         surviesListView = (ListView) findViewById(R.id.bank_items_qst);
 
@@ -153,11 +188,17 @@ public class BankDetailQstActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void setupActionBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            // Show the Up button in the action bar.
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-            }
+            ActionBar mActionBar = getSupportActionBar();
+            assert mActionBar != null;
+            mActionBar.setDisplayShowHomeEnabled(false);
+            mActionBar.setDisplayShowTitleEnabled(false);
+            mActionBar.setDisplayHomeAsUpEnabled(false);
+            LayoutInflater mInflater = LayoutInflater.from(this);
+
+            View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
+            mActionBar.setCustomView(mCustomView);
+            mActionBar.setDisplayShowCustomEnabled(true);
         }
     }
+
 }
