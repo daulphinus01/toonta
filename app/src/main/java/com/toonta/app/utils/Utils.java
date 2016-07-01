@@ -4,12 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.InputType;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.toonta.app.HomePageActivity;
@@ -93,5 +98,76 @@ public class Utils {
             parentLineraLayout.addView(tvs[i], i);
         }
         return tvs;
+    }
+
+    public static LinearLayout[] instantiateItem(List<ToontaDAO.QuestionsList.QuestionResponse> questionResponse, Context context) {
+        LinearLayout returnedLayout[] = new LinearLayout[questionResponse.size()];
+        for (int i = 0; i < questionResponse.size(); i++) {
+
+            returnedLayout[i] = new LinearLayout(context);
+            returnedLayout[i].setOrientation(LinearLayout.VERTICAL);
+
+            LinearLayout.LayoutParams layoutParams =
+                    new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT);
+            returnedLayout[i].setLayoutParams(layoutParams);
+
+            if (questionResponse.get(i).type != null) {
+                switch (questionResponse.get(i).type) {
+                    case "YES_NO":
+                        RadioGroup rg = new RadioGroup(context);
+                        rg.setOrientation(RadioGroup.VERTICAL);
+                        rg.setTag(ToontaConstants.TOONTA_YES_NO_TAG + questionResponse.get(i).id);
+
+                        RadioGroup.LayoutParams buttonGroupLayoutParams =
+                                new RadioGroup.LayoutParams(
+                                        RadioGroup.LayoutParams.WRAP_CONTENT,
+                                        RadioGroup.LayoutParams.WRAP_CONTENT,
+                                        1f);
+
+                        RadioButton yesRB = new RadioButton(context);
+                        yesRB.setText(R.string.toonta_radio_button_yes);
+                        rg.addView(yesRB, buttonGroupLayoutParams);
+                        yesRB.setId(context.getResources().getInteger(R.integer.YES_RADIO_BUTTON_ID));
+
+                        RadioButton noRB = new RadioButton(context);
+                        noRB.setText(R.string.toonta_radio_button_no);
+                        rg.addView(noRB, buttonGroupLayoutParams);
+                        noRB.setId(context.getResources().getInteger(R.integer.NO_RADIO_BUTTON_ID));
+
+                        returnedLayout[i].addView(rg);
+                        break;
+
+                    case "BASIC":
+                        EditText editText = new EditText(context);
+                        editText.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_CLASS_TEXT);
+                        editText.setMinLines(3);
+                        editText.setTag(ToontaConstants.TOONTA_BASIC_TAG + questionResponse.get(i).id);
+                        System.out.println(ToontaConstants.TOONTA_BASIC_TAG + questionResponse.get(i).id);
+                        editText.setLayoutParams(layoutParams);
+
+                        returnedLayout[i].addView(editText);
+                        break;
+
+                    case "MULTIPLE_CHOICE":
+                        CheckBox[] tabCheckBoxes = new CheckBox[questionResponse.get(i).choices.size()];
+                        for (int k = 0; k < questionResponse.get(i).choices.size(); k++) {
+                            LinearLayout.LayoutParams boxLayoutParams =
+                                    new LinearLayout.LayoutParams(
+                                            ViewGroup.LayoutParams.MATCH_PARENT,
+                                            ViewGroup.LayoutParams.WRAP_CONTENT);
+                            tabCheckBoxes[k] = new CheckBox(context);
+                            tabCheckBoxes[k].setText(questionResponse.get(i).choices.get(k).value);
+                            tabCheckBoxes[k].setId(questionResponse.get(i).choices.get(k).id.hashCode());
+                            tabCheckBoxes[k].setTag(ToontaConstants.TOONTA_MULTIPLE_CHOICE_TAG + questionResponse.get(i).choices.get(k).id);
+                            tabCheckBoxes[k].setLayoutParams(boxLayoutParams);
+                            returnedLayout[i].addView(tabCheckBoxes[k]);
+                        }
+                        break;
+                }
+            }
+        }
+        return returnedLayout;
     }
 }

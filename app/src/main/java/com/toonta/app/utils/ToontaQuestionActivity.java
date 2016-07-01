@@ -42,19 +42,14 @@ import static com.toonta.app.utils.ToontaConstants.YES_RADIO_BUTTON_ID;
 public class ToontaQuestionActivity extends AppCompatActivity {
 
     private String surveyId;
-    private int surveyQstCptr = 0;
     private Button previousButton;
     private Button nextSubmitButton;
     private LinearLayout qstRespPart;
-    private String currentQstId = "";
     private TextView textViewQuestionPart;
     private LinearLayout questionProgressBar;
     private ToontaDAO.QuestionsList questionsList;
-    private NewSurveysInteractor newSurveyInteractor;
-    private NewSurveysInteractor newSurveyPostInteractor;
     private static String TAG = "ToontaQuestionActivity ";
     private Responses responsesToBeSent = new Responses();
-    private SurveyResponse surveyResponse = new SurveyResponse();
 
     // Indicates the current question being displayed
     private int currentQuestionPos = 0;
@@ -71,6 +66,12 @@ public class ToontaQuestionActivity extends AppCompatActivity {
     private TextView[] progressBarDots;
 
     private ViewPager mViewPager;
+
+    private LinearLayout[] questionLinearLayouts;
+    private LinearLayout questionArea;
+
+    public ToontaQuestionActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +114,8 @@ public class ToontaQuestionActivity extends AppCompatActivity {
         });
 
         questionsList = dummyData1();
+        // Le compteur commence a zero, d'ou le moins un
+        nbrTotalPages = questionsList.questionResponseElements.size() - 1;
 
         questionProgressBar = (LinearLayout) findViewById(R.id.toonta_question_answering_progress_bar);
         progressBarDots = Utils.initProgressBar(dummyData1().questionResponseElements.size(), questionProgressBar, ToontaQuestionActivity.this);
@@ -122,9 +125,6 @@ public class ToontaQuestionActivity extends AppCompatActivity {
         TextView textViewTitle = (TextView) findViewById(R.id.qustion_screen_title);
         assert textViewTitle != null;
         textViewTitle.setText(titleQuestionScreen);
-
-        // Question area
-        textViewQuestionPart = (TextView) findViewById(R.id.qustion_screen_question);
 
         // Screen Previous Buttons
         previousButton = (Button) findViewById(R.id.button_previous);
@@ -136,22 +136,27 @@ public class ToontaQuestionActivity extends AppCompatActivity {
         previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int currPos = mViewPager.getCurrentItem();
                 // Verification que les questions ont bien ete repondues
-                String msgRetour = validateQuestionAndPrepareToSend(questionsList.questionResponseElements.get(currPos));
+                String msgRetour = validateQuestionAndPrepareToSend(questionLinearLayouts[currentQuestionPos]);
                 if (msgRetour.trim().isEmpty()) {
                     // TODO Supprimer ce log
                     Log.v("=======================", responsesToBeSent.toString());
 
-                    if (currPos > 0) {
-                        textViewQuestionPart.setText(questionsList.questionResponseElements.get(currPos - 1).question);
-                    }
-                    if (currPos >= 1) {
-                        if ((currPos - 1) == 0) {
+                    if (currentQuestionPos > 0) {
+                        currentQuestionPos--;
+                        if (currentQuestionPos == 0) {
                             previousButton.setEnabled(false);
                         }
-                        mViewPager.setCurrentItem(currPos - 1);
-                        currentQuestionPos--;
+                        textViewQuestionPart.setText(questionsList.questionResponseElements.get(currentQuestionPos).question);
+
+                        // On met a jour la barre de progression
+                        progressBarDots[currentQuestionPos + 1].setTextColor(Color.BLACK);
+                        progressBarDots[currentQuestionPos].setTextColor(Color.WHITE);
+
+                        // La partie de reponse
+                        questionArea.removeAllViews();
+                        questionArea.addView(questionLinearLayouts[currentQuestionPos]);
+
                         // If we were on the last page, we have to change submit text to next
                         nextSubmitButton.setText(R.string.next_button_next_as_text);
                     }
@@ -166,34 +171,40 @@ public class ToontaQuestionActivity extends AppCompatActivity {
         nextSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int currPos = mViewPager.getCurrentItem();
                 // Verification que les questions ont bien ete repondues
-                String msgRetour = validateQuestionAndPrepareToSend(questionsList.questionResponseElements.get(currPos));
-                if (/*msgRetour.trim().isEmpty()*/ true) {
+                String msgRetour = validateQuestionAndPrepareToSend(questionLinearLayouts[currentQuestionPos]);
+                if (msgRetour.trim().isEmpty()) {
                     // TODO Supprimer ce log
+                    Log.v("=======================", "=======================");
                     Log.v("=======================", responsesToBeSent.toString());
+                    Log.v("***********************", "***********************");
 
-                    /*if (currPos < nbrTotalPages) {
-                        textViewQuestionPart.setText(questionsList.questionResponseElements.get(currPos + 1).question);
-                    }*/
-                    if (/*currPos == nbrTotalPages*/ true) {
+                    if (currentQuestionPos == nbrTotalPages) {
                         // TODO Renvoyer les reponses au serveur
-                        // On envoie les reponses au serveur, om passe a une autre activite
+                        // On envoie les reponses au serveur, on passe a une autre activite
                         Intent validateQuestionActivityIntent = new Intent(ToontaQuestionActivity.this, ValidateQuestionActivity.class);
                         validateQuestionActivityIntent.putExtra(ToontaConstants.SURVEY_RESPONSES_TO_BE_SENT, responsesToBeSent);
                         validateQuestionActivityIntent.putExtra(ToontaConstants.QUESTION_TITLE, titleQuestionScreen);
                         startActivity(validateQuestionActivityIntent);
-                    } else if (currPos == (nbrTotalPages - 1)) {
-                        nextSubmitButton.setText(R.string.submit);
-                        mViewPager.setCurrentItem(currPos + 1);
-                        progressBarDots[currPos].setTextColor(Color.BLACK);
-                        progressBarDots[currPos+1].setTextColor(Color.WHITE);
-                        currentQuestionPos++;
                     } else {
-                        mViewPager.setCurrentItem(currPos + 1);
-                        progressBarDots[currPos].setTextColor(Color.BLACK);
-                        progressBarDots[currPos+1].setTextColor(Color.WHITE);
+                        System.out.println(currentQuestionPos);
                         currentQuestionPos++;
+                        System.out.println(currentQuestionPos);
+                        textViewQuestionPart.setText(questionsList.questionResponseElements.get(currentQuestionPos).question);
+
+                        // Si on est a la derniere page, le bouton next devient submit
+                        if (currentQuestionPos == nbrTotalPages) {
+                            nextSubmitButton.setText(R.string.submit);
+                        }
+
+                        questionArea.removeAllViews();
+                        questionArea.addView(questionLinearLayouts[currentQuestionPos]);
+
+                        // On met a jour la barre de progression
+                        progressBarDots[currentQuestionPos - 1].setTextColor(Color.BLACK);
+                        progressBarDots[currentQuestionPos].setTextColor(Color.WHITE);
+
+                        // On desactive le bouton previous
                         previousButton.setEnabled(true);
                     }
                 } else {
@@ -203,16 +214,39 @@ public class ToontaQuestionActivity extends AppCompatActivity {
             }
         });
 
+        questionArea = (LinearLayout) findViewById(R.id.toonta_question_view_pager_area);
+
         // TODO When there is non question for this survey, qstRespPart is hidden
         qstRespPart = (LinearLayout) findViewById(R.id.qst_resp_part_screen);
+        if (questionsList.questionResponseElements.size() < 1) {
+            qstRespPart.setVisibility(View.INVISIBLE);
+            Snackbar.make(findViewById(android.R.id.content), R.string.toonta_no_qst_for_survey, Snackbar.LENGTH_LONG).show();
+        } else {
+            // Par defaut, le buouton next n'a pas de text. Il est settee pour la premiere fois
+            nextSubmitButton.setText(R.string.next_button_next_as_text);
 
-        ToontaQuestionPageAdapter toontaQuestionPageAdapter = new ToontaQuestionPageAdapter(questionsList);
-        mViewPager = (ViewPager) findViewById(R.id.toonta_question_view_pager_area);
+            // Barre de progrssion initialisee
+            progressBarDots[currentQuestionPos].setTextColor(Color.WHITE);
+
+            // La question posee
+            textViewQuestionPart = (TextView) findViewById(R.id.qustion_screen_question);
+            textViewQuestionPart.setText(questionsList.questionResponseElements.get(currentQuestionPos).question);
+
+            // Tous les linearlayout pour toutes les reponses
+            questionLinearLayouts = Utils.instantiateItem(questionsList.questionResponseElements, ToontaQuestionActivity.this);
+
+            // La partie de reponse
+            questionArea.addView(questionLinearLayouts[currentQuestionPos]);
+        }
+
+
+
+        /*ToontaQuestionPageAdapter toontaQuestionPageAdapter = new ToontaQuestionPageAdapter(questionsList);
         assert mViewPager != null;
         mViewPager.setAdapter(toontaQuestionPageAdapter);
 
         // Fetching survies from server
-        /*newSurveyInteractor = new NewSurveysInteractor(getApplicationContext(), new NewSurveysInteractor.OneSurveyViewUpdator() {
+        newSurveyInteractor = new NewSurveysInteractor(getApplicationContext(), new NewSurveysInteractor.OneSurveyViewUpdator() {
             @Override
             public void onGetSurvey(ToontaDAO.QuestionsList qstList) {
                 Log.v(TAG, qstList.toString());
@@ -263,19 +297,16 @@ public class ToontaQuestionActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-    public class ToontaQuestionPageAdapter extends PagerAdapter {
+    /*public class ToontaQuestionPageAdapter extends PagerAdapter {
 
         private ToontaDAO.QuestionsList mQuestionsList;
+        Map<Integer, LinearLayout> adapterViews;
 
         public ToontaQuestionPageAdapter(ToontaDAO.QuestionsList questionsList) {
             this.mQuestionsList = questionsList;
+            this.adapterViews = new HashMap<>();
             if (questionsList.questionResponseElements.size() >= 1) {
                 nextSubmitButton.setText(R.string.next_button_next_as_text);
-                // Le compteur commence a zero, d'ou le moins un
-                nbrTotalPages = questionsList.questionResponseElements.size() - 1;
                 // Premiere question
                 textViewQuestionPart.setText(questionsList.questionResponseElements.get(0).question);
             }
@@ -291,73 +322,15 @@ public class ToontaQuestionActivity extends AppCompatActivity {
                 nextSubmitButton.setText(R.string.submit);
             }
 
-            LinearLayout linearLayout = new LinearLayout(ToontaQuestionActivity.this);
-            linearLayout.setOrientation(LinearLayout.VERTICAL);
-
-            LinearLayout.LayoutParams layoutParams =
-                    new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT);
-            linearLayout.setLayoutParams(layoutParams);
-
-            if (questionResponse.type != null) {
-                switch (questionResponse.type) {
-                    case "YES_NO":
-                        RadioGroup rg = new RadioGroup(ToontaQuestionActivity.this);
-                        rg.setOrientation(RadioGroup.VERTICAL);
-                        rg.setTag(ToontaConstants.TOONTA_YES_NO_TAG + questionResponse.id);
-
-                        RadioGroup.LayoutParams buttonGroupLayoutParams =
-                                new RadioGroup.LayoutParams(
-                                        RadioGroup.LayoutParams.WRAP_CONTENT,
-                                        RadioGroup.LayoutParams.WRAP_CONTENT,
-                                        1f);
-
-                        RadioButton yesRB = new RadioButton(ToontaQuestionActivity.this);
-                        yesRB.setText(R.string.toonta_radio_button_yes);
-                        rg.addView(yesRB, buttonGroupLayoutParams);
-                        yesRB.setId(getResources().getInteger(R.integer.YES_RADIO_BUTTON_ID));
-
-                        RadioButton noRB = new RadioButton(ToontaQuestionActivity.this);
-                        noRB.setText(R.string.toonta_radio_button_no);
-                        rg.addView(noRB, buttonGroupLayoutParams);
-                        noRB.setId(getResources().getInteger(R.integer.NO_RADIO_BUTTON_ID));
-
-                        linearLayout.addView(rg);
-                        break;
-
-                    case "BASIC":
-                        EditText editText = new EditText(ToontaQuestionActivity.this);
-                        editText.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_CLASS_TEXT);
-                        editText.setMinLines(3);
-                        editText.setTag(ToontaConstants.TOONTA_BASIC_TAG + questionResponse.id);
-                        System.out.println(ToontaConstants.TOONTA_BASIC_TAG + questionResponse.id);
-                        editText.setLayoutParams(layoutParams);
-
-                        linearLayout.addView(editText);
-                        break;
-
-                    case "MULTIPLE_CHOICE":
-                        CheckBox[] tabCheckBoxes = new CheckBox[questionResponse.choices.size()];
-                        for (int i = 0; i < questionResponse.choices.size(); i++) {
-                            LinearLayout.LayoutParams boxLayoutParams =
-                                    new LinearLayout.LayoutParams(
-                                            ViewGroup.LayoutParams.MATCH_PARENT,
-                                            ViewGroup.LayoutParams.WRAP_CONTENT);
-                            tabCheckBoxes[i] = new CheckBox(ToontaQuestionActivity.this);
-                            tabCheckBoxes[i].setText(questionResponse.choices.get(i).value);
-                            tabCheckBoxes[i].setId(questionResponse.choices.get(i).id.hashCode());
-                            intToStringIndex.put(questionResponse.choices.get(i).id.hashCode(), questionResponse.choices.get(i).id);
-                            tabCheckBoxes[i].setTag(ToontaConstants.TOONTA_MULTIPLE_CHOICE_TAG + questionResponse.choices.get(i).id);
-                            tabCheckBoxes[i].setLayoutParams(boxLayoutParams);
-                            linearLayout.addView(tabCheckBoxes[i]);
-                        }
-                        break;
-                }
+            if (adapterViews.get(position) != null) {
+                container.addView(adapterViews.get(position));
+                return adapterViews.get(position);
+            } else {
+                LinearLayout linearLayout = Utils.instantiateItem(questionResponse, ToontaQuestionActivity.this);
+                this.adapterViews.put(position, linearLayout);
+                container.addView(linearLayout);
+                return linearLayout;
             }
-
-            container.addView(linearLayout);
-            return linearLayout;
         }
 
         @Override
@@ -374,16 +347,13 @@ public class ToontaQuestionActivity extends AppCompatActivity {
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((LinearLayout) object);
         }
-    }
+    }*/
 
-    private String validateQuestionAndPrepareToSend(ToontaDAO.QuestionsList.QuestionResponse qstResp) {
-        // TODO To be deleted
-        Log.v("  0 - instantiateItem ", mViewPager.getCurrentItem() + " ");
-        Log.v("  1 - instantiateItem ", qstResp.toString());
-        String questionId = qstResp.id;
+    private String validateQuestionAndPrepareToSend(LinearLayout currentPage) {
         boolean qstAnswered = false;
-        LinearLayout currentPage = (LinearLayout) mViewPager.getChildAt(currentQuestionPos);
 
+        ToontaDAO.QuestionsList.QuestionResponse qstResp = questionsList.questionResponseElements.get(currentQuestionPos);
+        String questionId = qstResp.id;
         switch (qstResp.type) {
             case "YES_NO" :
                 RadioGroup radioGroup = (RadioGroup) currentPage.findViewWithTag(ToontaConstants.TOONTA_YES_NO_TAG + qstResp.id);
@@ -428,10 +398,8 @@ public class ToontaQuestionActivity extends AppCompatActivity {
                     return "";
                 }
             case "BASIC" :
-                EditText respEditText = (EditText) currentPage.getChildAt(currentQuestionPos);
+                EditText respEditText = (EditText) currentPage.getChildAt(0);
                 if (respEditText == null || respEditText.getText().toString().trim().length() <= 2) {
-                    System.out.println(respEditText);
-                    System.out.println(ToontaConstants.TOONTA_BASIC_TAG + qstResp.id);
                     return getString(R.string.answer_qst_before_moving_to_next);
                 } else {
                     // Verifier si la question n'existe PAS dans l'enregistrement des reponses
@@ -469,10 +437,12 @@ public class ToontaQuestionActivity extends AppCompatActivity {
                         // Verifier si la question n'existe PAS dans l'enregistrement des reponses
                         // Probablement parce qu'on a clique sur PREVIOUS
                         for (Responses.Response resp : responsesToBeSent.responses) {
-                            if (resp.questionId.equals(questionId) && resp.choiceId.equals(choiceId)) {
-                                resp.textAnswer = checkBox.getText().toString();
-                                qstAnswered = true;
-                                break;
+                            if (resp.questionId.equals(questionId)) {
+                                if ((resp.choiceId != null) && resp.choiceId.equals(choiceId)) {
+                                    resp.textAnswer = checkBox.getText().toString();
+                                    qstAnswered = true;
+                                    break;
+                                }
                             }
                         }
 
@@ -547,9 +517,9 @@ public class ToontaQuestionActivity extends AppCompatActivity {
         questionn4.question = "Comment vas-tu cher ami ?";
 
         ToontaDAO.QuestionsList.QuestionResponse questionn5 = new ToontaDAO.QuestionsList.QuestionResponse();
-        questionn4.type = "BASIC";
-        questionn4.id = "12111";
-        questionn4.question = "Comment t-appelles tu ?";
+        questionn5.type = "BASIC";
+        questionn5.id = "1011";
+        questionn5.question = "Comment t-appelles tu ?";
 
 
         list.add(questionn);

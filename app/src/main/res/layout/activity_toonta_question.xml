@@ -66,6 +66,7 @@
             android:paddingLeft="15dp"/>
 
         <LinearLayout
+            android:id="@+id/toonta_question_view_pager_area"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:gravity="center"
@@ -74,15 +75,10 @@
             android:paddingLeft="5dp"
             android:paddingEnd="5dp"
             android:paddingRight="5dp"
-            android:background="@drawable/qst_zone_border">
+            android:background="@drawable/qst_zone_border"
+            android:orientation="horizontal">
 
             <!-- QUESTION -->
-            <com.toonta.app.utils.ToontaViewPager
-                android:id="@+id/toonta_question_view_pager_area"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </com.toonta.app.utils.ToontaViewPager>
 
         </LinearLayout>
 
