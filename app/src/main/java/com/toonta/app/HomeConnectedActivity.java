@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
+import com.toonta.app.forms.ToontaLogin;
 import com.toonta.app.utils.MainBankDetailAdapter;
 import com.toonta.app.utils.ProfileActivity;
 import com.toonta.app.utils.SurveysAdapter;
@@ -94,6 +95,7 @@ public class HomeConnectedActivity extends AppCompatActivity {
                 intent.putExtra(ToontaConstants.QUESTION_TITLE, surveyElement.name);
                 intent.putExtra(ToontaConstants.SURVEY_ID, surveyElement.surveyId);
                 intent.putExtra(ToontaConstants.SURVEY_REWRD, surveyElement.reward);
+                intent.putExtra(ToontaConstants.SURVEY_AUTHOR_ID, surveyElement.authorId);
 
                 startActivity(intent);
             }
@@ -128,17 +130,19 @@ public class HomeConnectedActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String error) {
-                // newSurveysListView.setEmptyView(findViewById(R.id.new_surveys_activity_empty));
+                // Dismissing loading window
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
                 if (surviesListView.getChildCount() == 0) {
                     Snackbar.make(findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG).show();
                 }
+                ToontaSharedPreferences.logOut();
+                startActivity(new Intent(HomeConnectedActivity.this, ToontaLogin.class));
             }
         });
 
         // Fetching survies
         newSurveysInteractor.fetchAllSurvies();
-
-        //
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)

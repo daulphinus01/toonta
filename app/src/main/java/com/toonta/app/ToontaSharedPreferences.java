@@ -14,11 +14,14 @@ public class ToontaSharedPreferences extends Application{
     private static String FIRST_USE_SLIDER_VALIDATION = "FIRST_USE_SLIDER_VALIDATION";
     private static String LOGGED_IN = "LOGGED_IN";
 
+    private static String TOONTA_PROFILE_PIC_PATH = "toonta_profile_picture_path";
+
     private static String REQUEST_TOKEN = "REQUEST_TOKEN";
     public String requestToken;
 
     private static String USER_ID = "USER_ID";
     public String userId;
+    public String profilePicPath;
 
     public static ToontaSharedPreferences toontaSharedPreferences;
 
@@ -35,6 +38,13 @@ public class ToontaSharedPreferences extends Application{
     public static void validateFirstUseSlider() {
         SharedPreferences.Editor editor = toontaSharedPreferences.context.getSharedPreferences(TAG, Context.MODE_PRIVATE).edit();
         editor.putBoolean(FIRST_USE_SLIDER_VALIDATION, true);
+        editor.apply();
+    }
+
+    public static void setToontaProfilePicPath(String path) {
+        toontaSharedPreferences.profilePicPath = path;
+        SharedPreferences.Editor editor = toontaSharedPreferences.context.getSharedPreferences(TAG, Context.MODE_PRIVATE).edit();
+        editor.putString(TOONTA_PROFILE_PIC_PATH, path);
         editor.apply();
     }
 
@@ -72,5 +82,6 @@ public class ToontaSharedPreferences extends Application{
         editor.putString(REQUEST_TOKEN, null);
         editor.putString(USER_ID, null);
         editor.apply();
+        ToontaDAO.isAsFriendUserLogged = false;
     }
 }

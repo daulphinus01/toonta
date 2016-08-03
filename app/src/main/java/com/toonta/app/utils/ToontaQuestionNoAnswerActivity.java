@@ -99,7 +99,6 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
         textViewTitle.setText(titleQuestionScreen);
 
         questionsProgressBar = (LinearLayout) findViewById(R.id.toonta_question_no_answer_progress_bar);
-        progressBarDots = Utils.initProgressBar(dummyData1().questionResponseElements.size(), questionsProgressBar, ToontaQuestionNoAnswerActivity.this);
 
         // Screen Previous Buttons
         previousButton = (Button) findViewById(R.id.button_previous_no_answer);
@@ -133,13 +132,11 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
                 int currPos = mViewPager.getCurrentItem();
                 if (currPos == (nbrTotalPages - 1)) {   // Avant derniere page
                     nextSubmitButton.setEnabled(false);
-                    mViewPager.setCurrentItem(currPos + 1);
-                } else {
-                    mViewPager.setCurrentItem(currPos + 1);
-                    previousButton.setVisibility(View.VISIBLE);
-                    previousButton.setText(R.string.button_previous);
-                    previousButton.setEnabled(true);
                 }
+                mViewPager.setCurrentItem(currPos + 1);
+                previousButton.setVisibility(View.VISIBLE);
+                previousButton.setText(R.string.button_previous);
+                previousButton.setEnabled(true);
                 progressBarDots[currPos].setTextColor(Color.BLACK);
                 progressBarDots[currPos+1].setTextColor(Color.WHITE);
             }
@@ -148,14 +145,16 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
         NewSurveysInteractor oneNewSurveysInteractor = new NewSurveysInteractor(getApplicationContext(), new NewSurveysInteractor.OneSurveyViewUpdator() {
             @Override
             public void onGetSurvey(ToontaDAO.QuestionsList questionsList) {
-                // TODO Supprimer dummy data et les commentaires dans if
-                ToontaDAO.QuestionsList tmpData = dummyData1();
-                if (/*questionsList*/tmpData.questionResponseElements.size() <= 0) {
+                if (questionsList.questionResponseElements.size() <= 0) {
                     qstRespPart.setVisibility(View.GONE);
                     Snackbar.make(findViewById(android.R.id.content), "No questions available for this survey", Snackbar.LENGTH_LONG).show();
                 } else {
                     qstRespPart.setVisibility(View.VISIBLE);
-                    mQuestionsList = tmpData /*questionsList*/;
+                    mQuestionsList = questionsList;
+                    progressBarDots = Utils.initProgressBar(
+                            questionsList.questionResponseElements.size(),
+                            questionsProgressBar,
+                            ToontaQuestionNoAnswerActivity.this);
 
                     ToontaQuestionPageAdapter toontaQuestionPageAdapter = new ToontaQuestionPageAdapter(mQuestionsList);
                     mViewPager = (ToontaViewPager) findViewById(R.id.toonta_question_view_pager_area_no_answer);
@@ -251,68 +250,6 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((LinearLayout) object);
         }
-    }
-
-    private ToontaDAO.QuestionsList dummyData1() {
-
-        ToontaDAO.QuestionsList returnedList = new ToontaDAO.QuestionsList();
-
-        ArrayList<ToontaDAO.QuestionsList.QuestionResponse> list = new ArrayList<>();
-
-        ToontaDAO.QuestionsList.QuestionResponse questionn = new ToontaDAO.QuestionsList.QuestionResponse();
-        questionn.type = "MULTIPLE_CHOICE";
-        questionn.id = "1100";
-
-        ToontaDAO.QuestionsList.ResponseChoiceResponse resp1 = new ToontaDAO.QuestionsList.ResponseChoiceResponse();
-        ToontaDAO.QuestionsList.ResponseChoiceResponse resp2 = new ToontaDAO.QuestionsList.ResponseChoiceResponse();
-        ToontaDAO.QuestionsList.ResponseChoiceResponse resp3 = new ToontaDAO.QuestionsList.ResponseChoiceResponse();
-        ToontaDAO.QuestionsList.ResponseChoiceResponse resp4 = new ToontaDAO.QuestionsList.ResponseChoiceResponse();
-        resp1.id = "1A";
-        resp1.value = "Response dos";
-        resp2.id = "2A";
-        resp2.value = "Response tres";
-        resp3.id = "3A";
-        resp3.value = "Response ynui";
-        resp4.id = "4A";
-        resp4.value = "Response quatro";
-        questionn.choices = new ArrayList<>();
-        questionn.choices.add(resp1);
-        questionn.choices.add(resp2);
-        questionn.choices.add(resp3);
-        questionn.choices.add(resp4);
-
-        questionn.question = "Que pasa amigo ?";
-
-        ToontaDAO.QuestionsList.QuestionResponse questionn1 = new ToontaDAO.QuestionsList.QuestionResponse();
-        questionn1.type = "YES_NO";
-        questionn1.id = "1110";
-        questionn1.question = "Fait-il chaud aujourd'hui ?";
-
-        ToontaDAO.QuestionsList.QuestionResponse questionn2 = new ToontaDAO.QuestionsList.QuestionResponse();
-        questionn2.type = "BASIC";
-        questionn2.id = "1111";
-        questionn2.question = "Comment appelle-t-on la capitale de la France ?";
-
-        ToontaDAO.QuestionsList.QuestionResponse questionn3 = new ToontaDAO.QuestionsList.QuestionResponse();
-        questionn3.type = "BASIC";
-        questionn3.id = "1211";
-        questionn3.question = "Comment vas-tu cher ami ?";
-
-        ToontaDAO.QuestionsList.QuestionResponse questionn4 = new ToontaDAO.QuestionsList.QuestionResponse();
-        questionn4.type = "BASIC";
-        questionn4.id = "12111";
-        questionn4.question = "Comment t-appelles tu ?";
-
-
-        list.add(questionn);
-        list.add(questionn1);
-        list.add(questionn2);
-        list.add(questionn3);
-        list.add(questionn4);
-
-        returnedList.questionResponseElements.addAll(list);
-
-        return returnedList;
     }
 
 }

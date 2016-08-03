@@ -33,7 +33,7 @@
     <string name="phone_number">Phone number</string>
     <string name="button_profile_text">Profile</string>
     <string name="button_bank_text">Bank</string>
-    <string name="unanswered_surveys">Unanswered surveys</string>
+    <string name="unanswered_surveys">Surveys</string>
     <string name="row_access">Access</string>
     <string name="bank_solde">Solde :</string>
     <string name="grands_moulins">Grands Moulins</string>
@@ -124,6 +124,7 @@
     <string name="toonta_logout_menu_text">Logout</string>
     <string name="toonta_survey_validation_dialog_title">Survey Validation</string>
     <string name="toonta_survey_validation_dialog_msg">Survey validated successfully</string>
+    <string name="toonta_survey_validation_dialog_msg_error">Survey validation failed</string>
 
 
 </resources>

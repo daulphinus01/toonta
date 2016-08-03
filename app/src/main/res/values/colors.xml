@@ -20,6 +20,8 @@
     <color name="screen_1_text">#FB9D02</color>
     <color name="row_sub_title">#403118</color>
     <color name="bank_row">#CAE2E3</color>
+    <color name="answered_row">#66FF33</color>
+    <color name="bank_row_profile_form">#DAEAEB</color>
 
     <!-- LOGIN SCREEN -->
     <color name="cadre_login">#F2D2B7</color>

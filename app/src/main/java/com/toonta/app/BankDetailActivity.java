@@ -107,6 +107,7 @@ public class BankDetailActivity extends AppCompatActivity {
                 intent.putExtra(ToontaConstants.QUESTION_TITLE, surveyElement.name);
                 intent.putExtra(ToontaConstants.SURVEY_ID, surveyElement.surveyId);
                 intent.putExtra(ToontaConstants.SURVEY_REWRD, surveyElement.reward);
+                intent.putExtra(ToontaConstants.SURVEY_AUTHOR_ID, surveyElement.authorId);
 
                 startActivity(intent);
             }
@@ -114,38 +115,23 @@ public class BankDetailActivity extends AppCompatActivity {
 
         // Showing loading window
         progressDialog.show();
-        NewSurveysInteractor newSurveysInteractor = new NewSurveysInteractor(getApplicationContext(), new NewSurveysInteractor.NewSurveysViewUpdater() {
+        NewSurveysInteractor newSurveysInteractor = new NewSurveysInteractor(BankDetailActivity.this, new NewSurveysInteractor.CompaniesUpdater() {
             @Override
-            public void onNewSurveys(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList, boolean reset) {
-                // TODO Empty method
-            }
-
-            @Override
-            public void onPopulateSurvies(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList) {
+            public void onSuccess(ToontaDAO.SurveysListAnswer surveyElementArrayList) {
                 // Dismissing loading window
                 if (progressDialog != null && progressDialog.isShowing()) {
                     progressDialog.dismiss();
                 }
 
                 assert rightLabel != null;
-                rightLabel.setText(Utils.computeBanksTotalToons(surveyElementArrayList));
+                rightLabel.setText(Utils.computeBanksTotalToons(surveyElementArrayList.surveyElements));
                 rightLabel.setTransformationMethod(null);
 
-                if (surveyElementArrayList.size() == 0) {
-                    Snackbar.make(findViewById(android.R.id.content), "No survies to show", Snackbar.LENGTH_LONG).show();
+                if (surveyElementArrayList.surveyElements.size() == 0) {
+                    Snackbar.make(findViewById(android.R.id.content), "No companies to show", Snackbar.LENGTH_LONG).show();
                 } else {
-                    bankDetailAdapter.addElements(surveyElementArrayList);
+                    bankDetailAdapter.addElements(surveyElementArrayList.surveyElements);
                 }
-            }
-
-            @Override
-            public void onRefreshProgress() {
-                // TODO Empty method
-            }
-
-            @Override
-            public void onRefreshDone() {
-                // TODO Empty method
             }
 
             @Override
@@ -162,7 +148,7 @@ public class BankDetailActivity extends AppCompatActivity {
         });
 
         // Fetching survies
-        newSurveysInteractor.fetchAllSurvies();
+        newSurveysInteractor.getCompanies();
     }
 
     @Override

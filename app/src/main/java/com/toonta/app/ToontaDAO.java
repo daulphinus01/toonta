@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -17,7 +19,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.toonta.app.forms.ToontaUser;
 import com.toonta.app.model.SurveyResponse;
-import com.toonta.app.utils.ToontaConstants;
+import com.toonta.app.utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,6 +28,7 @@ import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,7 +42,12 @@ public class ToontaDAO extends Application {
     private static String API = "http://92.222.90.138:8080/toonta-api/";
     private static String USER = "user/";
     private static String SURVEY = "survey/";
+    private static String REPORT = "report/";
     private static String TAG = "DAO";
+    public static String asFriendUserId;
+    public static volatile boolean isAsFriendUserLogged = false;
+    private static List<String> surviesIDs = new ArrayList<>();
+    private static List<String> authorsIDs = new ArrayList<>();
 
     private static RequestQueue requestQueue;
 
@@ -137,11 +145,16 @@ public class ToontaDAO extends Application {
                         public void onResponse(JSONObject response) {
                             Log.v(TAG + " Signup", response.toString());
                             LoginAnswer loginAnswer = parseLogin(response);
-                            if (loginAnswer.loggedIn) {
-                                ToontaSharedPreferences.validateLoggedIn(loginAnswer.token, loginAnswer.userId);
+                            if (isAsFriendUserLogged) {
+                                asFriendUserId = loginAnswer.userId;
                                 simpleNetworkCallInterface.onSuccess();
                             } else {
-                                simpleNetworkCallInterface.onFailure(NetworkAnswer.ACCOUNT_ALREADY_EXISTS);
+                                if (loginAnswer.loggedIn) {
+                                    ToontaSharedPreferences.validateLoggedIn(loginAnswer.token, loginAnswer.userId);
+                                    simpleNetworkCallInterface.onSuccess();
+                                } else {
+                                    simpleNetworkCallInterface.onFailure(NetworkAnswer.ACCOUNT_ALREADY_EXISTS);
+                                }
                             }
                         }
                     },
@@ -172,6 +185,16 @@ public class ToontaDAO extends Application {
         void onFailure(NetworkAnswer error);
     }
 
+    public interface SurveysListIDsNetworkCallInterface {
+        void onSuccess(List<String> surveysListAnswer);
+        void onFailure(NetworkAnswer error);
+    }
+
+    public interface CompaniesNetworkCallInterface {
+        void onSuccess(SurveysListAnswer surveysListAnswer);
+        void onFailure(NetworkAnswer error);
+    }
+
     public interface SurveyNetworkCallInterface {
         void onSuccess(QuestionsList questionsList);
         void onFailure(NetworkAnswer error);
@@ -193,23 +216,21 @@ public class ToontaDAO extends Application {
     }
 
 
-
-
-    public static void getSurveys(int page, final SurveysListNetworkCallInterface surveysListNetworkCallInterface) {
+    public static void getSurveys(@SuppressWarnings("UnusedParameters") int page, final SurveysListNetworkCallInterface surveysListNetworkCallInterface) {
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
-                API+SURVEY+"list",
+                API + SURVEY + "list?user=" + ToontaSharedPreferences.toontaSharedPreferences.userId,
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.v(TAG + "Surveys list", response.toString());
+                        Log.v(TAG + " Surveys list", response.toString());
                         surveysListNetworkCallInterface.onSuccess(parseSurveyList(response).surveyElements);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG + "Surveys list", error.toString());
+                        Log.e(TAG + " Surveys list", error.toString());
                         if (error instanceof NoConnectionError) {
                             surveysListNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
                         } else if (error instanceof AuthFailureError) {
@@ -239,20 +260,94 @@ public class ToontaDAO extends Application {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.v(TAG + "Survey ", response.toString());
+                        Log.v(TAG + " One Survey ", response.toString());
                         surveyNetworkCallInterface.onSuccess(parseQuestionsList(response));
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG + "Survey ", error.toString());
+                        Log.e(TAG + " One Survey ", error.toString());
                         if (error instanceof NoConnectionError) {
                             surveyNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
                         } else if (error instanceof AuthFailureError) {
                             surveyNetworkCallInterface.onFailure(NetworkAnswer.AUTH_FAILURE);
                         } else {
                             surveyNetworkCallInterface.onFailure(NetworkAnswer.NO_SERVER);
+                        }
+                    }
+                })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<>();
+                params.put("userId", ToontaSharedPreferences.toontaSharedPreferences.userId);
+                params.put("userToken", ToontaSharedPreferences.toontaSharedPreferences.requestToken);
+
+                return params;
+            }
+        };
+        requestQueue.add(jsonArrayRequest);
+    }
+
+    public static void getAnsweredSurveysIds(final String authorId, final SurveysListIDsNetworkCallInterface surveysListNetworkCallInterface) {
+        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.GET,
+                API + REPORT + "user/" + ToontaSharedPreferences.toontaSharedPreferences.userId + "?company=" + authorId,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.v(TAG + " Surveys IDs list", response.toString());
+                        surveysListNetworkCallInterface.onSuccess(parseSurveyIDs(response));
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG + " Surveys IDs list", error.toString());
+                        if (error instanceof NoConnectionError) {
+                            surveysListNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
+                        } else if (error instanceof AuthFailureError) {
+                            surveysListNetworkCallInterface.onFailure(NetworkAnswer.AUTH_FAILURE);
+                        } else {
+                            surveysListNetworkCallInterface.onFailure(NetworkAnswer.NO_SERVER);
+                        }
+                    }
+                })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<>();
+                params.put("userId", ToontaSharedPreferences.toontaSharedPreferences.userId);
+                params.put("userToken", ToontaSharedPreferences.toontaSharedPreferences.requestToken);
+
+                return params;
+            }
+        };
+        requestQueue.add(jsonArrayRequest);
+    }
+
+    public static void getCompanies(final CompaniesNetworkCallInterface surveysListNetworkCallInterface) {
+        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.GET,
+                API + REPORT + "user/" + ToontaSharedPreferences.toontaSharedPreferences.userId,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.v(TAG + " Companies list", response.toString());
+                        surveysListNetworkCallInterface.onSuccess(parseCompanies(response));
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG + " Companies list", error.toString());
+                        if (error instanceof NoConnectionError) {
+                            surveysListNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
+                        } else if (error instanceof AuthFailureError) {
+                            surveysListNetworkCallInterface.onFailure(NetworkAnswer.AUTH_FAILURE);
+                        } else {
+                            surveysListNetworkCallInterface.onFailure(NetworkAnswer.NO_SERVER);
                         }
                     }
                 })
@@ -276,14 +371,14 @@ public class ToontaDAO extends Application {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.v(TAG + "ToontaUser ", response.toString());
+                        Log.v(TAG + " ToontaUser ", response.toString());
                         toontaUserNetworkCallInterface.onSuccess(parseToontaUser(response));
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG + "ToontaUser ", error.toString());
+                        Log.e(TAG + " ToontaUser ", error.toString());
                         if (error instanceof NoConnectionError) {
                             toontaUserNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
                         } else if (error instanceof AuthFailureError) {
@@ -306,6 +401,7 @@ public class ToontaDAO extends Application {
         requestQueue.add(jsonArrayRequest);
     }
 
+    @SuppressWarnings("unused")
     public static void getToontaUserByPhoneNbr(String phoneNbr, final ToontaUserNetworkCallInterface toontaUserNetworkCallInterface) {
         JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.GET,
                 API + USER + "?phone=" + phoneNbr,
@@ -313,14 +409,14 @@ public class ToontaDAO extends Application {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.v(TAG + "ToontaUser ", response.toString());
+                        Log.v(TAG + " ToontaUser ", response.toString());
                         toontaUserNetworkCallInterface.onSuccess(parseToontaUser(response));
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG + "ToontaUser ", error.toString());
+                        Log.e(TAG + " ToontaUser ", error.toString());
                         if (error instanceof NoConnectionError) {
                             toontaUserNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
                         } else if (error instanceof AuthFailureError) {
@@ -345,47 +441,48 @@ public class ToontaDAO extends Application {
 
     public static void postSurveyResponse(SurveyResponse surveyResponse, final SurveyPostNetworkCallInterface surveyPostNetworkCallInterface) {
         if (surveyResponse != null) {
-            try {
-                JSONArray respArray = new JSONArray();
-                for (int i = 0; i < surveyResponse.responses.size(); i++) {
-                    JSONObject resp = new JSONObject();
-                    resp.put("choiceId", surveyResponse.responses.get(i).choiceId);
-                    resp.put("questionId", surveyResponse.responses.get(i).questionId);
-                    resp.put("textAnswer", surveyResponse.responses.get(i).textAnswer);
-                    resp.put("yesNoAnswer", surveyResponse.responses.get(i).yesNoAnswer);
-                    respArray.put(i, resp);
-                }
+            JSONObject content = Utils.prepareSurveyResponseAsJSONObject(surveyResponse);
 
-                JSONObject content = new JSONObject();
-                content.put("respondentId", surveyResponse.respondentId);
-                content.put("surveyId", surveyResponse.surveyId);
-                content.put("responses", respArray);
-
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
-                        API+USER+"answer",
-                        content,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Log.v(TAG + " answer", response.toString());
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
+                    API+SURVEY+"answer",
+                    content,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                Log.v(TAG + " Answer Success", response.getString("status"));
                                 surveyPostNetworkCallInterface.onSuccess();
+                            } catch (JSONException e) {
+                                Log.e(TAG + " Answer Success", e.getMessage());
                             }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.e(TAG + " Signup", error.toString());
-                                if (error instanceof NoConnectionError) {
-                                    surveyPostNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
-                                } else {
-                                    surveyPostNetworkCallInterface.onFailure(NetworkAnswer.NO_SERVER);
-                                }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            if (error instanceof NoConnectionError) {
+                                Log.e(TAG + " Answer Error", error.toString());
+                                surveyPostNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
+                            } else if (error.toString().contains("Value OK of type")) {
+                                Log.v(TAG + " Answer Success", " OK ");
+                                surveyPostNetworkCallInterface.onSuccess();
+                            } else {
+                                Log.e(TAG + " Answer Error", error.toString());
+                                surveyPostNetworkCallInterface.onFailure(NetworkAnswer.NO_SERVER);
                             }
-                        });
-                requestQueue.add(jsonObjectRequest);
-            } catch (JSONException e) {
-                // TODO Log errors
-            }
+                        }
+                    })
+            {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String>  params = new HashMap<>();
+                    params.put("userId", ToontaSharedPreferences.toontaSharedPreferences.userId);
+                    params.put("userToken", ToontaSharedPreferences.toontaSharedPreferences.requestToken);
+
+                    return params;
+                }
+            };
+            requestQueue.add(jsonObjectRequest);
         }
     }
 
@@ -396,6 +493,9 @@ public class ToontaDAO extends Application {
             public String surveyId;
             public int receivedAnswer = 0;
             public int target = 0;
+            public String authorId = "";
+            public boolean active = false;
+            public boolean answered = false;
 
             public SurveyElement(String name, int reward, String surveyId) {
                 this.name = name;
@@ -415,16 +515,19 @@ public class ToontaDAO extends Application {
             @Override
             public String toString() {
                 return "SurveyElement{" +
-                        "name='" + name + '\'' +
+                        "active=" + active +
+                        ", name='" + name + '\'' +
                         ", reward=" + reward +
                         ", surveyId='" + surveyId + '\'' +
                         ", receivedAnswer=" + receivedAnswer +
                         ", target=" + target +
+                        ", authorId='" + authorId + '\'' +
+                        ", answered=" + answered +
                         '}';
             }
         }
 
-        ArrayList<SurveyElement> surveyElements;
+        public ArrayList<SurveyElement> surveyElements;
 
         public SurveysListAnswer() {
             surveyElements = new ArrayList<>();
@@ -494,6 +597,7 @@ public class ToontaDAO extends Application {
             // optional; ['BASIC', 'YES_NO', 'MULTIPLE_CHOICE']
             public String type;
 
+            @SuppressWarnings("unused")
             public QuestionResponse(String category, ArrayList<ResponseChoiceResponse> choices, String id, int order, String question, String type) {
                 this.category = category;
                 this.choices = choices;
@@ -557,6 +661,7 @@ public class ToontaDAO extends Application {
         public static class ResponseChoiceResponse implements Parcelable {
             public String id;
             public String value;
+            @SuppressWarnings("unused")
             public ResponseChoiceResponse(String id, String value) {
                 this.id = id;
                 this.value = value;
@@ -637,28 +742,30 @@ public class ToontaDAO extends Application {
                 questionsList.receivedUnswerCptr = jsonObject.getInt("receivedAnswer");
                 questionsList.reward = jsonObject.getInt("reward");
 
-                questionsList.questionResponseElements = new ArrayList<>();
+                //questionsList.questionResponseElements = new ArrayList<>();
                 JSONArray qstList = jsonObject.getJSONArray("questions");
                 if (qstList != null) {
                     for (int k = 0; k < qstList.length(); k++) {
                         JSONObject jsonObjectQst = qstList.getJSONObject(k);
                         QuestionsList.QuestionResponse qstResponse = new QuestionsList.QuestionResponse();
-                        qstResponse.category = jsonObjectQst.getString("category");
+                        //qstResponse.category = jsonObjectQst.getString("category");
                         qstResponse.id = jsonObjectQst.getString("id");
-                        qstResponse.order = jsonObjectQst.getInt("order");
                         qstResponse.question = jsonObjectQst.getString("question");
+                        qstResponse.order = jsonObjectQst.getInt("order");
                         qstResponse.type = jsonObjectQst.getString("type");
 
                         qstResponse.choices = new ArrayList<>();
-                        JSONArray respChoiceResp = jsonObjectQst.getJSONArray("choices");
-                        if (respChoiceResp != null) {
-                            for (int l = 0; l < respChoiceResp.length(); l++) {
-                                JSONObject jsonObjectRespChoiceResp = respChoiceResp.getJSONObject(l);
-                                QuestionsList.ResponseChoiceResponse responseChoiceResponse = new QuestionsList.ResponseChoiceResponse();
-                                responseChoiceResponse.id = jsonObjectRespChoiceResp.getString("id");
-                                responseChoiceResponse.value = jsonObjectRespChoiceResp.getString("value");
+                        if (qstResponse.type!= null && qstResponse.type.equals("MULTIPLE_CHOICE")) {
+                            JSONArray respChoiceResp = jsonObjectQst.getJSONArray("choices");
+                            if (respChoiceResp != null) {
+                                for (int l = 0; l < respChoiceResp.length(); l++) {
+                                    JSONObject jsonObjectRespChoiceResp = respChoiceResp.getJSONObject(l);
+                                    QuestionsList.ResponseChoiceResponse responseChoiceResponse = new QuestionsList.ResponseChoiceResponse();
+                                    responseChoiceResponse.id = jsonObjectRespChoiceResp.getString("id");
+                                    responseChoiceResponse.value = jsonObjectRespChoiceResp.getString("value");
 
-                                qstResponse.choices.add(responseChoiceResponse);
+                                    qstResponse.choices.add(responseChoiceResponse);
+                                }
                             }
                         }
 
@@ -668,6 +775,7 @@ public class ToontaDAO extends Application {
             }
         } catch (JSONException e) {
             // TODO Do some logging
+            e.printStackTrace();
         }
         return questionsList;
     }
@@ -682,12 +790,28 @@ public class ToontaDAO extends Application {
                     String name = jsonObject.getString("name");
                     int reward = jsonObject.getInt("reward");
                     String surveyId = jsonObject.getString("id");
+                    String authId = jsonObject.getString("authorId");
                     int receivedAnswer = jsonObject.getInt("receivedAnswer");
                     int target = jsonObject.getInt("target");
+                    boolean active;
+                    boolean answered;
                     if (name != null) {
+                        surviesIDs.add(surveyId);
+                        authorsIDs.add(authId);
                         SurveysListAnswer.SurveyElement surveyElement = new SurveysListAnswer.SurveyElement(name, reward, surveyId);
+                        try {
+                            surveyElement.active = jsonObject.getBoolean("active");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            surveyElement.answered = jsonObject.getBoolean("seen");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         surveyElement.target = target;
                         surveyElement.receivedAnswer = receivedAnswer;
+                        surveyElement.authorId = authId;
                         surveysListAnswer.surveyElements.add(surveyElement);
                     }
                 }
@@ -699,18 +823,10 @@ public class ToontaDAO extends Application {
     }
 
     public static ToontaUser parseToontaUser(JSONObject jsonObject) {
-        ToontaUser toontaUser = new ToontaUser();
+        ToontaUser toontaUser = null;
         try {
             if (jsonObject != null) {
-                toontaUser.phoneNumber =  jsonObject.getString("phoneNumber");
-                toontaUser.birthdate = jsonObject.getString("birthdate");
-                toontaUser.email = jsonObject.getString("email");
-                toontaUser.firstname = jsonObject.getString("firstname");
-                toontaUser.lastname = jsonObject.getString("lastname");
-                toontaUser.name = jsonObject.getString("name");
-                toontaUser.id = jsonObject.getString("id");
-                toontaUser.profession = jsonObject.getString("profession");
-                toontaUser.sexe = jsonObject.getString("sexe");
+                toontaUser = getToontaUserFromJSONObject(jsonObject);
 
                 JSONObject jsonObjectAddr = jsonObject.getJSONObject("address");
                 if (jsonObjectAddr != null) {
@@ -731,7 +847,26 @@ public class ToontaDAO extends Application {
             }
         } catch (JSONException e) {
             // TODO Do some logging
+            e.printStackTrace();
             return toontaUser;
+        }
+        return toontaUser;
+    }
+
+    private static ToontaUser getToontaUserFromJSONObject(JSONObject jsonObject) {
+        ToontaUser toontaUser  = new ToontaUser();
+        try {
+            toontaUser.phoneNumber =  jsonObject.getString("phoneNumber");
+            toontaUser.birthdate = jsonObject.getString("birthdate");
+            toontaUser.email = jsonObject.getString("email");
+            toontaUser.firstname = jsonObject.getString("firstname");
+            toontaUser.lastname = jsonObject.getString("lastname");
+            //toontaUser.name = jsonObject.getString("name");
+            toontaUser.id = jsonObject.getString("id");
+            toontaUser.profession = jsonObject.getString("profession");
+            toontaUser.sexe = jsonObject.getString("sexe");
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return toontaUser;
     }
@@ -740,25 +875,18 @@ public class ToontaDAO extends Application {
     /**
      * Updates toonta user info
      * @param toontaUser
-     * @param updateToontaUserNetworkCallInterface
      */
     public static void updateToontaUser(ToontaUser toontaUser, final UpdateToontaUserNetworkCallInterface updateToontaUserNetworkCallInterface) {
         try {
-            JSONObject content = new JSONObject();
-            content.put("birthdate", toontaUser.birthdate);
-            content.put("city", "Paris");
-            content.put("country", "France");
-            content.put("email", toontaUser.email);
-            content.put("firstname", toontaUser.firstname);
-            content.put("lastname", toontaUser.lastname);
-            content.put("name", "Jean Dupond");
-            content.put("password", "qwerty12");
-            content.put("phoneNumber", "rwego123");
-            content.put("profession", "ALL");
-            content.put("sexe", "M");
+            JSONObject content = getToontaJSONObjectFromToontaUser(toontaUser);
+
+            String userId = ToontaSharedPreferences.toontaSharedPreferences.userId;
+            if (isAsFriendUserLogged) {
+                userId = asFriendUserId;
+            }
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT,
-                    API+USER+"update/" + ToontaSharedPreferences.toontaSharedPreferences.userId,
+                    API+USER+"update/" + userId,
                     content,
                     new Response.Listener<JSONObject>() {
                         @Override
@@ -770,10 +898,12 @@ public class ToontaDAO extends Application {
                             } catch (JSONException e) {
                                 // Nothing to do, responseStatus stays empty and is dealt with
                                 // in the underneath part.
+                                e.printStackTrace();
                             }
 
                             if (responseStatus.isEmpty()) {
-                                updateToontaUserNetworkCallInterface.onFailure(NetworkAnswer.FAILED_UPDATING);
+                                updateToontaUserNetworkCallInterface.onSuccess(NetworkAnswer.OK_UPDATING);
+                                // updateToontaUserNetworkCallInterface.onFailure(NetworkAnswer.FAILED_UPDATING);
                             } else if (responseStatus.equals(HttpStatus.CREATED.name())){
                                 updateToontaUserNetworkCallInterface.onSuccess(NetworkAnswer.OK_UPDATING);
                             } else if (responseStatus.equals(HttpStatus.FORBIDDEN)) {
@@ -809,5 +939,82 @@ public class ToontaDAO extends Application {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @NonNull
+    private static JSONObject getToontaJSONObjectFromToontaUser(ToontaUser toontaUser) throws JSONException {
+        JSONObject content = new JSONObject();
+        content.put("birthdate", toontaUser.birthdate);
+        content.put("city", toontaUser.address.city);
+        //content.put("country", "France");
+        content.put("email", toontaUser.email);
+        content.put("firstname", toontaUser.firstname);
+        content.put("lastname", toontaUser.lastname);
+        if (toontaUser.name != null)
+            content.put("name", toontaUser.name);
+        if (toontaUser.phoneNumber != null)
+            content.put("phoneNumber", toontaUser.phoneNumber);
+        //ontent.put("profession", "OTHERS");
+        content.put("sexe", "U");
+        return content;
+    }
+
+    private static List<String> parseSurveyIDs(JSONObject jsonObject) {
+        List<String> surviesId = new ArrayList<>();
+        JSONObject rewardsObjects = null;
+        if (jsonObject != null) {
+            try {
+                rewardsObjects = jsonObject.getJSONObject("rewards");
+            } catch (JSONException e) {
+                return surviesId;
+            }
+            if (rewardsObjects != null) {
+                for (String surveyId : surviesIDs) {
+                    try {
+                        if (rewardsObjects.get(surveyId) != null) {
+                            surviesId.add(surveyId);
+                        }
+                    } catch (JSONException e) {
+                        // SurveyId n'existe pas
+                    }
+                }
+            }
+        }
+        return surviesId;
+    }
+
+    private static SurveysListAnswer parseCompanies(JSONObject jsonObject) {
+        SurveysListAnswer surveysListAnswer = new SurveysListAnswer();
+        if (jsonObject != null) {
+            JSONObject rewardsObjects = null;
+            try {
+                rewardsObjects = jsonObject.getJSONObject("rewards");
+            } catch (JSONException e) {
+                return surveysListAnswer;
+            }
+            if (rewardsObjects != null) {
+                List<String> tmpList = new ArrayList<>();
+                for (String authorId : authorsIDs) {
+                    if (!tmpList.contains(authorId)) {
+                        try {
+                            JSONObject company = rewardsObjects.getJSONObject(authorId);
+                            if (company != null) {
+                                String sourceName = company.getString("sourceName");
+                                int reward = company.getInt("reward");
+                                if (sourceName != null && !sourceName.trim().isEmpty()) {
+                                    SurveysListAnswer.SurveyElement surveyElement = new SurveysListAnswer.SurveyElement(sourceName, reward, "");
+                                    surveyElement.authorId = authorId;
+                                    surveysListAnswer.surveyElements.add(surveyElement);
+                                }
+                                tmpList.add(authorId);
+                            }
+                        } catch (JSONException e) {
+                            // Company id n'existe pas
+                        }
+                    }
+                }
+            }
+        }
+        return surveysListAnswer;
     }
 }

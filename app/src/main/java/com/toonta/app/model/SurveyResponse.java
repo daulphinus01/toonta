@@ -6,6 +6,7 @@ package com.toonta.app.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -82,11 +83,30 @@ public class SurveyResponse implements Parcelable {
             dest.writeString(textAnswer);
             dest.writeString(yesNoAnswer);
         }
+
+        @Override
+        public String toString() {
+            return "AtomicResponseRequest{" +
+                    "choiceId='" + choiceId + '\'' +
+                    ", questionId='" + questionId + '\'' +
+                    ", textAnswer='" + textAnswer + '\'' +
+                    ", yesNoAnswer='" + yesNoAnswer + '\'' +
+                    '}';
+        }
     }
 
     public String respondentId;
     public String surveyId;
-    public List<AtomicResponseRequest> responses;
+    public List<AtomicResponseRequest> responses = new ArrayList<>();
 
     public SurveyResponse(){}
+
+    @Override
+    public String toString() {
+        return "SurveyResponse{" +
+                "respondentId='" + respondentId + '\'' +
+                ", surveyId='" + surveyId + '\'' +
+                ", responses=" + responses +
+                '}';
+    }
 }

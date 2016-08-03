@@ -24,9 +24,11 @@ import java.util.List;
 public class MainBankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAnswer.SurveyElement> {
 
     private List<ToontaDAO.SurveysListAnswer.SurveyElement> surveyList;
+    private Context context;
 
     public MainBankDetailAdapter(Context context) {
         super(context, 0);
+        this.context = context;
         this.surveyList = new ArrayList<>();
     }
 
@@ -69,6 +71,12 @@ public class MainBankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAns
         //getItem(position) va récupérer l'item [position] de la List<Survey> surveyList
         ToontaDAO.SurveysListAnswer.SurveyElement survey = getItem(position);
 
+        if (survey.answered) {
+            convertView.setBackgroundColor(context.getResources().getColor(R.color.answered_row));
+        } else {
+            convertView.setBackgroundColor(context.getResources().getColor(R.color.bank_row));
+        }
+
         // getItem(position) va récupérer l'item [position] de la List<Survey> surveyList
         //Bank bank = getItem(position);
 
@@ -81,7 +89,8 @@ public class MainBankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAns
 
         viewHolder.bankPlusSignImageView.setImageResource(R.mipmap.ic_plus_sign);
 
-        String answersRemaining = "Answers remaining : " + (survey.target - survey.receivedAnswer);
+        int remainigAnswers = survey.target - survey.receivedAnswer;
+        String answersRemaining = "Answers remaining : " + ((remainigAnswers < 0) ? 0 : remainigAnswers);
         viewHolder.bankDetailRowRemainingAnswers.setText(answersRemaining);
         viewHolder.bankDetailRowRemainingAnswers.setTransformationMethod(null);
 

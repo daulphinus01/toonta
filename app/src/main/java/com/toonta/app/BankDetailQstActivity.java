@@ -60,6 +60,8 @@ public class BankDetailQstActivity extends AppCompatActivity {
         surveyId = getIntent().getStringExtra(ToontaConstants.SURVEY_ID);
         // Company name
         companyName = getIntent().getStringExtra(ToontaConstants.QUESTION_TITLE);
+        // Author id
+        final String authorId = getIntent().getStringExtra(ToontaConstants.SURVEY_AUTHOR_ID);
 
         // Actionbar
         setupActionBar();
@@ -141,14 +143,21 @@ public class BankDetailQstActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                 }
 
-                assert leftLabel != null;
-                leftLabel.setText(Utils.computeBanksTotalToons(surveyElementArrayList));
-                leftLabel.setTransformationMethod(null);
-
                 if (surveyElementArrayList.size() == 0) {
                     Snackbar.make(findViewById(android.R.id.content), "No survies to show", Snackbar.LENGTH_LONG).show();
                 } else {
-                    bankDetailAdapter.addElements(surveyElementArrayList);
+                    ToontaDAO.SurveysListAnswer tmp = new ToontaDAO.SurveysListAnswer();
+                    tmp.surveyElements = surveyElementArrayList;
+                    ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementsByAuthor =
+                            getSurviesByAuthorId(authorId, Utils.getAnsweredSurvies(tmp));
+                    if (surveyElementsByAuthor.size() < 1) {
+                        Snackbar.make(findViewById(android.R.id.content), "No survies to show", Snackbar.LENGTH_LONG).show();
+                    } else {
+                        assert leftLabel != null;
+                        leftLabel.setText(Utils.computeBanksTotalToons(surveyElementsByAuthor));
+                        leftLabel.setTransformationMethod(null);
+                        bankDetailAdapter.addElements(surveyElementsByAuthor);
+                    }
                 }
             }
 
@@ -179,12 +188,6 @@ public class BankDetailQstActivity extends AppCompatActivity {
         newSurveysInteractor.fetchAllSurvies();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        this.finish();
-    }
-
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void setupActionBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -199,6 +202,16 @@ public class BankDetailQstActivity extends AppCompatActivity {
             mActionBar.setCustomView(mCustomView);
             mActionBar.setDisplayShowCustomEnabled(true);
         }
+    }
+
+    private ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> getSurviesByAuthorId(String authorId, ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList) {
+        ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElements = new ArrayList<>();
+        for (ToontaDAO.SurveysListAnswer.SurveyElement surveyElement : surveyElementArrayList) {
+            if (surveyElement.authorId.equals(authorId)) {
+                surveyElements.add(surveyElement);
+            }
+        }
+        return surveyElements;
     }
 
 }

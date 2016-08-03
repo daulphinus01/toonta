@@ -1,10 +1,11 @@
 /*
  * Copyright - Toonta - All Rights Reserved www.heebari.com
  */
-package com.toonta.app.model;/**
- * Created by Kevin on 15/06/2016.
- */
+package com.toonta.app.model;
 
+/**
+ * Created by Marcellin on 15/06/2016.
+ */
 import android.os.Parcel;
 import android.os.Parcelable;
 

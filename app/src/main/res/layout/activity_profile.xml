@@ -18,40 +18,16 @@
         android:orientation="horizontal"
         android:layout_marginBottom="5dp">
 
-        <RelativeLayout
+        <ImageView
+            android:id="@+id/toonta_profile_pix"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.6"
             android:layout_marginRight="5dp"
             android:layout_marginEnd="5dp"
-            android:background="@drawable/button_bg">
-
-            <ImageView
-                android:id="@+id/profile_button_up"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_up"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"/>
-
-            <ImageView
-                android:id="@+id/toonta_profile_img_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/photo_ic"
-                android:contentDescription="@string/upload_photo"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/upload_photo"
-                android:textColor="@color/screen_1_text"
-                android:layout_below="@+id/toonta_profile_img_icon"
-                android:layout_centerHorizontal="true"/>
-
-        </RelativeLayout>
+            android:background="@drawable/button_bg"
+            android:contentDescription="Upload profile picture"
+            android:src="@drawable/my_profile_pic"/>
 
         <LinearLayout
             android:id="@+id/toonta_layout_save_changes"
@@ -85,7 +61,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.33"
             android:orientation="horizontal"
-            android:background="@android:color/background_light">
+            android:background="@color/bank_row_profile_form">
 
             <EditText
                 android:layout_width="0dp"
@@ -95,7 +71,10 @@
                 android:id="@+id/first_name"
                 android:layout_weight="0.9"
                 android:background="@android:color/transparent"
-                android:hint="@string/fisrt_name"/>
+                android:hint="@string/fisrt_name"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
+                android:textStyle="bold"/>
 
             <ImageView
                 android:id="@+id/_first_name"
@@ -112,7 +91,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.33"
             android:orientation="horizontal"
-            android:background="@android:color/background_light">
+            android:background="@color/bank_row_profile_form">
 
             <EditText
                 android:layout_width="0dp"
@@ -122,7 +101,9 @@
                 android:id="@+id/last_name"
                 android:layout_weight="0.9"
                 android:background="@android:color/transparent"
-                android:hint="@string/last_name"/>
+                android:hint="@string/last_name"
+                android:singleLine="true"
+                android:imeOptions="actionNext"/>
 
             <ImageView
                 android:id="@+id/_last_name"
@@ -139,7 +120,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.33"
             android:orientation="horizontal"
-            android:background="@android:color/background_light">
+            android:background="@color/bank_row_profile_form">
 
             <EditText
                 android:layout_width="0dp"
@@ -150,7 +131,9 @@
                 android:inputType="date"
                 android:layout_weight="0.9"
                 android:background="@android:color/transparent"
-                android:hint="@string/birth_date"/>
+                android:hint="@string/birth_date"
+                android:singleLine="true"
+                android:imeOptions="actionNext"/>
 
             <ImageView
                 android:id="@+id/_birth_date"
@@ -178,7 +161,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.33"
             android:orientation="horizontal"
-            android:background="@android:color/background_light">
+            android:background="@color/bank_row_profile_form">
 
             <EditText
                 android:layout_width="0dp"
@@ -189,7 +172,9 @@
                 android:inputType="textEmailAddress"
                 android:layout_weight="0.9"
                 android:background="@android:color/transparent"
-                android:hint="@string/email_address"/>
+                android:hint="@string/email_address"
+                android:singleLine="true"
+                android:imeOptions="actionNext"/>
 
             <ImageView
                 android:id="@+id/_email_address"
@@ -206,7 +191,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.33"
             android:orientation="horizontal"
-            android:background="@android:color/background_light">
+            android:background="@color/bank_row_profile_form">
 
             <EditText
                 android:layout_width="0dp"
@@ -217,7 +202,9 @@
                 android:inputType="phone"
                 android:layout_weight="0.9"
                 android:background="@android:color/transparent"
-                android:hint="@string/phone__number"/>
+                android:hint="@string/phone__number"
+                android:singleLine="true"
+                android:imeOptions="actionNext"/>
 
             <ImageView
                 android:id="@+id/_phone_number"
@@ -234,7 +221,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.33"
             android:orientation="horizontal"
-            android:background="@android:color/background_light">
+            android:background="@color/bank_row_profile_form">
 
             <EditText
                 android:layout_width="0dp"
@@ -245,7 +232,9 @@
                 android:inputType="phone"
                 android:layout_weight="0.9"
                 android:background="@android:color/transparent"
-                android:hint="@string/activity_profession"/>
+                android:hint="@string/activity_profession"
+                android:singleLine="true"
+                android:imeOptions="actionNext"/>
 
             <ImageView
                 android:id="@+id/_professional_activity"
@@ -271,7 +260,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.33"
             android:orientation="horizontal"
-            android:background="@android:color/background_light">
+            android:background="@color/bank_row_profile_form">
 
             <EditText
                 android:layout_width="0dp"
@@ -281,7 +270,9 @@
                 android:id="@+id/residence_place"
                 android:layout_weight="0.9"
                 android:background="@android:color/transparent"
-                android:hint="@string/place_of_residence"/>
+                android:hint="@string/place_of_residence"
+                android:singleLine="true"
+                android:imeOptions="actionNext"/>
 
             <ImageView
                 android:id="@+id/_residence_place"
@@ -298,7 +289,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.33"
             android:orientation="horizontal"
-            android:background="@android:color/background_light">
+            android:background="@color/bank_row_profile_form">
 
             <EditText
                 android:layout_width="0dp"
@@ -309,7 +300,9 @@
                 android:inputType="number"
                 android:layout_weight="0.9"
                 android:background="@android:color/transparent"
-                android:hint="@string/cumulated_points"/>
+                android:hint="@string/cumulated_points"
+                android:singleLine="true"
+                android:imeOptions="actionNext"/>
 
             <ImageView
                 android:id="@+id/_toonta_cumilated_points"
@@ -326,7 +319,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.33"
             android:orientation="horizontal"
-            android:background="@android:color/background_light">
+            android:background="@color/bank_row_profile_form">
 
             <EditText
                 android:layout_width="0dp"

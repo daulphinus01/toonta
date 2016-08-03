@@ -36,6 +36,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            debuggable true
+        }
     }
     packagingOptions {
         exclude 'META-INF/ASL2.0'
@@ -55,7 +58,7 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.heinrichreimersoftware:material-intro:1.4'
     compile 'com.joanzapata.iconify:android-iconify-entypo:2.2.2'
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.1@aar') {
         transitive = true;
     }
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'

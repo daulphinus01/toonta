@@ -3,6 +3,9 @@
  */
 package com.toonta.app.forms;
 
+import com.toonta.app.model.ToontaAddress;
+import com.toonta.app.model.ToontaBank;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,7 +18,7 @@ public class ToontaUser {
     public ToontaUser() {
     }
 
-    public ToontaUser(String birthdate, String email, String firstname, String id, String lastname, String name, String phoneNumber, String profession, String sexe, Address address, Bank_ bank_) {
+    public ToontaUser(String birthdate, String email, String firstname, String id, String lastname, String name, String phoneNumber, String profession, String sexe) {
         this.birthdate = birthdate;
         this.email = email;
         this.firstname = firstname;
@@ -29,36 +32,6 @@ public class ToontaUser {
         this.bank_ = bank_;
     }
 
-    public class Address {
-        public String city;
-        public String country;
-        public String department;
-        public String region;
-
-        @Override
-        public String toString() {
-            return "Address{" +
-                    "city='" + city + '\'' +
-                    ", country='" + country + '\'' +
-                    ", department='" + department + '\'' +
-                    ", region='" + region + '\'' +
-                    '}';
-        }
-    }
-
-    public class Bank_ {
-        public int balance = 0;
-        public String id;
-
-        @Override
-        public String toString() {
-            return "Bank_{" +
-                    "balance=" + balance +
-                    ", id='" + id + '\'' +
-                    '}';
-        }
-    }
-
     public String birthdate = "";
     public String email = "";
     public String firstname = "";
@@ -70,8 +43,8 @@ public class ToontaUser {
     public String profession = "";
     public String sexe = "";
 
-    public Address address = new Address();
-    public Bank_ bank_ = new Bank_();
+    public ToontaAddress address = new ToontaAddress();
+    public ToontaBank bank_ = new ToontaBank();
 
     @Override
     public String toString() {

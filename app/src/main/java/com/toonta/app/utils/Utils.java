@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.text.InputType;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,8 +23,14 @@ import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
 import com.toonta.app.ToontaSharedPreferences;
 import com.toonta.app.model.Bank;
+import com.toonta.app.model.SurveyResponse;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Utils {
@@ -35,6 +42,16 @@ public class Utils {
             total += bank.reward;
         }
         return total + " toons";
+    }
+
+    public static ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> getAnsweredSurvies(ToontaDAO.SurveysListAnswer answeredSurvies) {
+        ToontaDAO.SurveysListAnswer tmp = new ToontaDAO.SurveysListAnswer();
+        for (ToontaDAO.SurveysListAnswer.SurveyElement se : answeredSurvies.surveyElements) {
+            if (se.answered) {
+                tmp.surveyElements.add(se);
+            }
+        }
+        return new ArrayList<>(tmp.surveyElements);
     }
 
     public static boolean bothPwdHaveToBeTheSame(String pwd, String pwdConfrm) {
@@ -62,7 +79,9 @@ public class Utils {
                     case R.id.toonta_logout_menu:
                         ToontaSharedPreferences.logOut();
                         mode.finish(); // Action picked, so close the CAB
-                        context.startActivity(new Intent(context, HomePageActivity.class));
+                        Intent intent = new Intent(context, HomePageActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        context.startActivity(intent);
                         ((Activity)context).finish();
                         return true;
                     default:
@@ -169,5 +188,28 @@ public class Utils {
             }
         }
         return returnedLayout;
+    }
+
+    public static JSONObject prepareSurveyResponseAsJSONObject(SurveyResponse surveyResponse) {
+        try {
+            JSONObject content = new JSONObject();
+            JSONArray respArray = new JSONArray();
+            for (int i = 0; i < surveyResponse.responses.size(); i++) {
+                JSONObject resp = new JSONObject();
+                resp.put("choiceId", (surveyResponse.responses.get(i).choiceId == null) ? null : surveyResponse.responses.get(i).choiceId);
+                resp.put("questionId", surveyResponse.responses.get(i).questionId);
+                resp.put("textAnswer", (surveyResponse.responses.get(i).textAnswer == null) ? null : surveyResponse.responses.get(i).textAnswer);
+                resp.put("yesNoAnswer", (surveyResponse.responses.get(i).yesNoAnswer == null) ? null : surveyResponse.responses.get(i).yesNoAnswer);
+                respArray.put(i, resp);
+            }
+            content.put("respondentId", surveyResponse.respondentId);
+            content.put("responses", respArray);
+            content.put("surveyId", surveyResponse.surveyId);
+            Log.v("Utils", content.toString());
+            return content;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

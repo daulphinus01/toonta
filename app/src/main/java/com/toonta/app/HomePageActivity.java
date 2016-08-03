@@ -12,14 +12,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.crashlytics.android.Crashlytics;
 import com.toonta.app.forms.ToontaLogin;
 
+import io.fabric.sdk.android.Fabric;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -30,6 +33,7 @@ import java.io.InputStream;
 public class HomePageActivity extends AppCompatActivity {
 
     private ViewFlipper viewFlipper;
+    private float lastX;
 
     private Context context;
 
@@ -45,6 +49,7 @@ public class HomePageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
 
         setContentView(R.layout.activity_home_page);
 
@@ -55,6 +60,40 @@ public class HomePageActivity extends AppCompatActivity {
         toontaDots[0] = (TextView) findViewById(R.id.toonta_dot_1);
         toontaDots[1] = (TextView) findViewById(R.id.toonta_dot_2);
         toontaDots[2] = (TextView) findViewById(R.id.toonta_dot_3);
+
+        for (int i = 0; i < toontaDots.length; i++) {
+            final int tmp = i;
+            toontaDots[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch (viewFlipper.getCurrentView().getId()) {
+                        case R.id.screen1 :
+                            if (tmp == 1) {
+                                viewFlipper.showNext();
+                            } else if (tmp == 2) {
+                                viewFlipper.showNext();
+                                viewFlipper.showNext();
+                            }
+                            break;
+                        case R.id.screen2 :
+                            if (tmp == 0) {
+                                viewFlipper.showPrevious();
+                            } else if (tmp == 2) {
+                                viewFlipper.showNext();
+                            }
+                            break;
+                        case R.id.screen3 :
+                            if (tmp == 0) {
+                                viewFlipper.showPrevious();
+                                viewFlipper.showPrevious();
+                            } else if (tmp == 1) {
+                                viewFlipper.showPrevious();
+                            }
+                            break;
+                    }
+                }
+            });
+        }
 
 
         context = this;
@@ -108,8 +147,41 @@ public class HomePageActivity extends AppCompatActivity {
                     }
                 }
             });
-            viewFlipper.setFlipInterval(10000);
+            viewFlipper.setFlipInterval(4000);
             viewFlipper.startFlipping();
+
+            viewFlipper.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN :
+                            lastX = event.getX();
+                            return true;
+
+                        case MotionEvent.ACTION_UP :
+                            float currentX = event.getX();
+                            // Handling left to right screen swap.
+                            if (lastX < currentX) {
+                                // If there aren't any other children, just break.
+                                if (viewFlipper.getDisplayedChild() == 0)
+                                    break;
+                                viewFlipper.showNext();
+                            }
+                            // Handling right to left screen swap.
+                            if (lastX > currentX) {
+                                // If there is a child (to the left), kust break.
+                                if (viewFlipper.getDisplayedChild() == 1)
+                                    break;
+                                // Display previous screen.
+                                viewFlipper.showPrevious();
+                            }
+                            return true;
+                        default:
+                            break;
+                    }
+                    return false;
+                }
+            });
         }
     }
 

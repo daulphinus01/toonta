@@ -1,24 +1,30 @@
 package com.toonta.app.forms;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.toonta.app.HomeConnectedActivity;
 import com.toonta.app.R;
-import com.toonta.app.model.Responses;
+import com.toonta.app.ToontaDAO;
+import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
+import com.toonta.app.model.SurveyResponse;
 import com.toonta.app.utils.ToontaConstants;
 import com.toonta.app.utils.ToontaUserInterceptor;
 import com.toonta.app.utils.Utils;
 
 public class SMSValidationActivity extends AppCompatActivity {
 
-    private ToontaUserInterceptor toontaUserInterceptor;
+    private AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,37 +55,26 @@ public class SMSValidationActivity extends AppCompatActivity {
         // Getting bundles
         final String titleQuestionScreen = getIntent().getStringExtra(ToontaConstants.QUESTION_TITLE);
         // TODO Quand le code renvoye par SMS est valide, on renvoie la/les reponse(s)
-        Responses responsesToBeSent= getIntent().getParcelableExtra(ToontaConstants.SURVEY_RESPONSES_TO_BE_SENT);
+        final SurveyResponse responsesToBeSent= getIntent().getParcelableExtra(ToontaConstants.SURVEY_RESPONSES_TO_BE_SENT);
 
         // Screen title
         TextView screenTitle = (TextView) findViewById(R.id.toonta_validate_sms_form_screen_title);
         assert screenTitle != null;
         screenTitle.setText(titleQuestionScreen);
 
-        toontaUserInterceptor = new ToontaUserInterceptor(SMSValidationActivity.this, new ToontaUserInterceptor.ToontaUserViewUpdater() {
+        // Affiche le msg selon si la reponse a bien ete envoye au serveur ou pas
+        builder = new AlertDialog.Builder(SMSValidationActivity.this);
+        builder.setTitle(getString(R.string.toonta_survey_validation_dialog_title));
+
+        Button confirm = (Button) findViewById(R.id.toonta_validate_question_form_screen_validate_button);
+        assert confirm != null;
+        confirm.setTransformationMethod(null);
+        confirm.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onToontaUserGet(ToontaUser toontaUser) {
-                // User existant et donc on peut utiliser son ID
-            }
-
-            @Override
-            public void onToontaUserUpdate(String error) {
-                // Rien a mettre la dedans
-            }
-
-            @Override
-            public void onFailure(String error) {
-                if (error.equals("Authentication error")){
-                    // User inconnu, on va creer un nouveau user
-
-                } else {
-                    // Probleme de connexion
-
-                }
+            public void onClick(View v) {
+                createNewSurveysInteractorAndSendResponses(responsesToBeSent);
             }
         });
-
-        // TODO Call toontaUserInterceptor.fetchToontaUserByPhoneNbr("User's phone nbr");
     }
 
     private void setupActionBar() {
@@ -95,5 +90,46 @@ public class SMSValidationActivity extends AppCompatActivity {
             mActionBar.setCustomView(mCustomView);
             mActionBar.setDisplayShowCustomEnabled(true);
         }
+    }
+
+    private void createNewSurveysInteractorAndSendResponses(SurveyResponse surveyResponse) {
+        NewSurveysInteractor interactor = new NewSurveysInteractor(SMSValidationActivity.this, new NewSurveysInteractor.OneSurveyViewUpdator() {
+            @Override
+            public void onGetSurvey(ToontaDAO.QuestionsList QuestionsList) {
+                // Rien a faire ici
+            }
+
+            @Override
+            public void onPostResponse(String statusCode) {
+                // Msg retourne lors de l'envoie des reponses
+                builder.setMessage(getString(R.string.toonta_survey_validation_dialog_msg));
+                builder.setPositiveButton(R.string.toonat_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(SMSValidationActivity.this, HomeConnectedActivity.class));
+                        finish();
+                    }
+                });
+                builder.setCancelable(false);
+                builder.create().show();
+            }
+
+            @Override
+            public void onFailure(String error) {
+                builder.setMessage(getString(R.string.toonta_survey_validation_dialog_msg_error));
+                builder.setPositiveButton(R.string.toonat_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // startActivity(new Intent(ValidateQuestionActivity.this, HomeConnectedActivity.class));
+                        return;
+                    }
+                });
+                builder.setCancelable(false);
+                builder.create().show();
+
+            }
+        });
+
+        interactor.postSurveyResponse(surveyResponse);
     }
 }
