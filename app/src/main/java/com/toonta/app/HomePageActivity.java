@@ -191,15 +191,6 @@ public class HomePageActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        if (viewFlipper != null) {
-            viewFlipper.stopFlipping();
-            viewFlipper = null;
-        }
-    }
-
-    @Override
     protected void onResume() {
         if (viewFlipper != null) {
             if (!viewFlipper.isFlipping()) {

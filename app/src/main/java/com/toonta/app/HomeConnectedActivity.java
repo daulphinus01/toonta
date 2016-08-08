@@ -145,6 +145,14 @@ public class HomeConnectedActivity extends AppCompatActivity {
         newSurveysInteractor.fetchAllSurvies();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Dismissing loading window
+        if (progressDialog != null && progressDialog.isShowing())
+            progressDialog.dismiss();
+    }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void setupActionBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {

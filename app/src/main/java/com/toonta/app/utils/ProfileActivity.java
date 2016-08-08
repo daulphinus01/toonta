@@ -214,7 +214,7 @@ public class ProfileActivity extends AppCompatActivity {
                         phoneNumber.getText().toString(),
                         String.valueOf(professionalActivity.getSelectedItem()),
                         sexe);
-                if (cumulatedPoint.getText().toString() != null) {
+                if (cumulatedPoint.getText().toString() != null && !cumulatedPoint.getText().toString().isEmpty()) {
                     updatedUser.bank_.balance = Integer.parseInt(cumulatedPoint.getText().toString());
                 }
                 if (residencePlace.getText().toString() != null) {
@@ -399,22 +399,24 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void addOnEditorActionListener() {
-        for (int i = 0; i < allEditTexts.length; i++) {
+        for (int i = 0; i < allEditTexts.length - 1; i++) {
             final int finalI = i;
-            allEditTexts[i].setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (actionId == EditorInfo.IME_ACTION_NEXT && finalI < allEditTexts.length - 1) {
-                        allEditTexts[finalI + 1].setEnabled(true);
-                        allEditTexts[finalI + 1].requestFocus();
-                        allEditTexts[finalI + 1].setCursorVisible(true);
-                        allEditTexts[finalI + 1].setText("");
-                        allEditTexts[finalI + 1].setHint("");
-                        return true;
+            if (allEditTexts[finalI + 1] != null) {
+                allEditTexts[i].setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_NEXT && finalI < allEditTexts.length - 1) {
+                            allEditTexts[finalI + 1].setEnabled(true);
+                            allEditTexts[finalI + 1].requestFocus();
+                            allEditTexts[finalI + 1].setCursorVisible(true);
+                            allEditTexts[finalI + 1].setText("");
+                            allEditTexts[finalI + 1].setHint("");
+                            return true;
+                        }
+                        return false;
                     }
-                    return false;
-                }
-            });
+                });
+            }
         }
     }
 
