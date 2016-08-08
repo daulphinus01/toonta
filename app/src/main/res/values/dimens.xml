@@ -5,4 +5,7 @@
     <dimen name="fab_margin">16dp</dimen>
     <integer name="YES_RADIO_BUTTON_ID">1111111</integer>
     <integer name="NO_RADIO_BUTTON_ID">2222222</integer>
+
+    <!-- Toonta dims -->
+    <dimen name="profile_pic_margin_bottom">15dp</dimen>
 </resources>

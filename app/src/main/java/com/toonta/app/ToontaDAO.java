@@ -828,18 +828,24 @@ public class ToontaDAO extends Application {
             if (jsonObject != null) {
                 toontaUser = getToontaUserFromJSONObject(jsonObject);
 
-                JSONObject jsonObjectAddr = jsonObject.getJSONObject("address");
-                if (jsonObjectAddr != null) {
-                    toontaUser.address.city = jsonObjectAddr.getString("city");
-                    toontaUser.address.country = jsonObjectAddr.getString("country");
-                    toontaUser.address.department = jsonObjectAddr.getString("department");
-                    toontaUser.address.region = jsonObjectAddr.getString("region");
+                if (jsonObject.has("address")) {
+                    JSONObject jsonObjectAddr = jsonObject.getJSONObject("address");
+                    if (jsonObjectAddr.has("city"))
+                        toontaUser.address.city = jsonObjectAddr.getString("city");
+                    if (jsonObjectAddr.has("country"))
+                        toontaUser.address.country = jsonObjectAddr.getString("country");
+                    if (jsonObjectAddr.has("department"))
+                        toontaUser.address.department = jsonObjectAddr.getString("department");
+                    if (jsonObjectAddr.has("region"))
+                        toontaUser.address.region = jsonObjectAddr.getString("region");
                 }
 
-                JSONObject jsonObjectBank_ = jsonObject.getJSONObject("bank");
-                if (jsonObjectBank_ != null) {
-                    toontaUser.bank_.balance = jsonObjectBank_.getInt("balance");
-                    toontaUser.bank_.id = jsonObjectBank_.getString("id");
+                if (jsonObject.has("bank")) {
+                    JSONObject jsonObjectBank_ = jsonObject.getJSONObject("bank");
+                    if (jsonObjectBank_.has("balance"))
+                        toontaUser.bank_.balance = jsonObjectBank_.getInt("balance");
+                    if (jsonObjectBank_.has("id"))
+                        toontaUser.bank_.id = jsonObjectBank_.getString("id");
                 }
 
                 return toontaUser;
@@ -856,15 +862,22 @@ public class ToontaDAO extends Application {
     private static ToontaUser getToontaUserFromJSONObject(JSONObject jsonObject) {
         ToontaUser toontaUser  = new ToontaUser();
         try {
-            toontaUser.phoneNumber =  jsonObject.getString("phoneNumber");
-            toontaUser.birthdate = jsonObject.getString("birthdate");
-            toontaUser.email = jsonObject.getString("email");
-            toontaUser.firstname = jsonObject.getString("firstname");
-            toontaUser.lastname = jsonObject.getString("lastname");
-            //toontaUser.name = jsonObject.getString("name");
-            toontaUser.id = jsonObject.getString("id");
-            toontaUser.profession = jsonObject.getString("profession");
-            toontaUser.sexe = jsonObject.getString("sexe");
+            if (jsonObject.has("phoneNumber"))
+                toontaUser.phoneNumber =  jsonObject.getString("phoneNumber");
+            if (jsonObject.has("birthdate"))
+                toontaUser.birthdate = jsonObject.getString("birthdate");
+            if (jsonObject.has("email"))
+                toontaUser.email = jsonObject.getString("email");
+            if (jsonObject.has("firstname"))
+                toontaUser.firstname = jsonObject.getString("firstname");
+            if (jsonObject.has("lastname"))
+                toontaUser.lastname = jsonObject.getString("lastname");
+            if (jsonObject.has("id"))
+                toontaUser.id = jsonObject.getString("id");
+            if (jsonObject.has("profession"))
+                toontaUser.profession = jsonObject.getString("profession");
+            if (jsonObject.has("sexe"))
+                toontaUser.sexe = jsonObject.getString("sexe");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -893,15 +906,8 @@ public class ToontaDAO extends Application {
                         public void onResponse(JSONObject response) {
                             Log.v(TAG + " Update ToontaUser", response.toString());
                             String responseStatus = "";
-                            try {
-                                responseStatus = response.getString("status");
-                            } catch (JSONException e) {
-                                // Nothing to do, responseStatus stays empty and is dealt with
-                                // in the underneath part.
-                                e.printStackTrace();
-                            }
 
-                            if (responseStatus.isEmpty()) {
+                            if (response.has("phoneNumber")) {
                                 updateToontaUserNetworkCallInterface.onSuccess(NetworkAnswer.OK_UPDATING);
                                 // updateToontaUserNetworkCallInterface.onFailure(NetworkAnswer.FAILED_UPDATING);
                             } else if (responseStatus.equals(HttpStatus.CREATED.name())){
@@ -944,17 +950,23 @@ public class ToontaDAO extends Application {
     @NonNull
     private static JSONObject getToontaJSONObjectFromToontaUser(ToontaUser toontaUser) throws JSONException {
         JSONObject content = new JSONObject();
-        content.put("birthdate", toontaUser.birthdate);
-        content.put("city", toontaUser.address.city);
+        if (toontaUser.birthdate != null && !toontaUser.birthdate.isEmpty())
+            content.put("birthdate", toontaUser.birthdate);
+        if (toontaUser.address.city != null && !toontaUser.address.city.isEmpty())
+            content.put("city", toontaUser.address.city);
         //content.put("country", "France");
-        content.put("email", toontaUser.email);
-        content.put("firstname", toontaUser.firstname);
-        content.put("lastname", toontaUser.lastname);
+        if (toontaUser.email != null && !toontaUser.email.isEmpty())
+            content.put("email", toontaUser.email);
+        if (toontaUser.firstname != null && !toontaUser.firstname.isEmpty())
+            content.put("firstname", toontaUser.firstname);
+        if (toontaUser.lastname != null && !toontaUser.lastname.isEmpty())
+            content.put("lastname", toontaUser.lastname);
         if (toontaUser.name != null)
             content.put("name", toontaUser.name);
         if (toontaUser.phoneNumber != null)
             content.put("phoneNumber", toontaUser.phoneNumber);
-        //ontent.put("profession", "OTHERS");
+        if (toontaUser.profession != null)
+            content.put("profession", toontaUser.profession);
         content.put("sexe", "U");
         return content;
     }

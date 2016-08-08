@@ -16,13 +16,13 @@
         android:layout_height="0dp"
         android:layout_weight="0.3"
         android:orientation="horizontal"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="@dimen/profile_pic_margin_bottom">
 
         <ImageView
             android:id="@+id/toonta_profile_pix"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.6"
+            android:layout_weight="0.45"
             android:layout_marginRight="5dp"
             android:layout_marginEnd="5dp"
             android:background="@drawable/button_bg"
@@ -30,320 +30,212 @@
             android:src="@drawable/my_profile_pic"/>
 
         <LinearLayout
-            android:id="@+id/toonta_layout_save_changes"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/toonta_save_changes_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/toonta_save_changes"
-                android:background="@drawable/button_bg"
-                android:paddingStart="5sp"
-                android:paddingLeft="5sp"
-                android:paddingEnd="5sp"
-                android:paddingRight="5sp"
-                android:textSize="20sp"/>
-        </LinearLayout>
+            android:layout_weight="0.55"
+            android:orientation="horizontal" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.24"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:divider="@android:color/darker_gray">
 
-        <LinearLayout
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.33"
-            android:orientation="horizontal"
-            android:background="@color/bank_row_profile_form">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp">
 
             <EditText
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingStart="10dp"
                 android:paddingLeft="10dp"
                 android:id="@+id/first_name"
-                android:layout_weight="0.9"
                 android:background="@android:color/transparent"
                 android:hint="@string/fisrt_name"
                 android:singleLine="true"
                 android:imeOptions="actionNext"
-                android:textStyle="bold"/>
+                android:textColor="@color/screen_1_text"/>
+        </android.support.design.widget.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/_first_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:src="@mipmap/crayon"
-                android:onClick="setEditable"/>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.33"
-            android:orientation="horizontal"
-            android:background="@color/bank_row_profile_form">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp">
 
             <EditText
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingStart="10dp"
                 android:paddingLeft="10dp"
                 android:id="@+id/last_name"
-                android:layout_weight="0.9"
                 android:background="@android:color/transparent"
                 android:hint="@string/last_name"
                 android:singleLine="true"
-                android:imeOptions="actionNext"/>
+                android:imeOptions="actionNext"
+                android:textColor="@color/screen_1_text"/>
+        </android.support.design.widget.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/_last_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:src="@mipmap/crayon"
-                android:onClick="setEditable"/>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.33"
-            android:orientation="horizontal"
-            android:background="@color/bank_row_profile_form">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp">
 
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingStart="10dp"
                 android:paddingLeft="10dp"
                 android:id="@+id/birth_date"
                 android:inputType="date"
-                android:layout_weight="0.9"
                 android:background="@android:color/transparent"
                 android:hint="@string/birth_date"
                 android:singleLine="true"
-                android:imeOptions="actionNext"/>
-
-            <ImageView
-                android:id="@+id/_birth_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:src="@mipmap/crayon"
-                android:onClick="setEditable"/>
-
-        </LinearLayout>
+                android:imeOptions="actionNext"
+                android:textColor="@color/screen_1_text"/>
+        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.23"
+        android:layout_height="wrap_content"
         android:paddingTop="1dp"
         android:paddingBottom="1dp"
         android:orientation="vertical"
         android:background="@drawable/list_border">
 
-        <LinearLayout
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.33"
-            android:orientation="horizontal"
-            android:background="@color/bank_row_profile_form">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp">
 
             <EditText
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingStart="10dp"
                 android:paddingLeft="10dp"
                 android:id="@+id/email_address"
                 android:inputType="textEmailAddress"
-                android:layout_weight="0.9"
                 android:background="@android:color/transparent"
                 android:hint="@string/email_address"
                 android:singleLine="true"
-                android:imeOptions="actionNext"/>
+                android:imeOptions="actionNext"
+                android:textColor="@color/screen_1_text"/>
+        </android.support.design.widget.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/_email_address"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:src="@mipmap/crayon"
-                android:onClick="setEditable"/>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.33"
-            android:orientation="horizontal"
-            android:background="@color/bank_row_profile_form">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp">
 
             <EditText
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingStart="10dp"
                 android:paddingLeft="10dp"
                 android:id="@+id/phone_number"
                 android:inputType="phone"
-                android:layout_weight="0.9"
                 android:background="@android:color/transparent"
                 android:hint="@string/phone__number"
                 android:singleLine="true"
-                android:imeOptions="actionNext"/>
+                android:imeOptions="actionNext"
+                android:textColor="@color/screen_1_text"/>
+        </android.support.design.widget.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/_phone_number"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:src="@mipmap/crayon"
-                android:onClick="setEditable"/>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.33"
-            android:orientation="horizontal"
-            android:background="@color/bank_row_profile_form">
+            android:layout_height="wrap_content">
 
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:paddingStart="10dp"
-                android:paddingLeft="10dp"
-                android:id="@+id/professional_activity"
-                android:inputType="phone"
-                android:layout_weight="0.9"
-                android:background="@android:color/transparent"
-                android:hint="@string/activity_profession"
-                android:singleLine="true"
-                android:imeOptions="actionNext"/>
-
-            <ImageView
-                android:id="@+id/_professional_activity"
-                android:layout_width="0dp"
+            <Spinner
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:src="@mipmap/crayon"
-                android:onClick="setEditable"/>
-
-        </LinearLayout>
+                android:id="@+id/professional_activity"/>
+        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.23"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:divider="@android:color/darker_gray">
 
-        <LinearLayout
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.33"
-            android:orientation="horizontal"
-            android:background="@color/bank_row_profile_form">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp">
 
             <EditText
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingStart="10dp"
                 android:paddingLeft="10dp"
                 android:id="@+id/residence_place"
-                android:layout_weight="0.9"
                 android:background="@android:color/transparent"
                 android:hint="@string/place_of_residence"
                 android:singleLine="true"
-                android:imeOptions="actionNext"/>
+                android:imeOptions="actionNext"
+                android:textColor="@color/screen_1_text"/>
+        </android.support.design.widget.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/_residence_place"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:src="@mipmap/crayon"
-                android:onClick="setEditable"/>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.33"
-            android:orientation="horizontal"
-            android:background="@color/bank_row_profile_form">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp">
 
             <EditText
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingStart="10dp"
                 android:paddingLeft="10dp"
                 android:id="@+id/toonta_cumilated_points"
                 android:inputType="number"
-                android:layout_weight="0.9"
                 android:background="@android:color/transparent"
                 android:hint="@string/cumulated_points"
                 android:singleLine="true"
-                android:imeOptions="actionNext"/>
+                android:imeOptions="actionNext"
+                android:textColor="@color/screen_1_text"
+                android:enabled="false"/>
+        </android.support.design.widget.TextInputLayout>
 
-            <ImageView
-                android:id="@+id/_toonta_cumilated_points"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:src="@mipmap/crayon"
-                android:onClick="setEditable"/>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.33"
-            android:orientation="horizontal"
-            android:background="@color/bank_row_profile_form">
+            android:layout_height="wrap_content">
 
             <EditText
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingStart="10dp"
                 android:paddingLeft="10dp"
                 android:id="@+id/label_three"
                 android:inputType="text"
-                android:layout_weight="0.9"
                 android:hint="@string/label_three"
-                android:background="@android:color/transparent"/>
-
-            <ImageView
-                android:id="@+id/_label_three"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:src="@mipmap/crayon"
-                android:onClick="setEditable"/>
-
-        </LinearLayout>
+                android:background="@android:color/transparent"
+                android:textColor="@color/screen_1_text"/>
+        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 
-
-
+    <LinearLayout
+        android:id="@+id/toonta_layout_save_changes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="@dimen/activity_vertical_margin">
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/toonta_save_changes_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/toonta_save_changes"
+            android:background="@drawable/button_bg"
+            android:paddingStart="5sp"
+            android:paddingLeft="5sp"
+            android:paddingEnd="5sp"
+            android:paddingRight="5sp"
+            android:textSize="20sp"/>
+    </LinearLayout>
 </LinearLayout>

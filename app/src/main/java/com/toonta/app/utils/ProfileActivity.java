@@ -3,6 +3,8 @@ package com.toonta.app.utils;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,10 +22,13 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.toonta.app.R;
@@ -44,10 +49,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     private EditText firstName;
     private EditText lastName;
-    private EditText birthDate;
+    private TextView birthDate;
     private EditText emailAddress;
     private EditText phoneNumber;
-    private EditText professionalActivity;
+    private Spinner professionalActivity;
     private EditText residencePlace;
     private EditText cumulatedPoint;
     private EditText labelThree;
@@ -58,10 +63,16 @@ public class ProfileActivity extends AppCompatActivity {
     // Indicates that some fields have been modified
     private boolean updatesAvailable = false;
 
-    private EditText[] allEditTexts = new EditText[9];
+    private EditText[] allEditTexts = new EditText[7];
 
     private final int RESULT_LOAD_IMAGE = 100;
     private ImageView profilePic;
+
+    // Bithdate
+    private int toontaUserBDyear;
+    private int toontaUserBDmonth;
+    private int toontaUserBDday;
+    static final int DATE_DIALOG_ID = 999;
 
 
     @Override
@@ -102,7 +113,7 @@ public class ProfileActivity extends AppCompatActivity {
         // Shown when user decides to modify personal info
         saveChangesLayout = (LinearLayout) findViewById(R.id.toonta_layout_save_changes);
         assert saveChangesLayout != null;
-        saveChangesLayout.setVisibility(View.INVISIBLE);
+        // saveChangesLayout.setVisibility(View.INVISIBLE);
 
         saveChangesButton = (Button) findViewById(R.id.toonta_save_changes_button);
         assert saveChangesButton != null;
@@ -116,35 +127,41 @@ public class ProfileActivity extends AppCompatActivity {
         assert lastName != null;
         allEditTexts[1] = lastName;
 
-        birthDate = (EditText) findViewById(R.id.birth_date);
+        birthDate = (TextView) findViewById(R.id.birth_date);
         assert birthDate != null;
-        allEditTexts[2] = birthDate;
+        birthDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(DATE_DIALOG_ID);
+            }
+        });
 
         emailAddress = (EditText) findViewById(R.id.email_address);
         assert emailAddress != null;
-        allEditTexts[3] = emailAddress;
+        allEditTexts[2] = emailAddress;
 
         phoneNumber = (EditText) findViewById(R.id.phone_number);
         assert phoneNumber != null;
-        allEditTexts[4] = phoneNumber;
+        allEditTexts[3] = phoneNumber;
 
-        professionalActivity = (EditText) findViewById(R.id.professional_activity);
+        professionalActivity = (Spinner) findViewById(R.id.professional_activity);
         assert professionalActivity != null;
-        allEditTexts[5] = professionalActivity;
+
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.toonta_profession_type, R.layout.spinner_item);
+        professionalActivity.setAdapter(adapter);
 
         residencePlace = (EditText) findViewById(R.id.residence_place);
         assert residencePlace != null;
-        allEditTexts[6] = residencePlace;
+        allEditTexts[4] = residencePlace;
 
         cumulatedPoint = (EditText) findViewById(R.id.toonta_cumilated_points);
         assert cumulatedPoint != null;
-        allEditTexts[7] = cumulatedPoint;
+        allEditTexts[5] = cumulatedPoint;
 
         labelThree = (EditText) findViewById(R.id.label_three);
         assert labelThree != null;
-        allEditTexts[8] = labelThree;
+        allEditTexts[6] = labelThree;
 
-        setTextEditablesEnabled();
         addOnEditorActionListener();
 
         profilePic = (ImageView) findViewById(R.id.toonta_profile_pix);
@@ -172,8 +189,6 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onToontaUserUpdate(String responseStatus) {
                 Snackbar.make(findViewById(android.R.id.content), responseStatus, Snackbar.LENGTH_LONG).show();
-                saveChangesLayout.setVisibility(View.INVISIBLE);
-                setTextEditablesEnabled();
                 populateTextViews(updatedUser);
             }
 
@@ -197,7 +212,7 @@ public class ProfileActivity extends AppCompatActivity {
                         lastName.getText().toString(),
                         "",
                         phoneNumber.getText().toString(),
-                        professionalActivity.getText().toString(),
+                        String.valueOf(professionalActivity.getSelectedItem()),
                         sexe);
                 if (cumulatedPoint.getText().toString() != null) {
                     updatedUser.bank_.balance = Integer.parseInt(cumulatedPoint.getText().toString());
@@ -245,6 +260,17 @@ public class ProfileActivity extends AppCompatActivity {
         ToontaSharedPreferences.setToontaProfilePicPath(path);
     }
 
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case DATE_DIALOG_ID:
+                // set date picker as current date
+                return new DatePickerDialog(this, datePickerListener,
+                        toontaUserBDyear, toontaUserBDmonth,toontaUserBDday);
+        }
+        return null;
+    }
+
     /* Choose an image from Gallery */
     public void openImageChooser() {
         if (Build.VERSION.SDK_INT < 19){
@@ -274,34 +300,14 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void setEditable(View view) {
-        int saveChangesLayoutVisibility =  saveChangesLayout.getVisibility();
+        /*int saveChangesLayoutVisibility =  saveChangesLayout.getVisibility();
         if (saveChangesLayoutVisibility == View.INVISIBLE) {
             saveChangesLayout.setVisibility(View.VISIBLE);
         }
 
-        int viewId = view.getId();
+        int viewId = view.getId();*/
 
-        switch (viewId) {
-            case R.id._first_name :
-                firstName.setEnabled(true);
-                firstName.setCursorVisible(true);
-                firstName.setText("");
-                firstName.setHint("");
-                break;
-            case R.id._last_name :
-                lastName.setEnabled(true);
-                lastName.requestFocus();
-                lastName.setCursorVisible(true);
-                lastName.setText("");
-                lastName.setHint("");
-                break;
-            case R.id._birth_date :
-                birthDate.setEnabled(true);
-                birthDate.requestFocus();
-                birthDate.setCursorVisible(true);
-                birthDate.setText("");
-                birthDate.setHint("");
-                break;
+        /*switch (viewId) {
             case R.id._email_address :
                 emailAddress.setEnabled(true);
                 emailAddress.requestFocus();
@@ -344,7 +350,7 @@ public class ProfileActivity extends AppCompatActivity {
                 labelThree.setText("");
                 labelThree.setHint("");
                 break;
-        }
+        }*/
     }
 
     private void showAlertDialog () {
@@ -377,18 +383,19 @@ public class ProfileActivity extends AppCompatActivity {
         birthDate.setText(toontaUser.birthdate);
         emailAddress.setText(toontaUser.email);
         phoneNumber.setText(toontaUser.phoneNumber);
-        professionalActivity.setText(toontaUser.profession);
+        professionalActivity.setSelection(getPosFromToontaProfessionByString(toontaUser.profession));
         residencePlace.setText(toontaUser.address.city);
         cumulatedPoint.setText(Integer.toString(toontaUser.bank_.balance));
         labelThree.setText(toontaUser.lastname);
 
-        sexe = toontaUser.sexe;
-    }
-
-    private void setTextEditablesEnabled () {
-        for (int i = 0; i < allEditTexts.length; i++) {
-            allEditTexts[i].setEnabled(false);
+        if (toontaUser.birthdate != null && !toontaUser.birthdate.isEmpty()) {
+            String[] splittedDate = toontaUser.birthdate.split("-");
+            toontaUserBDyear = Integer.parseInt(splittedDate[0]);
+            toontaUserBDmonth = Integer.parseInt(splittedDate[1]);
+            toontaUserBDday = Integer.parseInt(splittedDate[2]);
         }
+
+        sexe = toontaUser.sexe;
     }
 
     private void addOnEditorActionListener() {
@@ -415,4 +422,32 @@ public class ProfileActivity extends AppCompatActivity {
         return ToontaSharedPreferences.toontaSharedPreferences.profilePicPath != null
                 && !ToontaSharedPreferences.toontaSharedPreferences.profilePicPath.isEmpty();
     }
+
+    private int getPosFromToontaProfessionByString(String profession) {
+        String[] professions = getResources().getStringArray(R.array.toonta_profession_type);
+        for (int i = 0; i < professions.length; i++) {
+            if (professions[i].equals(profession)) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    private DatePickerDialog.OnDateSetListener datePickerListener
+            = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+            toontaUserBDyear = selectedYear;
+            toontaUserBDmonth = selectedMonth + 1;
+            toontaUserBDday = selectedDay;
+
+            // set selected date into textview
+            birthDate.setText(new StringBuilder()
+                    .append(toontaUserBDyear).append("-")
+                    .append(toontaUserBDmonth).append("-")
+                    .append(toontaUserBDday));
+        }
+    };
 }
