@@ -265,7 +265,8 @@ public class ProfileActivity extends AppCompatActivity {
         switch (id) {
             case DATE_DIALOG_ID:
                 // set date picker as current date
-                return new DatePickerDialog(this, datePickerListener,
+                // TODO Use Theme_Material_Dialog_Alert instead of AlertDialog.THEME_HOLO_DARK
+                return new DatePickerDialog(this, AlertDialog.THEME_HOLO_DARK, datePickerListener,
                         toontaUserBDyear, toontaUserBDmonth,toontaUserBDday);
         }
         return null;
