@@ -102,14 +102,14 @@
                 android:orientation="horizontal"
                 android:background="@android:color/background_light">
 
-                <EditText
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/birth_date_validation_as_afriend"
-                    android:inputType="date"
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
-                    android:imeOptions="actionNext"
+                    android:textSize="18sp"
+                    android:gravity="center_vertical"
                     android:background="@android:color/transparent"
                     android:hint="@string/birth_date"/>
 
@@ -173,15 +173,10 @@
                 android:orientation="horizontal"
                 android:background="@android:color/background_light">
 
-                <EditText
+                <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
-                    android:id="@+id/professional_activity_validation_as_afriend"
-                    android:inputType="phone"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/activity_profession"/>
+                    android:id="@+id/professional_activity_validation_as_afriend"/>
 
             </LinearLayout>
 

@@ -140,6 +140,20 @@
         <item>OTHERS</item>
     </string-array>
 
+    <string-array name="toonta_profession_type_as_a_friend">
+        <item>Activity / Profession</item>
+        <item>ALL</item>
+        <item>EMPLOYEE</item>
+        <item>TECHNICIAN</item>
+        <item>COMPANY_LEADER</item>
+        <item>MERCHANT</item>
+        <item>TEACHER</item>
+        <item>LAWYER</item>
+        <item>DOCTOR</item>
+        <item>STUDENT</item>
+        <item>OTHERS</item>
+    </string-array>
+
     <string-array name="toonta_sexe_values">
         <item>U</item>
         <item>F</item>

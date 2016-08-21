@@ -1,5 +1,8 @@
 package com.toonta.app.forms;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
@@ -12,7 +15,10 @@ import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.toonta.app.HomeConnectedActivity;
@@ -30,6 +36,15 @@ public class SurveyValidationAsAFriendActivity extends AppCompatActivity {
     private SignupInteractor signupInteractor;
     private ProgressDialog progressDialog;
     private ToontaUserInterceptor toontaUserInterceptor;
+
+    // Form
+    private TextView birthDateValidationAsAFriend;
+
+    // Bithdate
+    private int toontaUserBDyear;
+    private int toontaUserBDmonth;
+    private int toontaUserBDday;
+    static final int DATE_DIALOG_ID = 998;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +84,21 @@ public class SurveyValidationAsAFriendActivity extends AppCompatActivity {
         // Various text areas
         final TextView firstNameValidationAsAFriend = (TextView) findViewById(R.id.first_name_validation_as_afriend);
         final TextView lastNameValidationAsAFriend = (TextView) findViewById(R.id.last_name_validation_as_afriend);
-        final TextView birthDateValidationAsAFriend = (TextView) findViewById(R.id.birth_date_validation_as_afriend);
+
+        birthDateValidationAsAFriend = (TextView) findViewById(R.id.birth_date_validation_as_afriend);
+        birthDateValidationAsAFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(DATE_DIALOG_ID);
+            }
+        });
+
         final TextView emailAddressValidationAsAFriend = (TextView) findViewById(R.id.email_address_validation_as_afriend);
         final TextView phoneNumberValidationAsAFriend = (TextView) findViewById(R.id.phone_number_validation_as_afriend);
-        final TextView professionalActivityValidationAsAFriend = (TextView) findViewById(R.id.professional_activity_validation_as_afriend);
+        final Spinner professionalActivityValidationAsAFriend = (Spinner) findViewById(R.id.professional_activity_validation_as_afriend);
+
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.toonta_profession_type_as_a_friend, R.layout.spinner_item);
+        professionalActivityValidationAsAFriend.setAdapter(adapter);
 
         // Validate button
         AppCompatButton validateButton = (AppCompatButton) findViewById(R.id.toonta_validate_question_form_screen_validate_button);
@@ -131,7 +157,7 @@ public class SurveyValidationAsAFriendActivity extends AppCompatActivity {
                     birthDateValidationAsAFriend,
                     emailAddressValidationAsAFriend,
                     phoneNumberValidationAsAFriend,
-                    professionalActivityValidationAsAFriend));
+                    String.valueOf(professionalActivityValidationAsAFriend.getSelectedItem())));
             }
 
             @Override
@@ -175,6 +201,18 @@ public class SurveyValidationAsAFriendActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case DATE_DIALOG_ID:
+                // set date picker as current date
+                // TODO Use Theme_Material_Dialog_Alert instead of AlertDialog.THEME_HOLO_DARK
+                return new DatePickerDialog(this, AlertDialog.THEME_HOLO_DARK, datePickerListener,
+                        toontaUserBDyear, toontaUserBDmonth,toontaUserBDday);
+        }
+        return null;
+    }
+
     private void setupActionBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             ActionBar mActionBar = getSupportActionBar();
@@ -211,7 +249,7 @@ public class SurveyValidationAsAFriendActivity extends AppCompatActivity {
             TextView birthDateValidationAsAFriend,
             TextView emailAddressValidationAsAFriend,
             TextView phoneNumberValidationAsAFriend,
-            TextView professionalActivityValidationAsAFriend) {
+            String professionalActivityValidationAsAFriend) {
         ToontaUser user = new ToontaUser(
                 birthDateValidationAsAFriend.getText().toString().trim(),
                 emailAddressValidationAsAFriend.getText().toString().trim(),
@@ -220,8 +258,26 @@ public class SurveyValidationAsAFriendActivity extends AppCompatActivity {
                 lastNameValidationAsAFriend.getText().toString().trim(),
                 "",
                 phoneNumberValidationAsAFriend.getText().toString().trim(),
-                professionalActivityValidationAsAFriend.getText().toString().trim(),
+                professionalActivityValidationAsAFriend.trim(),
                 "U");
         return user;
     }
+
+    private DatePickerDialog.OnDateSetListener datePickerListener
+            = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+            toontaUserBDyear = selectedYear;
+            toontaUserBDmonth = selectedMonth + 1;
+            toontaUserBDday = selectedDay;
+
+            // set selected date into textview
+            birthDateValidationAsAFriend.setText(new StringBuilder()
+                    .append(toontaUserBDyear).append("-")
+                    .append(toontaUserBDmonth).append("-")
+                    .append(toontaUserBDday));
+        }
+    };
 }

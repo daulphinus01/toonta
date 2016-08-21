@@ -214,9 +214,6 @@ public class ProfileActivity extends AppCompatActivity {
                         phoneNumber.getText().toString(),
                         String.valueOf(professionalActivity.getSelectedItem()),
                         sexe);
-                if (cumulatedPoint.getText().toString() != null && !cumulatedPoint.getText().toString().isEmpty()) {
-                    updatedUser.bank_.balance = Integer.parseInt(cumulatedPoint.getText().toString());
-                }
                 if (residencePlace.getText().toString() != null) {
                     updatedUser.address.city = residencePlace.getText().toString();
                 }
