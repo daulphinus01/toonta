@@ -89,8 +89,6 @@ public class HomeConnectedActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getBaseContext(), ToontaQuestionActivity.class);
-                // View titleView = ((RelativeLayout) view).getChildAt(0);
-                // String titleText = ((TextView)titleView).getText().toString();
                 ToontaDAO.SurveysListAnswer.SurveyElement surveyElement = surveysAdapter.getItem(position);
                 intent.putExtra(ToontaConstants.QUESTION_TITLE, surveyElement.name);
                 intent.putExtra(ToontaConstants.SURVEY_ID, surveyElement.surveyId);

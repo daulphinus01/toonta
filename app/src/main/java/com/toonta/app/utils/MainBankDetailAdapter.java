@@ -72,9 +72,9 @@ public class MainBankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAns
         ToontaDAO.SurveysListAnswer.SurveyElement survey = getItem(position);
 
         if (survey.answered) {
-            convertView.setBackgroundColor(context.getResources().getColor(R.color.answered_row));
+            convertView.setBackground(context.getResources().getDrawable(R.drawable.survey_row_zone_border_bg_green));
         } else {
-            convertView.setBackgroundColor(context.getResources().getColor(R.color.bank_row));
+            convertView.setBackground(context.getResources().getDrawable(R.drawable.survey_row_zone_border_bg_bleu_clair));
         }
 
         // getItem(position) va récupérer l'item [position] de la List<Survey> surveyList

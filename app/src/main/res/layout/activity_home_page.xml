@@ -2,17 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/screen_1_bg"
+    android:background="@color/screen_1_1_bg"
     tools:context="com.toonta.app.HomePageActivity">
-
-    <Button
-        android:id="@+id/skip_this_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:text="@string/toonta_skip_this"
-        android:background="@drawable/button_bg"/>
 
     <ViewFlipper
         android:id="@+id/view_flipper"
@@ -28,7 +19,7 @@
                 android:id="@+id/screen1_img_top"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.45"
+                android:layout_weight="0.43"
                 android:layout_gravity="top|center"
                 android:alpha="0.44"
                 android:scaleType="fitXY"
@@ -37,7 +28,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.1"
+                android:layout_weight="0.12"
                 android:text="@string/screen_1_middle_text"
                 android:textColor="@color/screen_1_text"
                 android:textSize="22sp"
@@ -73,7 +64,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.1"
+                android:layout_weight="0.12"
                 android:text="@string/screen_2_middle_text"
                 android:textColor="@color/screen_1_text"
                 android:textSize="22sp"
@@ -83,7 +74,7 @@
                 android:id="@+id/screen2_img_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.45"
+                android:layout_weight="0.43"
                 android:layout_gravity="bottom|center"
                 android:alpha="0.44"
                 android:scaleType="fitXY"
@@ -100,7 +91,7 @@
                 android:id="@+id/screen3_img_top"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.45"
+                android:layout_weight="0.43"
                 android:layout_gravity="top|center"
                 android:alpha="0.44"
                 android:scaleType="fitXY"
@@ -109,7 +100,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.1"
+                android:layout_weight="0.12"
                 android:text="@string/screen_3_middle_text"
                 android:textColor="@color/screen_1_text"
                 android:textSize="22sp"
@@ -129,13 +120,22 @@
 
     </ViewFlipper>
 
+    <Button
+        android:id="@+id/skip_this_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/toonta_skip_this"
+        android:background="@drawable/button_bg"/>
+
     <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/toonta_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:src="@mipmap/toonta_logo"
-        android:alpha="0.3"/>
+        android:alpha="0.7"/>
 
     <LinearLayout
         android:layout_width="wrap_content"

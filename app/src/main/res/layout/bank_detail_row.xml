@@ -13,17 +13,17 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="70dp"
+            android:layout_height="80dp"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:orientation="vertical"
-            android:layout_weight="0.95"
+            android:layout_weight="0.98"
             android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.7">
+                android:layout_weight="0.5">
 
                 <TextView
                     android:id="@+id/bank_detail_row_title"
@@ -36,21 +36,21 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.3"
-                android:orientation="horizontal">
+                android:layout_weight="0.5"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/bank_detail_row_remaining_answers"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.6"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
                     android:textColor="@color/row_sub_title"/>
 
                 <TextView
                     android:id="@+id/bank_detail_row_answers_reward"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.4"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
                     android:textColor="@color/row_sub_title"/>
 
             </LinearLayout>
@@ -59,10 +59,10 @@
 
         <ImageView
             android:id="@+id/bank_row_detail_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:contentDescription="@string/row_access"
-            android:layout_weight="0.05"/>
+            android:layout_gravity="center_vertical|end"/>
     </LinearLayout>
 
 </RelativeLayout>

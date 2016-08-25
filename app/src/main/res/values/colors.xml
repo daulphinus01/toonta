@@ -14,23 +14,18 @@
 
     <!-- SCREEN 1 -->
     <color name="screen_1_bg">#14A1A7</color>
+    <color name="screen_1_1_bg">#003B3E</color>
     <color name="screen_2_bg">#1B9196</color>
     <color name="screen_bg_qst">#129196</color>
     <color name="screen_bg_title_color">#138C91</color>
     <color name="screen_1_text">#FB9D02</color>
     <color name="row_sub_title">#403118</color>
     <color name="bank_row">#CAE2E3</color>
-    <color name="answered_row">#66FF33</color>
+    <color name="answered_row">#D4FFC6</color>
     <color name="bank_row_profile_form">#DAEAEB</color>
 
     <!-- LOGIN SCREEN -->
     <color name="cadre_login">#F2D2B7</color>
     <color name="cadre_sign">#1C3839</color>
-
-    <!-- SCREEN 1 -->
-
-    <!-- SCREEN 1 -->
-
-    <!-- SCREEN 1 -->
 
 </resources>

@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:background="@color/mi_text_color_primary_dark">
+                android:background="@drawable/edit_text_zone_border">
                 <AutoCompleteTextView
                     android:id="@+id/email"
                     android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@color/mi_text_color_primary_dark">
+                android:background="@drawable/edit_text_zone_border">
                 <EditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"

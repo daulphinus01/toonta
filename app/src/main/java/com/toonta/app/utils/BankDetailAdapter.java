@@ -54,6 +54,7 @@ public class BankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAnswer.
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.bank_row, parent, false);
+            convertView.setBackground(getContext().getResources().getDrawable(R.drawable.survey_row_zone_border_bg_bleu_clair));
         }
 
         BankRowViewHolder viewHolder = (BankRowViewHolder) convertView.getTag();
