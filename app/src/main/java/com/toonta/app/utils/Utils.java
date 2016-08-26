@@ -170,18 +170,40 @@ public class Utils {
                         break;
 
                     case "MULTIPLE_CHOICE":
-                        CheckBox[] tabCheckBoxes = new CheckBox[questionResponse.get(i).choices.size()];
-                        for (int k = 0; k < questionResponse.get(i).choices.size(); k++) {
-                            LinearLayout.LayoutParams boxLayoutParams =
-                                    new LinearLayout.LayoutParams(
-                                            ViewGroup.LayoutParams.MATCH_PARENT,
-                                            ViewGroup.LayoutParams.WRAP_CONTENT);
-                            tabCheckBoxes[k] = new CheckBox(context);
-                            tabCheckBoxes[k].setText(questionResponse.get(i).choices.get(k).value);
-                            tabCheckBoxes[k].setId(questionResponse.get(i).choices.get(k).id.hashCode());
-                            tabCheckBoxes[k].setTag(ToontaConstants.TOONTA_MULTIPLE_CHOICE_TAG + questionResponse.get(i).choices.get(k).id);
-                            tabCheckBoxes[k].setLayoutParams(boxLayoutParams);
-                            returnedLayout[i].addView(tabCheckBoxes[k]);
+                        if (questionResponse.get(i).category.equals("RADIO")) {
+                            RadioGroup multipleChoiceRG = new RadioGroup(context);
+                            multipleChoiceRG.setOrientation(RadioGroup.VERTICAL);
+                            multipleChoiceRG.setTag(ToontaConstants.TOONTA_YES_NO_TAG + questionResponse.get(i).id);
+
+                            RadioGroup.LayoutParams multipleChoiceRGGroupLayoutParams =
+                                    new RadioGroup.LayoutParams(
+                                            RadioGroup.LayoutParams.WRAP_CONTENT,
+                                            RadioGroup.LayoutParams.WRAP_CONTENT,
+                                            1f);
+
+                            RadioButton[] tabRB = new RadioButton[questionResponse.get(i).choices.size()];
+                            for (int k = 0; k < questionResponse.get(i).choices.size(); k++) {
+                                tabRB[k] = new RadioButton(context);
+                                tabRB[k].setText(questionResponse.get(i).choices.get(k).value);
+                                tabRB[k].setTag(questionResponse.get(i).choices.get(k).id);
+                                multipleChoiceRG.addView(tabRB[k], multipleChoiceRGGroupLayoutParams);
+                            }
+                            returnedLayout[i].addView(multipleChoiceRG);
+
+                        }else {
+                            CheckBox[] tabCheckBoxes = new CheckBox[questionResponse.get(i).choices.size()];
+                            for (int k = 0; k < questionResponse.get(i).choices.size(); k++) {
+                                LinearLayout.LayoutParams boxLayoutParams =
+                                        new LinearLayout.LayoutParams(
+                                                ViewGroup.LayoutParams.MATCH_PARENT,
+                                                ViewGroup.LayoutParams.WRAP_CONTENT);
+                                tabCheckBoxes[k] = new CheckBox(context);
+                                tabCheckBoxes[k].setText(questionResponse.get(i).choices.get(k).value);
+                                tabCheckBoxes[k].setId(questionResponse.get(i).choices.get(k).id.hashCode());
+                                tabCheckBoxes[k].setTag(ToontaConstants.TOONTA_MULTIPLE_CHOICE_TAG + questionResponse.get(i).choices.get(k).id);
+                                tabCheckBoxes[k].setLayoutParams(boxLayoutParams);
+                                returnedLayout[i].addView(tabCheckBoxes[k]);
+                            }
                         }
                         break;
                 }

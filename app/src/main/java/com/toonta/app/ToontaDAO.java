@@ -753,6 +753,7 @@ public class ToontaDAO extends Application {
                         qstResponse.question = jsonObjectQst.getString("question");
                         qstResponse.order = jsonObjectQst.getInt("order");
                         qstResponse.type = jsonObjectQst.getString("type");
+                        qstResponse.category = jsonObjectQst.getString("category");
 
                         qstResponse.choices = new ArrayList<>();
                         if (qstResponse.type!= null && qstResponse.type.equals("MULTIPLE_CHOICE")) {

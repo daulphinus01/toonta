@@ -344,34 +344,71 @@ public class ToontaQuestionActivity extends AppCompatActivity {
                 }
             case "MULTIPLE_CHOICE" :
                 int nbrCheckBoxes = currentPage.getChildCount();
-                // Si ce boolean est toujours faulse a la sortie de la boucle, aucune une case
+                // Si ce boolean est toujours faulse a la sortie de la boucle, aucune case
                 // n'aura ete cochee. Et donc renvoyer une chaine contenant le message d'erreur.
                 boolean atleastOneChoiceIsSelected = false;
-                for (int i = 0; i < nbrCheckBoxes; i++) {
-                    CheckBox checkBox = (CheckBox) currentPage.findViewWithTag(ToontaConstants.TOONTA_MULTIPLE_CHOICE_TAG + qstResp.choices.get(i).id);
-                    if (checkBox.isChecked()) {
-                        atleastOneChoiceIsSelected = true;
-                        String choiceId = intToStringIndex.get(checkBox.getId());
+
+                if (qstResp.category.equals("RADIO")) {
+                    RadioGroup multipleChoiceRG = (RadioGroup) currentPage.findViewWithTag(ToontaConstants.TOONTA_YES_NO_TAG + qstResp.id);
+                    int selectedMultipleChoiceRGId = multipleChoiceRG.getCheckedRadioButtonId();
+                    if (selectedMultipleChoiceRGId == -1) {
+                        return getString(R.string.select_one_button);
+                    } else {
+                        // Un radiobutton a ete cochee
+                        RadioButton selectedRB = (RadioButton) multipleChoiceRG.findViewById(selectedMultipleChoiceRGId);
+                        if (selectedRB == null) {
+                            return getString(R.string.smth_wrong_re_answer_the_qst);
+                        }
+
                         // Verifier si la question n'existe PAS dans l'enregistrement des reponses
                         // Probablement parce qu'on a clique sur PREVIOUS
                         for (SurveyResponse.AtomicResponseRequest resp : responsesToBeSent.responses) {
-                            if (resp.questionId.equals(questionId)) {
-                                if ((resp.choiceId != null) && resp.choiceId.equals(choiceId)) {
-                                    resp.textAnswer = checkBox.getText().toString();
-                                    qstAnswered = true;
-                                    break;
-                                }
+                            if (resp.questionId.equals(questionId) && selectedRB.getText() != null && !selectedRB.getText().toString().trim().isEmpty()) {
+                                System.out.println(selectedRB.getText().toString().trim());
+                                resp.textAnswer = selectedRB.getText().toString().trim();
+                                qstAnswered = true;
+                                break;
                             }
                         }
-
                         // La question vient d'etre abordee pour la premiere fois
                         if (!qstAnswered) {
-                            // La question n'a pas encore ete repondue
                             SurveyResponse.AtomicResponseRequest resp = new SurveyResponse.AtomicResponseRequest();
-                            resp.textAnswer = checkBox.getText().toString();
+                            resp.textAnswer = selectedRB.getText().toString().trim();
                             resp.questionId = questionId;
-                            resp.choiceId = choiceId;
+                            resp.choiceId = (String) selectedRB.getTag();
                             responsesToBeSent.responses.add(resp);
+                        }
+
+                        // On retourne une chaine vide pour signaler que tout s'est bien passe
+                        return "";
+                    }
+                } else {
+                    for (int i = 0; i < nbrCheckBoxes; i++) {
+                        CheckBox checkBox = (CheckBox) currentPage.findViewWithTag(ToontaConstants.TOONTA_MULTIPLE_CHOICE_TAG + qstResp.choices.get(i).id);
+                        if (checkBox.isChecked()) {
+                            atleastOneChoiceIsSelected = true;
+                            String choiceId = intToStringIndex.get(checkBox.getId());
+                            // Verifier si la question n'existe PAS dans l'enregistrement des reponses
+                            // Probablement parce qu'on a clique sur PREVIOUS
+                            for (SurveyResponse.AtomicResponseRequest resp : responsesToBeSent.responses) {
+                                if (resp.questionId.equals(questionId)) {
+                                    if ((resp.choiceId != null) && resp.choiceId.equals(choiceId)) {
+                                        resp.textAnswer = checkBox.getText().toString();
+                                        qstAnswered = true;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            // La question vient d'etre abordee pour la premiere fois
+                            if (!qstAnswered) {
+                                // La question n'a pas encore ete repondue
+                                SurveyResponse.AtomicResponseRequest resp = new SurveyResponse.AtomicResponseRequest();
+                                resp.textAnswer = checkBox.getText().toString();
+                                resp.questionId = questionId;
+                                resp.choiceId = choiceId;
+                                responsesToBeSent.responses.add(resp);
+                            }
                         }
                     }
                 }
