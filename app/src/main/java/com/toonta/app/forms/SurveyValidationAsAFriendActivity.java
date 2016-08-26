@@ -31,6 +31,8 @@ import com.toonta.app.utils.ToontaConstants;
 import com.toonta.app.utils.ToontaUserInterceptor;
 import com.toonta.app.utils.Utils;
 
+import java.util.Calendar;
+
 public class SurveyValidationAsAFriendActivity extends AppCompatActivity {
 
     private SignupInteractor signupInteractor;
@@ -44,7 +46,7 @@ public class SurveyValidationAsAFriendActivity extends AppCompatActivity {
     private int toontaUserBDyear;
     private int toontaUserBDmonth;
     private int toontaUserBDday;
-    static final int DATE_DIALOG_ID = 998;
+    static final int DATE_DIALOG_ID = 999;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +117,8 @@ public class SurveyValidationAsAFriendActivity extends AppCompatActivity {
                         firstNameValidationAsAFriend.getText().toString(),
                         lastNameValidationAsAFriend.getText().toString(),
                         birthDateValidationAsAFriend.getText().toString(),
-                        phoneNumberValidationAsAFriend.getText().toString()
+                        phoneNumberValidationAsAFriend.getText().toString(),
+                        String.valueOf(professionalActivityValidationAsAFriend.getSelectedItem())
                 );
 
                 if (formValidation.isEmpty()) {
@@ -206,9 +209,13 @@ public class SurveyValidationAsAFriendActivity extends AppCompatActivity {
         switch (id) {
             case DATE_DIALOG_ID:
                 // set date picker as current date
+                final Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
                 // TODO Use Theme_Material_Dialog_Alert instead of AlertDialog.THEME_HOLO_DARK
                 return new DatePickerDialog(this, AlertDialog.THEME_HOLO_DARK, datePickerListener,
-                        toontaUserBDyear, toontaUserBDmonth,toontaUserBDday);
+                        year, month,day);
         }
         return null;
     }
@@ -228,17 +235,19 @@ public class SurveyValidationAsAFriendActivity extends AppCompatActivity {
         }
     }
 
-    private String isValideForm(String fName, String lName, String bDate, String phoneNbr) {
+    private String isValideForm(String fName, String lName, String bDate, String phoneNbr, String profession) {
         StringBuilder error = new StringBuilder();
 
         if (fName.isEmpty() || fName.length() <= 3)
             return error.append("Fill correctely the First name").toString();
         if (lName.isEmpty() || lName.length() <= 3)
             return error.append("Fill correctely the last name").toString();
-        if (bDate.isEmpty() || bDate.length() <= 8)
-            return error.append("Fill correctely the birthday date").toString();
+        if (bDate.isEmpty())
+            return error.append("Select your birthdate").toString();
         if (phoneNbr.isEmpty() || phoneNbr.length() <= 10)
             return error.append("Fill correctely the phone number").toString();
+        if (profession.equals("Activity / Profession"))
+            return error.append("Choose a profession").toString();
 
         return error.toString();
     }

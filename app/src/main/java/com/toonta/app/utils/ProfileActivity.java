@@ -36,6 +36,8 @@ import com.toonta.app.ToontaSharedPreferences;
 import com.toonta.app.forms.ToontaUser;
 import com.toonta.app.model.ToontaBank;
 
+import java.util.Calendar;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private static final int GALLERY_INTENT_CALLED = 20;
@@ -81,15 +83,6 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         setupActionBar();
-
-        /*ImageView profileButtonUp = (ImageView) findViewById(R.id.profile_button_up);
-        assert profileButtonUp != null;
-        profileButtonUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavUtils.navigateUpFromSameTask(ProfileActivity.this);
-            }
-        });*/
 
         // Settings
         ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
@@ -262,9 +255,13 @@ public class ProfileActivity extends AppCompatActivity {
         switch (id) {
             case DATE_DIALOG_ID:
                 // set date picker as current date
+                final Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
                 // TODO Use Theme_Material_Dialog_Alert instead of AlertDialog.THEME_HOLO_DARK
                 return new DatePickerDialog(this, AlertDialog.THEME_HOLO_DARK, datePickerListener,
-                        toontaUserBDyear, toontaUserBDmonth,toontaUserBDday);
+                        year, month,day);
         }
         return null;
     }

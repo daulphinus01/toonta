@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/screen_1_bg"
+    android:background="@color/screen_bg_title_color"
     tools:context="com.toonta.app.forms.SurveyValidationAsAFriendActivity">
 
     <LinearLayout
@@ -57,12 +57,10 @@
             android:orientation="vertical"
             android:divider="@android:color/darker_gray">
 
-            <LinearLayout
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.33"
-                android:orientation="horizontal"
-                android:background="@android:color/background_light">
+                android:layout_weight="0.33">
 
                 <EditText
                     android:layout_width="match_parent"
@@ -70,18 +68,18 @@
                     android:id="@+id/first_name_validation_as_afriend"
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
+                    android:singleLine="true"
                     android:imeOptions="actionNext"
                     android:background="@android:color/transparent"
-                    android:hint="@string/fisrt_name" />
+                    android:hint="@string/fisrt_name"
+                    android:textColor="@color/screen_1_text"/>
 
-            </LinearLayout>
+            </android.support.design.widget.TextInputLayout>
 
-            <LinearLayout
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.33"
-                android:orientation="horizontal"
-                android:background="@android:color/background_light">
+                android:layout_weight="0.33">
 
                 <EditText
                     android:layout_width="match_parent"
@@ -89,18 +87,18 @@
                     android:id="@+id/last_name_validation_as_afriend"
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
+                    android:singleLine="true"
                     android:imeOptions="actionNext"
                     android:background="@android:color/transparent"
-                    android:hint="@string/last_name"/>
+                    android:hint="@string/last_name"
+                    android:textColor="@color/screen_1_text"/>
 
-            </LinearLayout>
+            </android.support.design.widget.TextInputLayout>
 
-            <LinearLayout
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.33"
-                android:orientation="horizontal"
-                android:background="@android:color/background_light">
+                android:layout_weight="0.33">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -110,10 +108,13 @@
                     android:paddingLeft="10dp"
                     android:textSize="18sp"
                     android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
                     android:background="@android:color/transparent"
-                    android:hint="@string/birth_date"/>
+                    android:hint="@string/birth_date"
+                    android:textColor="@color/screen_1_text"/>
 
-            </LinearLayout>
+            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 
@@ -126,12 +127,10 @@
             android:orientation="vertical"
             android:background="@drawable/list_border">
 
-            <LinearLayout
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.33"
-                android:orientation="horizontal"
-                android:background="@android:color/background_light">
+                android:layout_weight="0.33">
 
                 <EditText
                     android:layout_width="match_parent"
@@ -140,18 +139,18 @@
                     android:inputType="textEmailAddress"
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
+                    android:singleLine="true"
                     android:imeOptions="actionNext"
                     android:background="@android:color/transparent"
-                    android:hint="@string/email_address"/>
+                    android:hint="@string/email_address"
+                    android:textColor="@color/screen_1_text"/>
 
-            </LinearLayout>
+            </android.support.design.widget.TextInputLayout>
 
-            <LinearLayout
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.33"
-                android:orientation="horizontal"
-                android:background="@android:color/background_light">
+                android:layout_weight="0.33">
 
                 <EditText
                     android:layout_width="match_parent"
@@ -160,25 +159,25 @@
                     android:inputType="phone"
                     android:paddingStart="10dp"
                     android:paddingLeft="10dp"
+                    android:singleLine="true"
                     android:imeOptions="actionNext"
                     android:background="@android:color/transparent"
-                    android:hint="@string/phone__number"/>
+                    android:hint="@string/phone__number"
+                    android:textColor="@color/screen_1_text"/>
 
-            </LinearLayout>
+            </android.support.design.widget.TextInputLayout>
 
-            <LinearLayout
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.33"
-                android:orientation="horizontal"
-                android:background="@android:color/background_light">
+                android:layout_weight="0.33">
 
                 <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/professional_activity_validation_as_afriend"/>
 
-            </LinearLayout>
+            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 
