@@ -39,93 +39,96 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="0.1"
-        android:gravity="center"/>
+        android:layout_weight="0.85"
+        android:layout_marginTop="20dp">
 
-    <LinearLayout
-        android:id="@+id/qst_resp_part_screen"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.65"
-        android:background="@color/white_bg"
-        android:orientation="vertical"
-        android:layout_marginBottom="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp">
-
-        <TextView
-            android:id="@+id/qustion_screen_question"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.18"
-            android:textSize="20sp"
-            android:paddingStart="15dp"
-            android:paddingLeft="15dp"/>
-
-        <LinearLayout
-            android:id="@+id/toonta_question_view_pager_area"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:layout_weight="0.6"
-            android:paddingStart="5dp"
-            android:paddingLeft="5dp"
-            android:paddingEnd="5dp"
-            android:paddingRight="5dp"
-            android:background="@drawable/qst_zone_border"
-            android:orientation="horizontal">
-
-            <!-- QUESTION -->
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.22"
-            android:paddingStart="7dp"
-            android:paddingLeft="7dp"
-            android:paddingEnd="7dp"
-            android:paddingRight="7dp"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/button_previous"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.45"
-                android:text="@string/button_previous"
-                android:paddingEnd="7dp"
-                android:paddingRight="7dp"
-                android:background="@drawable/qst_zone_border"/>
-
+            android:layout_height="match_parent"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.1"/>
-
-            <Button
-                android:id="@+id/button_submit_next"
-                android:layout_width="0dp"
+                android:id="@+id/qst_resp_part_screen"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.45"
-                android:paddingEnd="7dp"
-                android:paddingRight="7dp"
-                android:background="@drawable/qst_zone_border"/>
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/qustion_screen_question"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:paddingStart="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingBottom="20dp"/>
 
-    </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/toonta_question_view_pager_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingStart="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="30dp"
+                    android:orientation="horizontal">
 
-    <LinearLayout
-        android:id="@+id/toonta_question_answering_progress_bar"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal|bottom"/>
+                    <!-- QUESTION -->
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.22"
+                    android:paddingStart="7dp"
+                    android:paddingLeft="7dp"
+                    android:paddingEnd="7dp"
+                    android:paddingRight="7dp"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/button_previous"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.45"
+                        android:text="@string/button_previous"
+                        android:paddingEnd="7dp"
+                        android:paddingRight="7dp"
+                        android:background="@drawable/qst_zone_border"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1"/>
+
+                    <Button
+                        android:id="@+id/button_submit_next"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.45"
+                        android:paddingEnd="7dp"
+                        android:paddingRight="7dp"
+                        android:background="@drawable/qst_zone_border"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/toonta_question_answering_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal|bottom"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
 
 </LinearLayout>
