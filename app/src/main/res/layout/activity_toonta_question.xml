@@ -100,7 +100,8 @@
                         android:text="@string/button_previous"
                         android:paddingEnd="7dp"
                         android:paddingRight="7dp"
-                        android:background="@drawable/qst_zone_border"/>
+                        android:textColor="@color/colorPrimaryDark"
+                        android:background="@drawable/button_bg"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -114,7 +115,8 @@
                         android:layout_weight="0.45"
                         android:paddingEnd="7dp"
                         android:paddingRight="7dp"
-                        android:background="@drawable/qst_zone_border"/>
+                        android:textColor="@color/colorPrimaryDark"
+                        android:background="@drawable/button_bg"/>
 
                 </LinearLayout>
 
