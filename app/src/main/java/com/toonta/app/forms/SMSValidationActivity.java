@@ -102,7 +102,7 @@ public class SMSValidationActivity extends AppCompatActivity {
             @Override
             public void onPostResponse(String statusCode) {
                 // Msg retourne lors de l'envoie des reponses
-                builder.setMessage(getString(R.string.toonta_survey_validation_dialog_msg));
+                builder.setMessage(getString(R.string.toonta_survey_validation_dialog_msg_account_created));
                 builder.setPositiveButton(R.string.toonat_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
