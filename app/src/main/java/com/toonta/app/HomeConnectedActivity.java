@@ -36,101 +36,109 @@ public class HomeConnectedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_connected);
 
-        // Actionbar
-        setupActionBar();
+        ToontaSharedPreferences.init(getApplicationContext());
+        ToontaDAO.init(getApplicationContext());
+        if (ToontaSharedPreferences.toontaSharedPreferences.userId == null || ToontaSharedPreferences.toontaSharedPreferences.requestToken == null){
+            startActivity(new Intent(HomeConnectedActivity.this, HomePageActivity.class));
+            finish();
+        } else {
 
-        // Settings
-        ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
-        toontaMenuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActionMode(Utils.initActionModeCallBack(HomeConnectedActivity.this));
-                v.setSelected(true);
-            }
-        });
+            // Actionbar
+            setupActionBar();
 
-        // Share
-        ImageView toontaShareButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_share);
-        toontaShareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.startShareActionIntent(HomeConnectedActivity.this);
-            }
-        });
-
-        Button bankButton = (Button) findViewById(R.id.bank_button);
-        toontaSetOnClickListener(bankButton, BankDetailActivity.class);
-
-        Button profileButton = (Button) findViewById(R.id.profile_button);
-        toontaSetOnClickListener(profileButton, ProfileActivity.class);
-
-        // Progress mechanisme when verifying credential
-        progressDialog = new ProgressDialog(HomeConnectedActivity.this);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.string_loading_survies_activity));
-
-        surviesListView = (ListView) findViewById(R.id.list_surveys);
-
-        surveysAdapter = new MainBankDetailAdapter(getBaseContext());
-        assert surviesListView != null;
-        surviesListView.setAdapter(surveysAdapter);
-
-        surviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getBaseContext(), ToontaQuestionActivity.class);
-                ToontaDAO.SurveysListAnswer.SurveyElement surveyElement = surveysAdapter.getItem(position);
-                intent.putExtra(ToontaConstants.QUESTION_TITLE, surveyElement.name);
-                intent.putExtra(ToontaConstants.SURVEY_ID, surveyElement.surveyId);
-                intent.putExtra(ToontaConstants.SURVEY_REWRD, surveyElement.reward);
-                intent.putExtra(ToontaConstants.SURVEY_AUTHOR_ID, surveyElement.authorId);
-
-                startActivity(intent);
-            }
-        });
-
-        // Showing loading window
-        progressDialog.show();
-        NewSurveysInteractor newSurveysInteractor = new NewSurveysInteractor(getApplicationContext(), new NewSurveysInteractor.NewSurveysViewUpdater() {
-            @Override
-            public void onNewSurveys(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList, boolean reset) {
-                // TODO Empty method
-            }
-
-            @Override
-            public void onPopulateSurvies(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList) {
-                // Dismissing loading window
-                if (progressDialog != null && progressDialog.isShowing())
-                    progressDialog.dismiss();
-
-                surveysAdapter.addElements(surveyElementArrayList);
-            }
-
-            @Override
-            public void onRefreshProgress() {
-                // TODO Empty method
-            }
-
-            @Override
-            public void onRefreshDone() {
-                // TODO Empty method
-            }
-
-            @Override
-            public void onFailure(String error) {
-                // Dismissing loading window
-                if (progressDialog != null && progressDialog.isShowing())
-                    progressDialog.dismiss();
-                if (surviesListView.getChildCount() == 0) {
-                    Snackbar.make(findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG).show();
+            // Settings
+            ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
+            toontaMenuButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActionMode(Utils.initActionModeCallBack(HomeConnectedActivity.this));
+                    v.setSelected(true);
                 }
-                ToontaSharedPreferences.logOut();
-                startActivity(new Intent(HomeConnectedActivity.this, ToontaLogin.class));
-            }
-        });
+            });
 
-        // Fetching survies
-        newSurveysInteractor.fetchAllSurvies();
+            // Share
+            ImageView toontaShareButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_share);
+            toontaShareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Utils.startShareActionIntent(HomeConnectedActivity.this);
+                }
+            });
+
+            Button bankButton = (Button) findViewById(R.id.bank_button);
+            toontaSetOnClickListener(bankButton, BankDetailActivity.class);
+
+            Button profileButton = (Button) findViewById(R.id.profile_button);
+            toontaSetOnClickListener(profileButton, ProfileActivity.class);
+
+            // Progress mechanisme when verifying credential
+            progressDialog = new ProgressDialog(HomeConnectedActivity.this);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage(getString(R.string.string_loading_survies_activity));
+
+            surviesListView = (ListView) findViewById(R.id.list_surveys);
+
+            surveysAdapter = new MainBankDetailAdapter(getBaseContext());
+            assert surviesListView != null;
+            surviesListView.setAdapter(surveysAdapter);
+
+            surviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(getBaseContext(), ToontaQuestionActivity.class);
+                    ToontaDAO.SurveysListAnswer.SurveyElement surveyElement = surveysAdapter.getItem(position);
+                    intent.putExtra(ToontaConstants.QUESTION_TITLE, surveyElement.name);
+                    intent.putExtra(ToontaConstants.SURVEY_ID, surveyElement.surveyId);
+                    intent.putExtra(ToontaConstants.SURVEY_REWRD, surveyElement.reward);
+                    intent.putExtra(ToontaConstants.SURVEY_AUTHOR_ID, surveyElement.authorId);
+
+                    startActivity(intent);
+                }
+            });
+
+            // Showing loading window
+            progressDialog.show();
+            NewSurveysInteractor newSurveysInteractor = new NewSurveysInteractor(getApplicationContext(), new NewSurveysInteractor.NewSurveysViewUpdater() {
+                @Override
+                public void onNewSurveys(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList, boolean reset) {
+                    // TODO Empty method
+                }
+
+                @Override
+                public void onPopulateSurvies(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList) {
+                    // Dismissing loading window
+                    if (progressDialog != null && progressDialog.isShowing())
+                        progressDialog.dismiss();
+
+                    surveysAdapter.addElements(surveyElementArrayList);
+                }
+
+                @Override
+                public void onRefreshProgress() {
+                    // TODO Empty method
+                }
+
+                @Override
+                public void onRefreshDone() {
+                    // TODO Empty method
+                }
+
+                @Override
+                public void onFailure(String error) {
+                    // Dismissing loading window
+                    if (progressDialog != null && progressDialog.isShowing())
+                        progressDialog.dismiss();
+                    if (surviesListView.getChildCount() == 0) {
+                        Snackbar.make(findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG).show();
+                    }
+                    ToontaSharedPreferences.logOut();
+                    startActivity(new Intent(HomeConnectedActivity.this, ToontaLogin.class));
+                }
+            });
+
+            // Fetching survies
+            newSurveysInteractor.fetchAllSurvies();
+        }
     }
 
     @Override

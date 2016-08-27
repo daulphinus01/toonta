@@ -21,11 +21,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@style/FullscreenTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
@@ -48,7 +43,12 @@
                 android:value=".forms.ToontaLogin"/>
         </activity>
 
-        <activity android:name=".HomeConnectedActivity"/>
+        <activity android:name=".HomeConnectedActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".BankDetailActivity"
@@ -78,7 +78,8 @@
 
         <activity
             android:name=".utils.ToontaQuestionActivity"
-            android:parentActivityName=".HomeConnectedActivity">
+            android:parentActivityName=".HomeConnectedActivity"
+            android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeConnectedActivity" />
