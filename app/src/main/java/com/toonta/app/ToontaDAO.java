@@ -28,6 +28,7 @@ import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -60,6 +61,10 @@ public class ToontaDAO extends Application {
         void onFailure(NetworkAnswer error);
     }
 
+    public interface ReportSimpleNetworkCallInterface {
+        void onSuccess(List<String> reponsesToQuestion);
+        void onFailure(NetworkAnswer error);
+    }
     /**
      * LOGIN
      */
@@ -1041,5 +1046,51 @@ public class ToontaDAO extends Application {
             }
         }
         return surveysListAnswer;
+    }
+
+
+    /**
+     * QUESTION REPORT
+     */
+    public static void getQuestionReportByQuestionId(String questionId, final ReportSimpleNetworkCallInterface reportSimpleNetworkCallInterface) {
+        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.GET,
+                API + REPORT + "question/" + questionId,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.v(TAG + " Report for a question ", response.toString());
+                        Iterator<String> it = response.keys();
+                        List<String> reponsesOfAQuestion = new ArrayList<>();
+                        while (it.hasNext()) {
+                            reponsesOfAQuestion.add(it.next());
+                        }
+                        reportSimpleNetworkCallInterface.onSuccess(reponsesOfAQuestion);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG + " Report for a question ", error.toString());
+                        if (error instanceof NoConnectionError) {
+                            reportSimpleNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
+                        } else if (error instanceof AuthFailureError) {
+                            reportSimpleNetworkCallInterface.onFailure(NetworkAnswer.AUTH_FAILURE);
+                        } else {
+                            reportSimpleNetworkCallInterface.onFailure(NetworkAnswer.NO_SERVER);
+                        }
+                    }
+                })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<>();
+                params.put("userId", ToontaSharedPreferences.toontaSharedPreferences.userId);
+                params.put("userToken", ToontaSharedPreferences.toontaSharedPreferences.requestToken);
+
+                return params;
+            }
+        };
+        requestQueue.add(jsonArrayRequest);
     }
 }

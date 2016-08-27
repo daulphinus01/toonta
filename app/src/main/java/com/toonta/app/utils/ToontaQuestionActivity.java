@@ -133,7 +133,6 @@ public class ToontaQuestionActivity extends AppCompatActivity {
         previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            // Verification que les questions ont bien ete repondues
             if (currentQuestionPos > 0) {
                 currentQuestionPos--;
                 if (currentQuestionPos == 0) {
@@ -227,7 +226,6 @@ public class ToontaQuestionActivity extends AppCompatActivity {
 
                     // Tous les linearlayout pour toutes les reponses
                     Collections.sort(questionsList.questionResponseElements);
-                    System.out.println(questionsList.questionResponseElements);
                     questionLinearLayouts = Utils.instantiateItem(questionsList.questionResponseElements, ToontaQuestionActivity.this);
 
                     // La partie de reponse

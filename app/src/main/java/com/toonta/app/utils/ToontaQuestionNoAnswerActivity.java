@@ -30,10 +30,12 @@ import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
 import com.toonta.app.ToontaSharedPreferences;
 import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
+import com.toonta.app.activities.new_surveys.QuestionReportInteractor;
 import com.toonta.app.model.Responses;
 import com.toonta.app.model.SurveyResponse;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,12 +47,16 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
     private LinearLayout qstRespPart;
     private TextView[] progressBarDots;
     private LinearLayout questionsProgressBar;
-    private ToontaDAO.QuestionsList mQuestionsList;
+    private ToontaDAO.QuestionsList questionsList;
 
     // Number of pages
     private int nbrTotalPages = 0;
 
-    private ToontaViewPager mViewPager;
+    // Indicates the current question being displayed
+    private int currentQuestionPos = 0;
+    private LinearLayout questionArea;
+    private TextView textViewQuestionPart;
+    private LinearLayout[] questionLinearLayouts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,16 +116,22 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
         previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int currPos = mViewPager.getCurrentItem();
-                if (currPos >= 1) {
-                    if ((currPos - 1) == 0) {
+                if (currentQuestionPos >= 1) {
+                    currentQuestionPos--;
+                    if (currentQuestionPos == 0) {
                         // On s'apprete a passer a la premiere page
-                        previousButton.setEnabled(false);
+                        previousButton.setVisibility(View.INVISIBLE);
                     }
-                    mViewPager.setCurrentItem(currPos - 1);
-                    progressBarDots[currPos].setTextColor(Color.BLACK);
-                    progressBarDots[currPos-1].setTextColor(Color.WHITE);
+
+                    // On met a jour la barre de progression
+                    progressBarDots[currentQuestionPos + 1].setTextColor(Color.BLACK);
+                    progressBarDots[currentQuestionPos].setTextColor(Color.WHITE);
+
+                    questionArea.removeAllViews();
+                    questionArea.addView(questionLinearLayouts[currentQuestionPos]);
+
                     // If we were on the last page, we have to change submit text to next
+                    nextSubmitButton.setVisibility(View.VISIBLE);
                     nextSubmitButton.setEnabled(true);
                 }
             }
@@ -129,37 +141,56 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
         nextSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int currPos = mViewPager.getCurrentItem();
-                if (currPos == (nbrTotalPages - 1)) {   // Avant derniere page
-                    nextSubmitButton.setEnabled(false);
+                currentQuestionPos++;
+                if (currentQuestionPos == nbrTotalPages) {   // Avant derniere page
+                    nextSubmitButton.setVisibility(View.INVISIBLE);
                 }
-                mViewPager.setCurrentItem(currPos + 1);
+
+                questionArea.removeAllViews();
+                questionArea.addView(questionLinearLayouts[currentQuestionPos]);
+
+                // On met a jour la barre de progression
+                progressBarDots[currentQuestionPos - 1].setTextColor(Color.BLACK);
+                progressBarDots[currentQuestionPos].setTextColor(Color.WHITE);
+
+                // On desactive le bouton previous
                 previousButton.setVisibility(View.VISIBLE);
-                previousButton.setText(R.string.button_previous);
                 previousButton.setEnabled(true);
-                progressBarDots[currPos].setTextColor(Color.BLACK);
-                progressBarDots[currPos+1].setTextColor(Color.WHITE);
             }
         });
 
+
+        questionArea = (LinearLayout) findViewById(R.id.toonta_question_view_pager_area_no_answer);
+
         NewSurveysInteractor oneNewSurveysInteractor = new NewSurveysInteractor(getApplicationContext(), new NewSurveysInteractor.OneSurveyViewUpdator() {
             @Override
-            public void onGetSurvey(ToontaDAO.QuestionsList questionsList) {
+            public void onGetSurvey(ToontaDAO.QuestionsList qstList) {
+                questionsList = qstList;
                 if (questionsList.questionResponseElements.size() <= 0) {
-                    qstRespPart.setVisibility(View.GONE);
+                    qstRespPart.setVisibility(View.INVISIBLE);
                     Snackbar.make(findViewById(android.R.id.content), "No questions available for this survey", Snackbar.LENGTH_LONG).show();
                 } else {
-                    qstRespPart.setVisibility(View.VISIBLE);
-                    mQuestionsList = questionsList;
-                    progressBarDots = Utils.initProgressBar(
-                            questionsList.questionResponseElements.size(),
-                            questionsProgressBar,
-                            ToontaQuestionNoAnswerActivity.this);
+                    // Par defaut, le buouton next n'a pas de text. Il est settee pour la premiere fois
+                    nextSubmitButton.setText(R.string.next_button_next_as_text);
+                    previousButton.setText(R.string.button_previous);
 
-                    ToontaQuestionPageAdapter toontaQuestionPageAdapter = new ToontaQuestionPageAdapter(mQuestionsList);
-                    mViewPager = (ToontaViewPager) findViewById(R.id.toonta_question_view_pager_area_no_answer);
-                    assert mViewPager != null;
-                    mViewPager.setAdapter(toontaQuestionPageAdapter);
+                    qstRespPart.setVisibility(View.VISIBLE);
+
+                    // Barre de progression mise a jour
+                    progressBarDots = Utils.initProgressBar(questionsList.questionResponseElements.size(), questionsProgressBar, ToontaQuestionNoAnswerActivity.this);
+
+                    // Barre de progrssion initialisee
+                    progressBarDots[currentQuestionPos].setTextColor(Color.WHITE);
+
+                    // Tous les linearlayout pour toutes les reponses
+                    Collections.sort(questionsList.questionResponseElements);
+                    questionLinearLayouts = Utils.instantiateItemNoAnswerScreen(questionsList.questionResponseElements, ToontaQuestionNoAnswerActivity.this);
+
+                    // La partie de reponse
+                    questionArea.addView(questionLinearLayouts[currentQuestionPos]);
+
+                    // Le compteur commence a zero, d'ou le moins un
+                    nbrTotalPages = questionsList.questionResponseElements.size() - 1;
                 }
             }
 
@@ -218,19 +249,41 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
             // container ==> ViwePager
             ToontaDAO.QuestionsList.QuestionResponse questionResponse = pagerQuestionsList.questionResponseElements.get(position);
 
-            LinearLayout linearLayout = new LinearLayout(ToontaQuestionNoAnswerActivity.this);
+            final LinearLayout linearLayout = new LinearLayout(ToontaQuestionNoAnswerActivity.this);
             linearLayout.setOrientation(LinearLayout.VERTICAL);
 
             linearLayout.setLayoutParams(
                     new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT));
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
             linearLayout.setGravity(Gravity.CENTER | Gravity.CENTER_HORIZONTAL);
+
+            // Getting answers
+            QuestionReportInteractor questionReportInteractor = new QuestionReportInteractor(getApplicationContext(), new QuestionReportInteractor.QuestionReportGetter() {
+                @Override
+                public void onQuestionReportSuccess(List<String> reponseDUneQuestion) {
+                    TextView respViewArea = new TextView(ToontaQuestionNoAnswerActivity.this);
+                    StringBuilder stringBuilder = new StringBuilder("Answers:");
+                    for (int z = 0; z < reponseDUneQuestion.size(); z++) {
+                        stringBuilder.append("&#9830; ").append(reponseDUneQuestion.get(z)).append("\n");
+                    }
+                    respViewArea.setText(stringBuilder.toString());
+                    respViewArea.setTextSize(22f);
+                    linearLayout.addView(respViewArea);
+                }
+
+                @Override
+                public void onFailure(String error) {
+                    Snackbar.make(findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG).show();
+                }
+            });
 
             TextView textViewQuestionNoAnswer = new TextView(ToontaQuestionNoAnswerActivity.this);
             textViewQuestionNoAnswer.setText(questionResponse.question);
             textViewQuestionNoAnswer.setTextSize(22f);
             linearLayout.addView(textViewQuestionNoAnswer);
+
+            questionReportInteractor.getQuestionReportByQuestionId(questionResponse.id);
 
             container.addView(linearLayout);
             return linearLayout;

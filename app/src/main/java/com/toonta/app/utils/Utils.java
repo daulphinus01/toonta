@@ -163,7 +163,6 @@ public class Utils {
                         editText.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_CLASS_TEXT);
                         editText.setMinLines(3);
                         editText.setTag(ToontaConstants.TOONTA_BASIC_TAG + questionResponse.get(i).id);
-                        System.out.println(ToontaConstants.TOONTA_BASIC_TAG + questionResponse.get(i).id);
                         editText.setLayoutParams(layoutParams);
 
                         returnedLayout[i].addView(editText);
@@ -187,8 +186,6 @@ public class Utils {
                                 tabRB[k].setText(questionResponse.get(i).choices.get(k).value);
                                 tabRB[k].setTag(questionResponse.get(i).choices.get(k).id);
                                 multipleChoiceRG.addView(tabRB[k], multipleChoiceRGGroupLayoutParams);
-
-                                System.out.println(tabRB[k].getId());
                             }
                             returnedLayout[i].addView(multipleChoiceRG);
 
@@ -210,10 +207,30 @@ public class Utils {
                         break;
                 }
             }
-            System.out.println(questionResponse.get(i).order);
         }
         return returnedLayout;
     }
+
+    public static LinearLayout[] instantiateItemNoAnswerScreen(List<ToontaDAO.QuestionsList.QuestionResponse> questionResponse, Context context) {
+        LinearLayout returnedLayout[] = new LinearLayout[questionResponse.size()];
+        StringBuilder stringBuilder = new StringBuilder("Answers:");
+        for (int z = 0; z < questionResponse.size(); z++) {
+            returnedLayout[z] = new LinearLayout(context);
+            returnedLayout[z].setOrientation(LinearLayout.VERTICAL);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            returnedLayout[z].setLayoutParams(layoutParams);
+
+            TextView respViewArea = new TextView(context);
+            respViewArea.setText(questionResponse.get(z).question);
+            respViewArea.setTextSize(22f);
+            respViewArea.setTag(questionResponse.get(z).id);
+
+            returnedLayout[z].addView(respViewArea);
+        }
+
+        return returnedLayout;
+    }
+
 
     public static JSONObject prepareSurveyResponseAsJSONObject(SurveyResponse surveyResponse) {
         try {
