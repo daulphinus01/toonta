@@ -34,6 +34,7 @@ import com.toonta.app.model.Responses;
 import com.toonta.app.model.SurveyResponse;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -225,6 +226,8 @@ public class ToontaQuestionActivity extends AppCompatActivity {
                     textViewQuestionPart.setText(questionsList.questionResponseElements.get(currentQuestionPos).question);
 
                     // Tous les linearlayout pour toutes les reponses
+                    Collections.sort(questionsList.questionResponseElements);
+                    System.out.println(questionsList.questionResponseElements);
                     questionLinearLayouts = Utils.instantiateItem(questionsList.questionResponseElements, ToontaQuestionActivity.this);
 
                     // La partie de reponse

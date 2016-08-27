@@ -583,7 +583,7 @@ public class ToontaDAO extends Application {
 
         public static class Question {}
 
-        public static class QuestionResponse implements Parcelable {
+        public static class QuestionResponse implements Parcelable, Comparable<QuestionResponse> {
             // option; 'CHECKBOX', 'RADIO'
             public String category;
             // optional
@@ -655,6 +655,17 @@ public class ToontaDAO extends Application {
                         ", question='" + question + '\'' +
                         ", type='" + type + '\'' +
                         '}';
+            }
+
+            @Override
+            public int compareTo(QuestionResponse another) {
+                if (this.order < another.order) {
+                    return -1;
+                } else if (this.order > another.order) {
+                    return 1;
+                } else {
+                    return 0;
+                }
             }
         }
 
@@ -753,7 +764,8 @@ public class ToontaDAO extends Application {
                         qstResponse.question = jsonObjectQst.getString("question");
                         qstResponse.order = jsonObjectQst.getInt("order");
                         qstResponse.type = jsonObjectQst.getString("type");
-                        qstResponse.category = jsonObjectQst.getString("category");
+                        if (jsonObjectQst.has("category"))
+                            qstResponse.category = jsonObjectQst.getString("category");
 
                         qstResponse.choices = new ArrayList<>();
                         if (qstResponse.type!= null && qstResponse.type.equals("MULTIPLE_CHOICE")) {

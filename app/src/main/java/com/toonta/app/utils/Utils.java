@@ -187,6 +187,8 @@ public class Utils {
                                 tabRB[k].setText(questionResponse.get(i).choices.get(k).value);
                                 tabRB[k].setTag(questionResponse.get(i).choices.get(k).id);
                                 multipleChoiceRG.addView(tabRB[k], multipleChoiceRGGroupLayoutParams);
+
+                                System.out.println(tabRB[k].getId());
                             }
                             returnedLayout[i].addView(multipleChoiceRG);
 
@@ -208,6 +210,7 @@ public class Utils {
                         break;
                 }
             }
+            System.out.println(questionResponse.get(i).order);
         }
         return returnedLayout;
     }
