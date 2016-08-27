@@ -95,8 +95,8 @@
 
     <!-- Strings related to survey list -->
     <string name="string_list_survey_activity_empty_list">No survey !</string>
-    <string name="connected_fetching_survies">Fetching survies...</string>
-    <string name="string_loading_survies_activity">Loading survies…</string>
+    <string name="connected_fetching_survies">Fetching surveys...</string>
+    <string name="string_loading_survies_activity">Loading surveys…</string>
     <string name="toonta_no_qst_for_survey">No questions to display for this survey</string>
     <string name="toonta_radio_button_yes">Yes</string>
     <string name="toonta_radio_button_no">No</string>
