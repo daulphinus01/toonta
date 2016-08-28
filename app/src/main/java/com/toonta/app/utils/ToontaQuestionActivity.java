@@ -256,10 +256,14 @@ public class ToontaQuestionActivity extends AppCompatActivity {
             mActionBar.setDisplayHomeAsUpEnabled(false);
             LayoutInflater mInflater = LayoutInflater.from(this);
 
-            View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
+            View mCustomView = mInflater.inflate(R.layout.custom_actionbar_with_up_button, null);
             mActionBar.setCustomView(mCustomView);
             mActionBar.setDisplayShowCustomEnabled(true);
         }
+    }
+
+    public void goUp(View view) {
+        NavUtils.navigateUpFromSameTask(ToontaQuestionActivity.this);
     }
 
     private String validateQuestionAndPrepareToSend(LinearLayout currentPage) {
