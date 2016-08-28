@@ -220,12 +220,14 @@ public class ToontaQuestionActivity extends AppCompatActivity {
                     // Barre de progrssion initialisee
                     progressBarDots[currentQuestionPos].setTextColor(Color.WHITE);
 
+                    // Sorting questions by order
+                    Collections.sort(questionsList.questionResponseElements);
+
                     // La question posee
                     textViewQuestionPart = (TextView) findViewById(R.id.qustion_screen_question);
                     textViewQuestionPart.setText(questionsList.questionResponseElements.get(currentQuestionPos).question);
 
                     // Tous les linearlayout pour toutes les reponses
-                    Collections.sort(questionsList.questionResponseElements);
                     questionLinearLayouts = Utils.instantiateItem(questionsList.questionResponseElements, ToontaQuestionActivity.this);
 
                     // La partie de reponse
