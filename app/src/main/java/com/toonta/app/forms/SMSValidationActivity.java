@@ -130,6 +130,6 @@ public class SMSValidationActivity extends AppCompatActivity {
             }
         });
 
-        interactor.postSurveyResponse(surveyResponse);
+        interactor.postSurveyResponseAsAFriend(surveyResponse);
     }
 }

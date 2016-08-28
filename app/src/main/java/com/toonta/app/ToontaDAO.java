@@ -46,6 +46,7 @@ public class ToontaDAO extends Application {
     private static String REPORT = "report/";
     private static String TAG = "DAO";
     public static String asFriendUserId;
+    public static String asFriendUserToken;
     public static volatile boolean isAsFriendUserLogged = false;
     private static List<String> surviesIDs = new ArrayList<>();
     private static List<String> authorsIDs = new ArrayList<>();
@@ -152,6 +153,7 @@ public class ToontaDAO extends Application {
                             LoginAnswer loginAnswer = parseLogin(response);
                             if (isAsFriendUserLogged) {
                                 asFriendUserId = loginAnswer.userId;
+                                asFriendUserToken = loginAnswer.token;
                                 simpleNetworkCallInterface.onSuccess();
                             } else {
                                 if (loginAnswer.loggedIn) {
@@ -483,6 +485,53 @@ public class ToontaDAO extends Application {
                     Map<String, String>  params = new HashMap<>();
                     params.put("userId", ToontaSharedPreferences.toontaSharedPreferences.userId);
                     params.put("userToken", ToontaSharedPreferences.toontaSharedPreferences.requestToken);
+
+                    return params;
+                }
+            };
+            requestQueue.add(jsonObjectRequest);
+        }
+    }
+
+    public static void postSurveyResponseAsAFriend(SurveyResponse surveyResponse, final SurveyPostNetworkCallInterface surveyPostNetworkCallInterface) {
+        if (surveyResponse != null) {
+            JSONObject content = Utils.prepareSurveyResponseAsJSONObject(surveyResponse);
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
+                    API+SURVEY+"answer",
+                    content,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                Log.v(TAG + " Answer Success", response.getString("status"));
+                                surveyPostNetworkCallInterface.onSuccess();
+                            } catch (JSONException e) {
+                                Log.e(TAG + " Answer Success", e.getMessage());
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            if (error instanceof NoConnectionError) {
+                                Log.e(TAG + " Answer Error", error.toString());
+                                surveyPostNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
+                            } else if (error.toString().contains("Value OK of type")) {
+                                Log.v(TAG + " Answer Success", " OK ");
+                                surveyPostNetworkCallInterface.onSuccess();
+                            } else {
+                                Log.e(TAG + " Answer Error", error.toString());
+                                surveyPostNetworkCallInterface.onFailure(NetworkAnswer.NO_SERVER);
+                            }
+                        }
+                    })
+            {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String>  params = new HashMap<>();
+                    params.put("userId", asFriendUserId);
+                    params.put("userToken", asFriendUserToken);
 
                     return params;
                 }

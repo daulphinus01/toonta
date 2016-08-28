@@ -165,6 +165,21 @@ public class NewSurveysInteractor {
         }
     }
 
+    public void postSurveyResponseAsAFriend(final SurveyResponse surveyResponse) {
+        if (surveyResponse != null) {
+            ToontaDAO.postSurveyResponseAsAFriend(surveyResponse, new ToontaDAO.SurveyPostNetworkCallInterface() {
+                @Override
+                public void onSuccess() {
+                    oneSurveyViewUpdator.onPostResponse("200");
+                }
+
+                @Override
+                public void onFailure(ToontaDAO.NetworkAnswer error) {
+                    oneSurveyViewUpdator.onFailure(getDescriptionForError(error));
+                }
+            });
+        }
+    }
     public void existAnsweredId(final String authorId, final String surveyId) {
         if (authorId != null) {
             ToontaDAO.getAnsweredSurveysIds(authorId, new ToontaDAO.SurveysListIDsNetworkCallInterface() {
