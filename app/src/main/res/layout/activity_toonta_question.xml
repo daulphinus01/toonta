@@ -15,19 +15,11 @@
         android:gravity="center"
         android:background="@color/screen_bg_title_color">
 
-        <ImageView
-            android:id="@+id/toonta_question_up_button"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.1"
-            android:src="@mipmap/ic_up"/>
-
         <!-- TITLE -->
         <TextView
             android:id="@+id/qustion_screen_title"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.9"
             android:textColor="@color/screen_1_text"
             android:textSize="18sp"
             android:gravity="center"

@@ -12,13 +12,6 @@ tools:context="com.toonta.app.BankDetailActivity">
         android:layout_height="0dp"
         android:layout_weight="0.1">
 
-        <ImageView
-            android:id="@+id/toonta_bank_detail_up_button"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.1"
-            android:src="@mipmap/ic_up"/>
-
         <TextView
             android:id="@+id/left_label"
             android:layout_width="0dp"

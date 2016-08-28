@@ -85,15 +85,6 @@ public class BankDetailQstActivity extends AppCompatActivity {
             }
         });
 
-        ImageView upButton = (ImageView) findViewById(R.id.toonta_bank_detail_qst_up_button);
-        assert upButton != null;
-        upButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavUtils.navigateUpFromSameTask(BankDetailQstActivity.this);
-            }
-        });
-
         surviesListView = (ListView) findViewById(R.id.bank_items_qst);
 
         // Company name
@@ -206,10 +197,14 @@ public class BankDetailQstActivity extends AppCompatActivity {
             mActionBar.setDisplayHomeAsUpEnabled(false);
             LayoutInflater mInflater = LayoutInflater.from(this);
 
-            View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
+            View mCustomView = mInflater.inflate(R.layout.custom_actionbar_with_up_button, null);
             mActionBar.setCustomView(mCustomView);
             mActionBar.setDisplayShowCustomEnabled(true);
         }
+    }
+
+    public void goUp(View view) {
+        NavUtils.navigateUpFromSameTask(BankDetailQstActivity.this);
     }
 
     private ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> getSurviesByAuthorId(String authorId, ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList) {

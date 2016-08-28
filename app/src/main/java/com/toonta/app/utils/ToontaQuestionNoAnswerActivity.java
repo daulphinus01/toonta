@@ -72,14 +72,6 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
         qstRespPart = (LinearLayout) findViewById(R.id.qst_resp_part_screen_no_answer);
 
         setupActionBar();
-        ImageView upButton = (ImageView) findViewById(R.id.toonta_question_no_answer_up_button);
-        assert upButton != null;
-        upButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavUtils.navigateUpFromSameTask(ToontaQuestionNoAnswerActivity.this);
-            }
-        });
 
         // Settings
         ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
@@ -219,10 +211,14 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
             mActionBar.setDisplayHomeAsUpEnabled(false);
             LayoutInflater mInflater = LayoutInflater.from(this);
 
-            View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
+            View mCustomView = mInflater.inflate(R.layout.custom_actionbar_with_up_button, null);
             mActionBar.setCustomView(mCustomView);
             mActionBar.setDisplayShowCustomEnabled(true);
         }
+    }
+
+    public void goUp(View view) {
+        NavUtils.navigateUpFromSameTask(ToontaQuestionNoAnswerActivity.this);
     }
 
     @Override

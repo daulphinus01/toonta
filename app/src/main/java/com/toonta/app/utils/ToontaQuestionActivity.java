@@ -84,14 +84,6 @@ public class ToontaQuestionActivity extends AppCompatActivity {
         responsesToBeSent.surveyId = surveyId;
 
         setupActionBar();
-        ImageView upButton = (ImageView) findViewById(R.id.toonta_question_up_button);
-        assert upButton != null;
-        upButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavUtils.navigateUpFromSameTask(ToontaQuestionActivity.this);
-            }
-        });
 
         // Settings
         //noinspection ConstantConditions
