@@ -100,6 +100,7 @@ public class SurveyValidationAsAFriendActivity extends AppCompatActivity {
         final Spinner professionalActivityValidationAsAFriend = (Spinner) findViewById(R.id.professional_activity_validation_as_afriend);
 
         ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.toonta_profession_type_as_a_friend, R.layout.spinner_item);
+        assert professionalActivityValidationAsAFriend != null;
         professionalActivityValidationAsAFriend.setAdapter(adapter);
 
         // Validate button
@@ -139,6 +140,7 @@ public class SurveyValidationAsAFriendActivity extends AppCompatActivity {
         signupInteractor = new SignupInteractor(getApplicationContext(), new SignupInteractor.SignupViewUpdater() {
             @Override
             public void updateView(SignupInteractor.SignupViewModel signupViewModel){
+                assert phoneNumberValidationAsAFriend != null;
                 if (signupViewModel.phoneNumberError.equals("")) {
                     phoneNumberValidationAsAFriend.setError(null);
                 } else {
@@ -259,7 +261,7 @@ public class SurveyValidationAsAFriendActivity extends AppCompatActivity {
             TextView emailAddressValidationAsAFriend,
             TextView phoneNumberValidationAsAFriend,
             String professionalActivityValidationAsAFriend) {
-        ToontaUser user = new ToontaUser(
+        return new ToontaUser(
                 birthDateValidationAsAFriend.getText().toString().trim(),
                 emailAddressValidationAsAFriend.getText().toString().trim(),
                 firstNameValidationAsAFriend.getText().toString().trim(),
@@ -269,7 +271,6 @@ public class SurveyValidationAsAFriendActivity extends AppCompatActivity {
                 phoneNumberValidationAsAFriend.getText().toString().trim(),
                 professionalActivityValidationAsAFriend.trim(),
                 "U");
-        return user;
     }
 
     private DatePickerDialog.OnDateSetListener datePickerListener

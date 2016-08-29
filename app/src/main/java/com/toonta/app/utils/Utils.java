@@ -122,14 +122,6 @@ public class Utils {
     public static LinearLayout[] instantiateItem(List<ToontaDAO.QuestionsList.QuestionResponse> questionResponse, Context context) {
         LinearLayout returnedLayout[] = new LinearLayout[questionResponse.size()];
 
-        System.out.println("***************************");
-        for (int j = 0; j < questionResponse.size(); j++) {
-            System.out.print(questionResponse.get(j).order + ". ");
-            System.out.println(questionResponse.get(j).question);
-
-        }
-        System.out.println("***************************");
-
         for (int i = 0; i < questionResponse.size(); i++) {
             returnedLayout[i] = new LinearLayout(context);
             returnedLayout[i].setOrientation(LinearLayout.VERTICAL);

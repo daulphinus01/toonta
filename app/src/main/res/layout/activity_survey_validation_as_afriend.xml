@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,9 +9,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1"
-        android:background="@color/screen_bg_title_color">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/toonta_validate_question_form_screen_title"
@@ -19,193 +18,181 @@
             android:layout_height="match_parent"
             android:textSize="22sp"
             android:textColor="@color/screen_1_text"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:paddingStart="5dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.15"
-        android:gravity="center|center_horizontal">
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="@string/please_fill_in_the_below"
-            android:textStyle="bold"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:gravity="center|center_horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="@string/please_fill_in_the_below"
+                android:textStyle="bold"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:background="@drawable/validate_as_back_ground"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
-            android:background="@drawable/validate_as_back_ground"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.6"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:orientation="vertical">
+            android:orientation="vertical">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:orientation="vertical"
-            android:divider="@android:color/darker_gray">
-
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.33">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:divider="@android:color/darker_gray">
 
-                <EditText
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/first_name_validation_as_afriend"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:imeOptions="actionNext"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/fisrt_name"
-                    android:textColor="@color/screen_1_text"/>
+                    android:layout_height="wrap_content">
 
-            </android.support.design.widget.TextInputLayout>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/as_friend_form_edit_text_heught"
+                        android:id="@+id/first_name_validation_as_afriend"
+                        android:paddingStart="10dp"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/fisrt_name"
+                        android:textColor="@color/screen_1_text"/>
 
-            <android.support.design.widget.TextInputLayout
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/as_friend_form_edit_text_heught"
+                        android:id="@+id/last_name_validation_as_afriend"
+                        android:paddingStart="10dp"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/last_name"
+                        android:textColor="@color/screen_1_text"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/as_friend_form_edit_text_heught"
+                        android:id="@+id/birth_date_validation_as_afriend"
+                        android:paddingStart="10dp"
+                        android:paddingLeft="10dp"
+                        android:textSize="18sp"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/birth_date"
+                        android:textColor="@color/screen_1_text"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.33">
+                android:layout_height="wrap_content"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+                android:orientation="vertical"
+                android:background="@drawable/list_border">
 
-                <EditText
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/last_name_validation_as_afriend"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:imeOptions="actionNext"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/last_name"
-                    android:textColor="@color/screen_1_text"/>
+                    android:layout_height="wrap_content">
 
-            </android.support.design.widget.TextInputLayout>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/as_friend_form_edit_text_heught"
+                        android:id="@+id/email_address_validation_as_afriend"
+                        android:inputType="textEmailAddress"
+                        android:paddingStart="10dp"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/email_address"
+                        android:textColor="@color/screen_1_text"/>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.33">
+                </android.support.design.widget.TextInputLayout>
 
-                <TextView
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/birth_date_validation_as_afriend"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
-                    android:textSize="18sp"
-                    android:gravity="center_vertical"
-                    android:singleLine="true"
-                    android:imeOptions="actionNext"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/birth_date"
-                    android:textColor="@color/screen_1_text"/>
+                    android:layout_height="wrap_content">
 
-            </android.support.design.widget.TextInputLayout>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/as_friend_form_edit_text_heught"
+                        android:id="@+id/phone_number_validation_as_afriend"
+                        android:inputType="phone"
+                        android:paddingStart="10dp"
+                        android:paddingLeft="10dp"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/phone__number"
+                        android:textColor="@color/screen_1_text"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/as_friend_form_edit_text_heught"
+                        android:id="@+id/professional_activity_validation_as_afriend"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:paddingTop="1dp"
-            android:paddingBottom="1dp"
-            android:orientation="vertical"
-            android:background="@drawable/list_border">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.33">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/email_address_validation_as_afriend"
-                    android:inputType="textEmailAddress"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:imeOptions="actionNext"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/email_address"
-                    android:textColor="@color/screen_1_text"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.33">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/phone_number_validation_as_afriend"
-                    android:inputType="phone"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
-                    android:singleLine="true"
-                    android:imeOptions="actionNext"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/phone__number"
-                    android:textColor="@color/screen_1_text"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.33">
-
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/professional_activity_validation_as_afriend"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-        </LinearLayout>
-
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.05"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:gravity="center">
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/toonta_validate_question_form_screen_validate_button"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/toonta_validation_as_friend_validate"
-            android:background="@drawable/button_bg"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"/>
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:gravity="center">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/toonta_validate_question_form_screen_validate_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/toonta_validation_as_friend_validate"
+                android:background="@drawable/button_bg"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

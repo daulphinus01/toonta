@@ -8,4 +8,6 @@
 
     <!-- Toonta dims -->
     <dimen name="profile_pic_margin_bottom">15dp</dimen>
+
+    <dimen name="as_friend_form_edit_text_heught">50dp</dimen>
 </resources>
