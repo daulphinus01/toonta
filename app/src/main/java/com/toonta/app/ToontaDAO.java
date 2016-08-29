@@ -495,7 +495,7 @@ public class ToontaDAO extends Application {
 
     public static void postSurveyResponseAsAFriend(SurveyResponse surveyResponse, final SurveyPostNetworkCallInterface surveyPostNetworkCallInterface) {
         if (surveyResponse != null) {
-            JSONObject content = Utils.prepareSurveyResponseAsJSONObject(surveyResponse);
+            JSONObject content = Utils.prepareSurveyResponseAsJSONObjectUsedAsAFriend(asFriendUserId, surveyResponse);
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
                     API+SURVEY+"answer",

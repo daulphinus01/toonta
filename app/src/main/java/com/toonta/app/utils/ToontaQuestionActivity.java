@@ -7,21 +7,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -30,19 +25,14 @@ import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
 import com.toonta.app.ToontaSharedPreferences;
 import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
-import com.toonta.app.model.Responses;
 import com.toonta.app.model.SurveyResponse;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.toonta.app.utils.ToontaConstants.YES_RADIO_BUTTON_ID;
-
 public class ToontaQuestionActivity extends AppCompatActivity {
 
-    private String surveyId;
     private String authorId;
     private Button previousButton;
     private Button nextSubmitButton;
@@ -77,7 +67,7 @@ public class ToontaQuestionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_toonta_question);
 
         // SurveyId & AuthorId
-        surveyId = getIntent().getStringExtra(ToontaConstants.SURVEY_ID);
+        String surveyId = getIntent().getStringExtra(ToontaConstants.SURVEY_ID);
         authorId = getIntent().getStringExtra(ToontaConstants.SURVEY_AUTHOR_ID);
 
         responsesToBeSent.respondentId = ToontaSharedPreferences.toontaSharedPreferences.userId;
@@ -155,8 +145,7 @@ public class ToontaQuestionActivity extends AppCompatActivity {
                 if (msgRetour.trim().isEmpty()) {
 
                     if (currentQuestionPos == nbrTotalPages) {
-                        // TODO Renvoyer les reponses au serveur
-                        // On envoie les reponses au serveur, on passe a une autre activite
+                        // On envoie les reponses to the Validate As yourself/ A Friend activite
                         Intent validateQuestionActivityIntent = new Intent(ToontaQuestionActivity.this, ValidateQuestionActivity.class);
                         validateQuestionActivityIntent.putExtra(ToontaConstants.SURVEY_RESPONSES_TO_BE_SENT, responsesToBeSent);
                         validateQuestionActivityIntent.putExtra(ToontaConstants.QUESTION_TITLE, titleQuestionScreen);

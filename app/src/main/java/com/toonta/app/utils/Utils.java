@@ -252,10 +252,41 @@ public class Utils {
                 resp.put("yesNoAnswer", (surveyResponse.responses.get(i).yesNoAnswer == null) ? null : surveyResponse.responses.get(i).yesNoAnswer);
                 respArray.put(i, resp);
             }
+            // TODO Utiliser asAFriendUserId. Le setter dans ToontaDAO ou dans cette methode.
             content.put("respondentId", surveyResponse.respondentId);
             content.put("responses", respArray);
             content.put("surveyId", surveyResponse.surveyId);
-            Log.v("Utils", content.toString());
+            Log.v("Utils ", content.toString());
+            return content;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Function used to prepare SurveyResponse as a JSON object that to sent.
+     * The respondent id used is that of the friend who answered the survey
+     * @param asAFriendUserId the friend's user id
+     * @param surveyResponse the survey to send
+     * @return JSON object to be sent.
+     */
+    public static JSONObject prepareSurveyResponseAsJSONObjectUsedAsAFriend(String asAFriendUserId, SurveyResponse surveyResponse) {
+        try {
+            JSONObject content = new JSONObject();
+            JSONArray respArray = new JSONArray();
+            for (int i = 0; i < surveyResponse.responses.size(); i++) {
+                JSONObject resp = new JSONObject();
+                resp.put("choiceId", (surveyResponse.responses.get(i).choiceId == null) ? null : surveyResponse.responses.get(i).choiceId);
+                resp.put("questionId", surveyResponse.responses.get(i).questionId);
+                resp.put("textAnswer", (surveyResponse.responses.get(i).textAnswer == null) ? null : surveyResponse.responses.get(i).textAnswer);
+                resp.put("yesNoAnswer", (surveyResponse.responses.get(i).yesNoAnswer == null) ? null : surveyResponse.responses.get(i).yesNoAnswer);
+                respArray.put(i, resp);
+            }
+            content.put("respondentId", asAFriendUserId);
+            content.put("responses", respArray);
+            content.put("surveyId", surveyResponse.surveyId);
+            Log.v("Utils ", content.toString());
             return content;
         } catch (JSONException e) {
             e.printStackTrace();
