@@ -550,6 +550,7 @@ public class ToontaDAO extends Application {
             public String authorId = "";
             public boolean active = false;
             public boolean answered = false;
+            public String summary = "No description for this survey";
 
             public SurveyElement(String name, int reward, String surveyId) {
                 this.name = name;
@@ -577,6 +578,7 @@ public class ToontaDAO extends Application {
                         ", target=" + target +
                         ", authorId='" + authorId + '\'' +
                         ", answered=" + answered +
+                        ", summary='" + summary + '\'' +
                         '}';
             }
         }
@@ -879,6 +881,8 @@ public class ToontaDAO extends Application {
                         surveyElement.target = target;
                         surveyElement.receivedAnswer = receivedAnswer;
                         surveyElement.authorId = authId;
+                        if (jsonObject.has("summary"))
+                            surveyElement.summary = jsonObject.getString("summary");
                         surveysListAnswer.surveyElements.add(surveyElement);
                     }
                 }

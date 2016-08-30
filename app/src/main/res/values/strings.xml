@@ -127,6 +127,7 @@
     <string name="toonta_survey_validation_dialog_msg">Survey validated successfully</string>
     <string name="toonta_survey_validation_dialog_msg_account_created">Survey validated successfully \nYou now have a Toonta account. \nLogin: the phone you selected \nPassword: your birthdate (YYYY-M-D)</string>
     <string name="toonta_survey_validation_dialog_msg_error">Survey validation failed</string>
+    <string name="toonta_go_to_questions">Go to questions</string>
 
     <string-array name="toonta_profession_type">
         <item>ALL</item>

@@ -2,18 +2,26 @@ package com.toonta.app;
 
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
 import com.toonta.app.forms.ToontaLogin;
@@ -85,14 +93,45 @@ public class HomeConnectedActivity extends AppCompatActivity {
             surviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent(getBaseContext(), ToontaQuestionActivity.class);
-                    ToontaDAO.SurveysListAnswer.SurveyElement surveyElement = surveysAdapter.getItem(position);
-                    intent.putExtra(ToontaConstants.QUESTION_TITLE, surveyElement.name);
-                    intent.putExtra(ToontaConstants.SURVEY_ID, surveyElement.surveyId);
-                    intent.putExtra(ToontaConstants.SURVEY_REWRD, surveyElement.reward);
-                    intent.putExtra(ToontaConstants.SURVEY_AUTHOR_ID, surveyElement.authorId);
 
-                    startActivity(intent);
+                    final ToontaDAO.SurveysListAnswer.SurveyElement surveyElement = surveysAdapter.getItem(position);
+
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View popupWindowLayout = inflater.inflate(R.layout.full_window_popup, null, true);
+                    final PopupWindow popupWindow = new PopupWindow(popupWindowLayout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
+                    popupWindow.showAtLocation(findViewById(R.id.list_surveys), Gravity.CENTER, 0, 0);
+
+                    ((TextView) popupWindowLayout.findViewById(R.id.survey_description)).setText(surveyElement.summary);
+
+                    AppCompatButton ok = (AppCompatButton) popupWindowLayout.findViewById(R.id.popup_ok_button);
+                    ok.setTransformationMethod(null);
+                    ok.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getBaseContext(), ToontaQuestionActivity.class);
+                            intent.putExtra(ToontaConstants.QUESTION_TITLE, surveyElement.name);
+                            intent.putExtra(ToontaConstants.SURVEY_ID, surveyElement.surveyId);
+                            intent.putExtra(ToontaConstants.SURVEY_REWRD, surveyElement.reward);
+                            intent.putExtra(ToontaConstants.SURVEY_AUTHOR_ID, surveyElement.authorId);
+
+                            startActivity(intent);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    popupWindow.dismiss();
+                                }
+                            }, 3000);
+                        }
+                    });
+
+                    AppCompatButton cancel = (AppCompatButton) popupWindowLayout.findViewById(R.id.popup_cancel_button);
+                    cancel.setTransformationMethod(null);
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            popupWindow.dismiss();
+                        }
+                    });
                 }
             });
 
