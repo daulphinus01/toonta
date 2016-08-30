@@ -14,7 +14,8 @@
             android:layout_height="40dp"
             android:src="@mipmap/ic_up"
             android:onClick="goUp"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom"
+            android:background="@color/screen_1_1_bg"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
