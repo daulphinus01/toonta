@@ -159,8 +159,8 @@ public class BankDetailActivity extends AppCompatActivity {
 
             View mCustomView = mInflater.inflate(R.layout.custom_actionbar_with_up_button, null);
             mActionBar.setCustomView(mCustomView);
-            Toolbar toolbar=(Toolbar)mCustomView.getParent();
-            toolbar.setContentInsetsAbsolute(0,0);
+            /*Toolbar toolbar=(Toolbar)mCustomView.getParent();
+            toolbar.setContentInsetsAbsolute(0,0);*/
             mActionBar.setDisplayShowCustomEnabled(true);
         }
     }

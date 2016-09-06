@@ -108,7 +108,9 @@ public class ToontaLogin extends AppCompatActivity{
             @Override
             public void onLoginSuccess() {
                 progressDialog.dismiss();
-                startActivity(new Intent(getApplicationContext(), HomeConnectedActivity.class));
+                Intent homeConIntent = new Intent(getApplicationContext(), HomeConnectedActivity.class);
+                homeConIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(homeConIntent);
                 finish();
             }
 

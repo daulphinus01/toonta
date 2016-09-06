@@ -87,7 +87,9 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onSignupSuccess() {
                 progressDialog.dismiss();
-                startActivity(new Intent(getApplicationContext(), HomeConnectedActivity.class));
+                Intent homeConIntent = new Intent(getApplicationContext(), HomeConnectedActivity.class);
+                homeConIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(homeConIntent);
                 finish();
             }
 
