@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -158,6 +159,8 @@ public class BankDetailActivity extends AppCompatActivity {
 
             View mCustomView = mInflater.inflate(R.layout.custom_actionbar_with_up_button, null);
             mActionBar.setCustomView(mCustomView);
+            Toolbar toolbar=(Toolbar)mCustomView.getParent();
+            toolbar.setContentInsetsAbsolute(0,0);
             mActionBar.setDisplayShowCustomEnabled(true);
         }
     }
