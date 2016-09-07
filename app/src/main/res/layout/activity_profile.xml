@@ -173,24 +173,6 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"
                 android:paddingLeft="10dp"
-                android:id="@+id/residence_place"
-                android:background="@android:color/transparent"
-                android:hint="@string/place_of_residence"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:textColor="@color/screen_1_text"/>
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="10dp"
-                android:paddingLeft="10dp"
                 android:id="@+id/toonta_cumilated_points"
                 android:inputType="number"
                 android:background="@android:color/transparent"
@@ -205,7 +187,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
+            <AutoCompleteTextView
+                android:id="@+id/residence_place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:background="@android:color/transparent"
+                android:hint="@string/place_of_residence"
+                android:singleLine="true"
+                android:textColor="@color/screen_1_text"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/city_of_residence_area"
+            android:layout_marginBottom="6dp"
+            android:visibility="invisible">
+
+            <AutoCompleteTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"

@@ -66,6 +66,12 @@ public class ToontaDAO extends Application {
         void onSuccess(List<String> reponsesToQuestion);
         void onFailure(NetworkAnswer error);
     }
+
+    public interface AddressNetworkCallInterface {
+        void onSuccess(List<String> cities);
+        void onFailure(NetworkAnswer error);
+    }
+
     /**
      * LOGIN
      */
@@ -963,6 +969,7 @@ public class ToontaDAO extends Application {
     public static void updateToontaUser(ToontaUser toontaUser, final UpdateToontaUserNetworkCallInterface updateToontaUserNetworkCallInterface) {
         try {
             JSONObject content = getToontaJSONObjectFromToontaUser(toontaUser);
+            Log.e(TAG, "updateToontaUser(" + toontaUser.toString() + ")");
 
             String userId = ToontaSharedPreferences.toontaSharedPreferences.userId;
             if (isAsFriendUserLogged) {
@@ -1025,7 +1032,8 @@ public class ToontaDAO extends Application {
             content.put("birthdate", toontaUser.birthdate);
         if (toontaUser.address.city != null && !toontaUser.address.city.isEmpty())
             content.put("city", toontaUser.address.city);
-        //content.put("country", "France");
+        if (toontaUser.address.country != null && !toontaUser.address.country.isEmpty())
+            content.put("country", toontaUser.address.country);
         if (toontaUser.email != null && !toontaUser.email.isEmpty())
             content.put("email", toontaUser.email);
         if (toontaUser.firstname != null && !toontaUser.firstname.isEmpty())
@@ -1146,4 +1154,62 @@ public class ToontaDAO extends Application {
         };
         requestQueue.add(jsonArrayRequest);
     }
+
+    /**
+     * ADDRESS
+     */
+    public static void getCitiesByCountryName(String country, final AddressNetworkCallInterface addressNetworkCallInterface) {
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
+                API + "address?country=" + country,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.v(TAG + " Cities by country ", response.toString());
+                        List<String> cities = parseToontaAddressList(response);
+                        addressNetworkCallInterface.onSuccess(cities);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG + " Cities by country ", error.toString());
+                        if (error instanceof NoConnectionError) {
+                            addressNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
+                        } else if (error instanceof AuthFailureError) {
+                            addressNetworkCallInterface.onFailure(NetworkAnswer.AUTH_FAILURE);
+                        } else {
+                            addressNetworkCallInterface.onFailure(NetworkAnswer.NO_SERVER);
+                        }
+                    }
+                })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<>();
+                params.put("userId", ToontaSharedPreferences.toontaSharedPreferences.userId);
+                params.put("userToken", ToontaSharedPreferences.toontaSharedPreferences.requestToken);
+
+                return params;
+            }
+        };
+        requestQueue.add(jsonArrayRequest);
+    }
+
+    public static List<String> parseToontaAddressList(JSONArray addressJsonArray) {
+        List<String> cities = new ArrayList<>();
+        try {
+            if (addressJsonArray != null) {
+                for (int index = 0; index < addressJsonArray.length(); index++) {
+                    JSONObject city = addressJsonArray.getJSONObject(index);
+                    if (city.has("city"))
+                        cities.add(city.getString("city"));
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return cities;
+    }
+
 }

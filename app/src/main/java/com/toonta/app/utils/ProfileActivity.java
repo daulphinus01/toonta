@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +25,9 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -39,6 +42,7 @@ import com.toonta.app.forms.ToontaUser;
 import com.toonta.app.model.ToontaBank;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -57,9 +61,12 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText emailAddress;
     private EditText phoneNumber;
     private Spinner professionalActivity;
-    private EditText residencePlace;
+    private AutoCompleteTextView countryResidencePlace;
     private EditText cumulatedPoint;
-    private EditText labelThree;
+    private AutoCompleteTextView cityResidencePlace;
+
+    private TextInputLayout residencePlaceArea;
+    private ToontaAddressInterceptor toontaAddressInterceptor;
 
     // Other infos that needs to be sent when updating user's info
     private String sexe = "";
@@ -67,7 +74,7 @@ public class ProfileActivity extends AppCompatActivity {
     // Indicates that some fields have been modified
     private boolean updatesAvailable = false;
 
-    private EditText[] allEditTexts = new EditText[7];
+    private EditText[] allEditTexts = new EditText[6];
 
     private final int RESULT_LOAD_IMAGE = 100;
     private ImageView profilePic;
@@ -104,6 +111,8 @@ public class ProfileActivity extends AppCompatActivity {
                 Utils.startShareActionIntent(ProfileActivity.this);
             }
         });
+
+        residencePlaceArea = (TextInputLayout) findViewById(R.id.city_of_residence_area);
 
         // Shown when user decides to modify personal info
         saveChangesLayout = (LinearLayout) findViewById(R.id.toonta_layout_save_changes);
@@ -145,17 +154,31 @@ public class ProfileActivity extends AppCompatActivity {
         ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.toonta_profession_type, R.layout.spinner_item);
         professionalActivity.setAdapter(adapter);
 
-        residencePlace = (EditText) findViewById(R.id.residence_place);
-        assert residencePlace != null;
-        allEditTexts[4] = residencePlace;
+        countryResidencePlace = (AutoCompleteTextView) findViewById(R.id.residence_place);
+        assert countryResidencePlace != null;
+        // Get countries array
+        final String[] countries = getResources().getStringArray(R.array.toonta_countries_list);
+        // Create the adapter and set it to the AutoCompleteTextView
+        ArrayAdapter<String> countryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, countries);
+        countryResidencePlace.setThreshold(1);
+        countryResidencePlace.setAdapter(countryAdapter);
+        countryResidencePlace.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (countryResidencePlace.getText() != null){
+                    toontaAddressInterceptor.updateToontaCitiesAdaptor(countryResidencePlace.getText().toString());
+                }
+            }
+        });
+        allEditTexts[4] = countryResidencePlace;
 
         cumulatedPoint = (EditText) findViewById(R.id.toonta_cumilated_points);
         assert cumulatedPoint != null;
-        allEditTexts[5] = cumulatedPoint;
 
-        labelThree = (EditText) findViewById(R.id.label_three);
-        assert labelThree != null;
-        allEditTexts[6] = labelThree;
+        cityResidencePlace = (AutoCompleteTextView) findViewById(R.id.label_three);
+        assert cityResidencePlace != null;
+        cityResidencePlace.setThreshold(1);
+        allEditTexts[5] = cityResidencePlace;
 
         addOnEditorActionListener();
 
@@ -179,11 +202,14 @@ public class ProfileActivity extends AppCompatActivity {
             public void onToontaUserGet(ToontaUser toontaUser) {
                 Log.v("ProfileActivity ->", toontaUser.toString());
                 populateTextViews(toontaUser);
+                if (toontaUser.address.country != null)
+                    toontaAddressInterceptor.updateToontaCitiesAdaptor(toontaUser.address.country);
             }
 
             @Override
             public void onToontaUserUpdate(String responseStatus) {
                 Snackbar.make(findViewById(android.R.id.content), responseStatus, Snackbar.LENGTH_LONG).show();
+                firstName.requestFocus();
                 populateTextViews(updatedUser);
             }
 
@@ -199,22 +225,48 @@ public class ProfileActivity extends AppCompatActivity {
         saveChangesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updatedUser = new ToontaUser(
-                        birthDate.getText().toString(),
-                        emailAddress.getText().toString(),
-                        firstName.getText().toString(),
-                        "",
-                        lastName.getText().toString(),
-                        "",
-                        phoneNumber.getText().toString(),
-                        String.valueOf(professionalActivity.getSelectedItem()),
-                        sexe);
-                if (residencePlace.getText().toString() != null) {
-                    updatedUser.address.city = residencePlace.getText().toString();
-                }
+                updatedUser = new ToontaUser();
+                if (birthDate.getText() != null)
+                    updatedUser.birthdate = birthDate.getText().toString();
+                if (emailAddress.getText() != null)
+                    updatedUser.email = emailAddress.getText().toString();
+                if (firstName.getText() != null)
+                    updatedUser.firstname = firstName.getText().toString();
+                if (lastName.getText() != null)
+                    lastName.getText().toString();
+                if (phoneNumber.getText() != null)
+                    phoneNumber.getText().toString();
+                if (cityResidencePlace.getText() != null)
+                    updatedUser.address.city = cityResidencePlace.getText().toString();
+                if (countryResidencePlace.getText() != null)
+                    updatedUser.address.country = countryResidencePlace.getText().toString();
+                updatedUser.profession = String.valueOf(professionalActivity.getSelectedItem());
+                updatedUser.sexe = sexe;
+
+                Log.e("***ProfileActivity***", "SaveChangeButton clicked [ " + updatedUser.toString() + " ]");
 
                 // Sending changes to server
                 toontaUserInterceptor.updateToontaUser(updatedUser);
+            }
+        });
+
+        toontaAddressInterceptor = new ToontaAddressInterceptor(ProfileActivity.this, new ToontaAddressInterceptor.ToontaAddressViewUpdater() {
+            @Override
+            public void onToontaAddressGet(List<String> cities) {
+                residencePlaceArea.setVisibility(View.VISIBLE);
+                if (cities.size() < 1) {
+                    cityResidencePlace.setText("");
+                    cityResidencePlace.setAdapter(null);
+                    Snackbar.make(findViewById(android.R.id.content), "No cities available for the selected country", Snackbar.LENGTH_LONG).show();
+                } else {
+                    ArrayAdapter<String> citiesArrayAdapter = new ArrayAdapter<String>(ProfileActivity.this, android.R.layout.simple_list_item_1, cities);
+                    cityResidencePlace.setAdapter(citiesArrayAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Snackbar.make(findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG).show();
             }
         });
     }
@@ -303,60 +355,6 @@ public class ProfileActivity extends AppCompatActivity {
         return res;
     }
 
-    public void setEditable(View view) {
-        /*int saveChangesLayoutVisibility =  saveChangesLayout.getVisibility();
-        if (saveChangesLayoutVisibility == View.INVISIBLE) {
-            saveChangesLayout.setVisibility(View.VISIBLE);
-        }
-
-        int viewId = view.getId();*/
-
-        /*switch (viewId) {
-            case R.id._email_address :
-                emailAddress.setEnabled(true);
-                emailAddress.requestFocus();
-                emailAddress.setCursorVisible(true);
-                emailAddress.setText("");
-                emailAddress.setHint("");
-                break;
-            case R.id._phone_number :
-                phoneNumber.setEnabled(true);
-                phoneNumber.requestFocus();
-                phoneNumber.setCursorVisible(true);
-                phoneNumber.setText("");
-                phoneNumber.setHint("");
-                break;
-            case R.id._professional_activity :
-                professionalActivity.setEnabled(true);
-                professionalActivity.requestFocus();
-                professionalActivity.setCursorVisible(true);
-                professionalActivity.setText("");
-                professionalActivity.setHint("");
-                break;
-            case R.id._residence_place :
-                residencePlace.setEnabled(true);
-                residencePlace.requestFocus();
-                residencePlace.setCursorVisible(true);
-                residencePlace.setText("");
-                residencePlace.setHint("");
-                break;
-            case R.id._toonta_cumilated_points :
-                cumulatedPoint.setEnabled(true);
-                cumulatedPoint.requestFocus();
-                cumulatedPoint.setCursorVisible(true);
-                cumulatedPoint.setText("");
-                cumulatedPoint.setHint("");
-                break;
-            case R.id._label_three :
-                labelThree.setEnabled(true);
-                labelThree.requestFocus();
-                labelThree.setCursorVisible(true);
-                labelThree.setText("");
-                labelThree.setHint("");
-                break;
-        }*/
-    }
-
     private void showAlertDialog () {
         AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
 
@@ -388,9 +386,15 @@ public class ProfileActivity extends AppCompatActivity {
         emailAddress.setText(toontaUser.email);
         phoneNumber.setText(toontaUser.phoneNumber);
         professionalActivity.setSelection(getPosFromToontaProfessionByString(toontaUser.profession));
-        residencePlace.setText(toontaUser.address.city);
         cumulatedPoint.setText(Integer.toString(toontaUser.bank_.balance));
-        labelThree.setText(toontaUser.lastname);
+        if (toontaUser.address != null) {
+            if (toontaUser.address.city != null && !toontaUser.address.city.isEmpty()) {
+                residencePlaceArea.setVisibility(View.VISIBLE);
+                cityResidencePlace.setText(toontaUser.address.city);
+            }
+            if (toontaUser.address.country != null && !toontaUser.address.country.isEmpty())
+                countryResidencePlace.setText(toontaUser.address.country);
+        }
 
         if (toontaUser.birthdate != null && !toontaUser.birthdate.isEmpty()) {
             String[] splittedDate = toontaUser.birthdate.split("-");
