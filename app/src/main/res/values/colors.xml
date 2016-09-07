@@ -14,7 +14,7 @@
 
     <!-- SCREEN 1 -->
     <color name="screen_1_bg">#14A1A7</color>
-    <color name="screen_1_1_bg">#003B3E</color>
+    <color name="screen_1_1_bg">#018287</color>
     <color name="screen_2_bg">#1B9196</color>
     <color name="screen_bg_qst">#129196</color>
     <color name="screen_bg_title_color">#138C91</color>

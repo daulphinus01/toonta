@@ -11,6 +11,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
@@ -209,11 +210,14 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
             mActionBar.setDisplayShowHomeEnabled(false);
             mActionBar.setDisplayShowTitleEnabled(false);
             mActionBar.setDisplayHomeAsUpEnabled(false);
-            LayoutInflater mInflater = LayoutInflater.from(this);
-
-            View mCustomView = mInflater.inflate(R.layout.custom_actionbar_with_up_button, null);
-            mActionBar.setCustomView(mCustomView);
             mActionBar.setDisplayShowCustomEnabled(true);
+
+            View mCustomView = getLayoutInflater().inflate(R.layout.custom_actionbar_with_up_button, null);
+            ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT,
+                    ActionBar.LayoutParams.MATCH_PARENT);
+            mActionBar.setCustomView(mCustomView, layoutParams);
+            Toolbar parent = (Toolbar) mCustomView.getParent();
+            parent.setContentInsetsAbsolute(0, 0);
         }
     }
 
