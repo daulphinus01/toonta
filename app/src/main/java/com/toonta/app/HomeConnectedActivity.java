@@ -8,9 +8,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -130,6 +132,32 @@ public class HomeConnectedActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             popupWindow.dismiss();
+                        }
+                    });
+
+                    ImageView goUp = (ImageView) popupWindowLayout.findViewById(R.id.popup_window_go_up);
+                    goUp.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            popupWindow.dismiss();
+                        }
+                    });
+
+                    ImageView share = (ImageView) popupWindowLayout.findViewById(R.id.popup_window_toonta_share);
+                    share.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Utils.startShareActionIntent(HomeConnectedActivity.this);
+                        }
+                    });
+
+                    ImageView settings = (ImageView) popupWindowLayout.findViewById(R.id.popup_window_menu_settings);
+                    settings.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            popupWindow.dismiss();
+                            startActionMode(Utils.initActionModeCallBack(HomeConnectedActivity.this));
+                            v.setSelected(true);
                         }
                     });
                 }
