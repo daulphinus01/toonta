@@ -6,9 +6,11 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
@@ -78,12 +80,14 @@ public class ProfileActivity extends AppCompatActivity {
 
     private final int RESULT_LOAD_IMAGE = 100;
     private ImageView profilePic;
+    RoundImage roundedImage;
 
     // Bithdate
     private int toontaUserBDyear;
     private int toontaUserBDmonth;
     private int toontaUserBDday;
     static final int DATE_DIALOG_ID = 999;
+    private static final int PICK_FROM_GALLERY = 2;
 
 
     @Override
@@ -182,13 +186,47 @@ public class ProfileActivity extends AppCompatActivity {
 
         addOnEditorActionListener();
 
+        /*************************************************************************************
+         *                              PROFILE PICTURE
+         *************************************************************************************/
+
         profilePic = (ImageView) findViewById(R.id.toonta_profile_pix);
         assert profilePic != null;
+        Bitmap bm = BitmapFactory.decodeResource(getResources(),R.drawable.img_profile);
+        roundedImage = new RoundImage(bm);
+        profilePic.setImageDrawable(roundedImage);
+        profilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                // call android default gallery
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                // ******** code for crop image
+                intent.putExtra("crop", "true");
+                intent.putExtra("aspectX", 0);
+                intent.putExtra("aspectY", 0);
+                intent.putExtra("outputX", 200);
+                intent.putExtra("outputY", 150);
+
+                try {
+
+                    intent.putExtra("return-data", true);
+                    startActivityForResult(Intent.createChooser(intent,
+                            "Complete action using"), PICK_FROM_GALLERY);
+                } catch (ActivityNotFoundException e) {
+                    // Do nothing for now
+                }
+            }
+        });
+
+
+
         // Setting profile picture
-        if (existProfilePicture()) {
+        /*if (existProfilePicture()) {
             profilePic.setImageBitmap(BitmapFactory.decodeFile(ToontaSharedPreferences.toontaSharedPreferences.profilePicPath));
         }
-        // profilePic.setImageBitmap(BitmapFactory.decodeFile(ToontaSharedPreferences.toontaSharedPreferences.profilePicPath));
+        // profilePic.setImageBitmap(BitmapFactory.decodeFile(ToontaSharedPreferences.toontaSharedPreferences.profilePicPath));*/
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -308,7 +346,20 @@ public class ProfileActivity extends AppCompatActivity {
         String path = getPathFromURI(selectedImage);
         Snackbar.make(findViewById(android.R.id.content), path, Snackbar.LENGTH_LONG).show();
         profilePic.setImageBitmap(BitmapFactory.decodeFile(path));
-        ToontaSharedPreferences.setToontaProfilePicPath(path);
+        //ToontaSharedPreferences.setToontaProfilePicPath(path);
+
+
+        roundedImage = new RoundImage(BitmapFactory.decodeFile(path));
+        profilePic.setImageDrawable(roundedImage);
+
+        /*if (requestCode == PICK_FROM_GALLERY) {
+            Bundle extras2 = data.getExtras();
+            if (extras2 != null) {
+                Bitmap photo = extras2.getParcelable("data");
+                profilePic.setImageBitmap(photo);
+
+            }
+        }*/
     }
 
     @Override

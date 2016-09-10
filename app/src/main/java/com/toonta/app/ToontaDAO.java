@@ -1121,11 +1121,7 @@ public class ToontaDAO extends Application {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.v(TAG + " Report for a question ", response.toString());
-                        Iterator<String> it = response.keys();
-                        List<String> reponsesOfAQuestion = new ArrayList<>();
-                        while (it.hasNext()) {
-                            reponsesOfAQuestion.add(it.next());
-                        }
+                        List<String> reponsesOfAQuestion = parseResponseOfQuestions(response);
                         reportSimpleNetworkCallInterface.onSuccess(reponsesOfAQuestion);
                     }
                 },
@@ -1153,6 +1149,35 @@ public class ToontaDAO extends Application {
             }
         };
         requestQueue.add(jsonArrayRequest);
+    }
+
+    public static List<String> parseResponseOfQuestions(JSONObject responseToQuestion) {
+        List<String> returnedResponses = new ArrayList<>();
+        if (responseToQuestion.has("type")) {
+            try {
+                switch (responseToQuestion.getString("type")) {
+                    case "BASIC":
+                        if (responseToQuestion.has("basicResponses")) {
+                            JSONArray basicResponses = responseToQuestion.getJSONArray("basicResponses");
+                            for (int i = 0; i < basicResponses.length(); i++) {
+                                if (!basicResponses.isNull(i)) {
+                                    returnedResponses.add(basicResponses.get(i).toString());
+                                }
+                            }
+                        }
+                        break;
+                    case "YES_NO":
+                        returnedResponses.add("No anwers");
+                        break;
+                    case "MULTIPLE_CHOICE":
+                        returnedResponses.add("No anwers");
+                        break;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return returnedResponses;
     }
 
     /**

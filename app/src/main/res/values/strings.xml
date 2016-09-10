@@ -163,7 +163,9 @@
     </string-array>
 
     <string-array name="toonta_countries_list">
-        <item>Afghanistan</item>
+        <item>Cameroun</item>
+        <item>Sénégal</item>
+        <!--<item>Afghanistan</item>
         <item>Afrique du Sud</item>
         <item>Akrotiri</item>
         <item>Albanie</item>
@@ -206,7 +208,6 @@
         <item>Burkina Faso</item>
         <item>Burundi</item>
         <item>Cambodge</item>
-        <item>Cameroun</item>
         <item>Canada</item>
         <item>Cap-Vert</item>
         <item>Chili</item>
@@ -374,7 +375,6 @@
         <item>Samoa</item>
         <item>Samoa américaines</item>
         <item>Sao Tomé-et-Principe</item>
-        <item>Sénégal</item>
         <item>Serbie</item>
         <item>Seychelles</item>
         <item>Sierra Leone</item>
@@ -418,6 +418,6 @@
         <item>West Bank</item>
         <item>Yémen</item>
         <item>Zambie</item>
-        <item>Zimbabwe</item>
+        <item>Zimbabwe</item>-->
     </string-array>
 </resources>

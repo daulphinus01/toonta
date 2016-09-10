@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,229 +13,221 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.3"
-        android:orientation="horizontal"
-        android:layout_marginBottom="@dimen/profile_pic_margin_bottom">
-
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:paddingBottom="30dp">
         <ImageView
             android:id="@+id/toonta_profile_pix"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.45"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginRight="5dp"
             android:layout_marginEnd="5dp"
-            android:background="@drawable/button_bg"
             android:contentDescription="Upload profile picture"
-            android:src="@drawable/my_profile_pic"/>
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/img_profile"/>
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.55"
-            android:orientation="horizontal" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp">
+            android:orientation="vertical">
 
-            <EditText
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingStart="10dp"
-                android:paddingLeft="10dp"
-                android:id="@+id/first_name"
-                android:background="@android:color/transparent"
-                android:hint="@string/fisrt_name"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:textColor="@color/screen_1_text"/>
-        </android.support.design.widget.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp">
 
-        <android.support.design.widget.TextInputLayout
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/first_name"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/fisrt_name"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:textColor="@color/screen_1_text"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/last_name"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/last_name"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:textColor="@color/screen_1_text"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/birth_date"
+                    android:inputType="date"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/birth_date"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:textColor="@color/screen_1_text"/>
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp">
+            android:paddingTop="1dp"
+            android:paddingBottom="1dp"
+            android:orientation="vertical"
+            android:background="@drawable/list_border">
 
-            <EditText
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="10dp"
-                android:paddingLeft="10dp"
-                android:id="@+id/last_name"
-                android:background="@android:color/transparent"
-                android:hint="@string/last_name"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:textColor="@color/screen_1_text"/>
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginBottom="6dp">
 
-        <android.support.design.widget.TextInputLayout
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/email_address"
+                    android:inputType="textEmailAddress"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/email_address"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:textColor="@color/screen_1_text"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/phone_number"
+                    android:inputType="phone"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/phone__number"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:textColor="@color/screen_1_text"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/professional_activity"/>
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp">
+            android:orientation="vertical"
+            android:divider="@android:color/darker_gray">
 
-            <TextView
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="10dp"
-                android:paddingLeft="10dp"
-                android:id="@+id/birth_date"
-                android:inputType="date"
-                android:background="@android:color/transparent"
-                android:hint="@string/birth_date"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:textColor="@color/screen_1_text"/>
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginBottom="6dp">
 
-    </LinearLayout>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/toonta_cumilated_points"
+                    android:inputType="number"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/cumulated_points"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:textColor="@color/screen_1_text"
+                    android:enabled="false"/>
+            </android.support.design.widget.TextInputLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="1dp"
-        android:paddingBottom="1dp"
-        android:orientation="vertical"
-        android:background="@drawable/list_border">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp">
+                <AutoCompleteTextView
+                    android:id="@+id/residence_place"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/place_of_residence"
+                    android:singleLine="true"
+                    android:textColor="@color/screen_1_text"/>
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="10dp"
-                android:paddingLeft="10dp"
-                android:id="@+id/email_address"
-                android:inputType="textEmailAddress"
-                android:background="@android:color/transparent"
-                android:hint="@string/email_address"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:textColor="@color/screen_1_text"/>
-        </android.support.design.widget.TextInputLayout>
+                android:id="@+id/city_of_residence_area"
+                android:layout_marginBottom="6dp"
+                android:visibility="invisible">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp">
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
+                    android:id="@+id/label_three"
+                    android:inputType="text"
+                    android:hint="@string/label_three"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/screen_1_text"/>
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="10dp"
-                android:paddingLeft="10dp"
-                android:id="@+id/phone_number"
-                android:inputType="phone"
-                android:background="@android:color/transparent"
-                android:hint="@string/phone__number"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:textColor="@color/screen_1_text"/>
-        </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/professional_activity"/>
-        </android.support.design.widget.TextInputLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:divider="@android:color/darker_gray">
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="10dp"
-                android:paddingLeft="10dp"
-                android:id="@+id/toonta_cumilated_points"
-                android:inputType="number"
-                android:background="@android:color/transparent"
-                android:hint="@string/cumulated_points"
-                android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:textColor="@color/screen_1_text"
-                android:enabled="false"/>
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <AutoCompleteTextView
-                android:id="@+id/residence_place"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="10dp"
-                android:paddingLeft="10dp"
-                android:background="@android:color/transparent"
-                android:hint="@string/place_of_residence"
-                android:singleLine="true"
-                android:textColor="@color/screen_1_text"/>
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/city_of_residence_area"
-            android:layout_marginBottom="6dp"
-            android:visibility="invisible">
-
-            <AutoCompleteTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="10dp"
-                android:paddingLeft="10dp"
-                android:id="@+id/label_three"
-                android:inputType="text"
-                android:hint="@string/label_three"
-                android:background="@android:color/transparent"
-                android:textColor="@color/screen_1_text"/>
-        </android.support.design.widget.TextInputLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/toonta_layout_save_changes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:paddingTop="@dimen/activity_vertical_margin">
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/toonta_save_changes_button"
+        <LinearLayout
+            android:id="@+id/toonta_layout_save_changes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/toonta_save_changes"
-            android:background="@drawable/button_bg"
-            android:paddingStart="5sp"
-            android:paddingLeft="5sp"
-            android:paddingEnd="5sp"
-            android:paddingRight="5sp"
-            android:textSize="20sp"/>
+            android:layout_gravity="center"
+            android:paddingTop="@dimen/activity_vertical_margin">
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/toonta_save_changes_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/toonta_save_changes"
+                android:background="@drawable/button_bg"
+                android:paddingStart="5sp"
+                android:paddingLeft="5sp"
+                android:paddingEnd="5sp"
+                android:paddingRight="5sp"
+                android:textSize="20sp"/>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>
