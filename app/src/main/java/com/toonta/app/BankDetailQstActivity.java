@@ -40,8 +40,6 @@ public class BankDetailQstActivity extends AppCompatActivity {
     // Total toons
     TextView leftLabel;
 
-    // Survey id
-    private String surveyId;
     // Company name
     private String companyName;
 
@@ -57,8 +55,6 @@ public class BankDetailQstActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bank_detail_qst);
-        // SurveyId
-        surveyId = getIntent().getStringExtra(ToontaConstants.SURVEY_ID);
         // Company name
         companyName = getIntent().getStringExtra(ToontaConstants.QUESTION_TITLE);
         // Author id

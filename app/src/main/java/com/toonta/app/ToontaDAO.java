@@ -1077,32 +1077,34 @@ public class ToontaDAO extends Application {
     private static SurveysListAnswer parseCompanies(JSONObject jsonObject) {
         SurveysListAnswer surveysListAnswer = new SurveysListAnswer();
         if (jsonObject != null) {
-            JSONObject rewardsObjects = null;
-            try {
-                rewardsObjects = jsonObject.getJSONObject("rewards");
-            } catch (JSONException e) {
-                return surveysListAnswer;
-            }
-            if (rewardsObjects != null) {
-                List<String> tmpList = new ArrayList<>();
-                for (String authorId : authorsIDs) {
-                    if (!tmpList.contains(authorId)) {
-                        try {
-                            JSONObject company = rewardsObjects.getJSONObject(authorId);
+            if (jsonObject.has("rewards")) {
+                try {
+                    JSONObject rewardsObjects = jsonObject.getJSONObject("rewards");
+                    if (rewardsObjects != null) {
+                        Iterator<String> rewardsObjectsKeys = rewardsObjects.keys();
+                        while (rewardsObjectsKeys.hasNext()) {
+                            String authorID = rewardsObjectsKeys.next();
+                            JSONObject company = rewardsObjects.getJSONObject(authorID);
                             if (company != null) {
-                                String sourceName = company.getString("sourceName");
-                                int reward = company.getInt("reward");
+                                Log.e("ToontaDAO Companies", company.toString());
+                                String sourceName = "Company undefined";
+                                if (company.has("sourceName")) {
+                                    sourceName = company.getString("sourceName");
+                                }
+                                int reward = 0;
+                                if (company.has("reward")) {
+                                    reward = company.getInt("reward");
+                                }
                                 if (sourceName != null && !sourceName.trim().isEmpty()) {
                                     SurveysListAnswer.SurveyElement surveyElement = new SurveysListAnswer.SurveyElement(sourceName, reward, "");
-                                    surveyElement.authorId = authorId;
+                                    surveyElement.authorId = authorID;
                                     surveysListAnswer.surveyElements.add(surveyElement);
                                 }
-                                tmpList.add(authorId);
                             }
-                        } catch (JSONException e) {
-                            // Company id n'existe pas
                         }
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         }
