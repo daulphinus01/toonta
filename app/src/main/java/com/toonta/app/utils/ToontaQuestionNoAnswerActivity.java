@@ -21,10 +21,8 @@ import android.widget.TextView;
 import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
 import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
-import com.toonta.app.activities.new_surveys.QuestionReportInteractor;
 
 import java.util.Collections;
-import java.util.List;
 
 public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
 
@@ -41,14 +39,14 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
     // Indicates the current question being displayed
     private int currentQuestionPos = 0;
     private LinearLayout questionArea;
-    private LinearLayout answersArea;
+    //private LinearLayout answersArea;
     private TextView textViewQuestionPart;
     private LinearLayout[] questionLinearLayouts;
 
     // Used to store questions ids that will be used to fetch answers
     private String[] questionsIds;
     // Recupere les reponses
-    private QuestionReportInteractor questionReportInteractor;
+    // private QuestionReportInteractor questionReportInteractor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +86,7 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
         questionArea = (LinearLayout) findViewById(R.id.toonta_question_view_pager_area_no_answer);
 
         // Linear ou sont affichees les reponses
-        answersArea = (LinearLayout) findViewById(R.id.toonta_question_view_pager_area_answer);
+        //answersArea = (LinearLayout) findViewById(R.id.toonta_question_view_pager_area_answer);
 
         TextView textViewTitle = (TextView) findViewById(R.id.qustion_screen_title_no_answer);
         assert textViewTitle != null;
@@ -120,7 +118,7 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
                     questionArea.removeAllViews();
                     questionArea.addView(questionLinearLayouts[currentQuestionPos]);
 
-                    questionReportInteractor.getQuestionReportByQuestionId(questionsIds[currentQuestionPos]);
+                    // questionReportInteractor.getQuestionReportByQuestionId(questionsIds[currentQuestionPos]);
 
                     // If we were on the last page, we have to change submit text to next
                     nextSubmitButton.setVisibility(View.VISIBLE);
@@ -141,7 +139,7 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
                 questionArea.removeAllViews();
                 questionArea.addView(questionLinearLayouts[currentQuestionPos]);
 
-                questionReportInteractor.getQuestionReportByQuestionId(questionsIds[currentQuestionPos]);
+                // questionReportInteractor.getQuestionReportByQuestionId(questionsIds[currentQuestionPos]);
 
                 // On met a jour la barre de progression
                 progressBarDots[currentQuestionPos - 1].setTextColor(Color.BLACK);
@@ -187,7 +185,7 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
                     questionArea.addView(questionLinearLayouts[currentQuestionPos]);
 
                     // Recuperation de la reponse
-                    questionReportInteractor.getQuestionReportByQuestionId(questionsIds[currentQuestionPos]);
+                    // questionReportInteractor.getQuestionReportByQuestionId(questionsIds[currentQuestionPos]);
 
                     // Le compteur commence a zero, d'ou le moins un
                     nbrTotalPages = questionsList.questionResponseElements.size() - 1;
@@ -210,6 +208,7 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
         /*******************************************************************
          *           RECUPERATION DES RESPONSES AUX QUESTIONS
          *******************************************************************/
+        /*
         questionReportInteractor = new QuestionReportInteractor(getApplicationContext(), new QuestionReportInteractor.QuestionReportGetter() {
             @Override
             public void onQuestionReportSuccess(List<String> reponseDUneQuestion) {
@@ -233,7 +232,7 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
                 answersArea.removeAllViews();
                 Snackbar.make(findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG).show();
             }
-        });
+        });*/
     }
 
 
