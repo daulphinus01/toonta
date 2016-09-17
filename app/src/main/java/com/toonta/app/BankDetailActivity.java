@@ -36,7 +36,7 @@ public class BankDetailActivity extends AppCompatActivity {
     TextView rightLabel;
 
     private ListView surviesListView;
-    private ProgressDialog progressDialog;
+    // private ProgressDialog progressDialog;
     private BankDetailAdapter bankDetailAdapter;
 
     @Override
@@ -73,9 +73,9 @@ public class BankDetailActivity extends AppCompatActivity {
         TextView leftLabel = (TextView) findViewById(R.id.left_label);
 
         // Progress mechanisme when verifying credential
-        progressDialog = new ProgressDialog(BankDetailActivity.this);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.string_loading_survies_activity));
+        // progressDialog = new ProgressDialog(BankDetailActivity.this);
+        // progressDialog.setIndeterminate(true);
+        // progressDialog.setMessage(getString(R.string.string_loading_survies_activity));
 
         surviesListView = (ListView) findViewById(R.id.bank_items);
 
@@ -104,14 +104,14 @@ public class BankDetailActivity extends AppCompatActivity {
         });
 
         // Showing loading window
-        progressDialog.show();
+        // progressDialog.show();
         NewSurveysInteractor newSurveysInteractor = new NewSurveysInteractor(BankDetailActivity.this, new NewSurveysInteractor.CompaniesUpdater() {
             @Override
             public void onSuccess(ToontaDAO.SurveysListAnswer surveyElementArrayList) {
                 // Dismissing loading window
-                if (progressDialog != null && progressDialog.isShowing()) {
+                /*if (progressDialog != null && progressDialog.isShowing()) {
                     progressDialog.dismiss();
-                }
+                }*/
 
                 assert rightLabel != null;
                 rightLabel.setText(Utils.computeBanksTotalToons(surveyElementArrayList.surveyElements));
@@ -127,8 +127,8 @@ public class BankDetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(String error) {
                 // Dismissing loading window
-                if (progressDialog != null && progressDialog.isShowing())
-                    progressDialog.dismiss();
+                /*if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();*/
 
                 // newSurveysListView.setEmptyView(findViewById(R.id.new_surveys_activity_empty));
                 if (surviesListView.getChildCount() == 0) {
