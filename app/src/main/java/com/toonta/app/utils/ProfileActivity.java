@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -27,6 +28,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -247,6 +249,11 @@ public class ProfileActivity extends AppCompatActivity {
             public void onToontaUserGet(ToontaUser toontaUser) {
                 Log.v("ProfileActivity ->", toontaUser.toString());
                 populateTextViews(toontaUser);
+                if (getCurrentFocus() != null) {
+                    // On masque le keyboard par defaut
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                }
                 if (toontaUser.address.country != null)
                     toontaAddressInterceptor.updateToontaCitiesAdaptor(toontaUser.address.country);
             }
