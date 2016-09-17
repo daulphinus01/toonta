@@ -45,7 +45,7 @@
 
         <ImageView
             android:id="@+id/toonta_menu_settings"
-            android:layout_width="47dp"
+            android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@mipmap/ic_settings"/>
     </LinearLayout>
