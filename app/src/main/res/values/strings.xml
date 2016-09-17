@@ -164,7 +164,9 @@
 
     <string-array name="toonta_countries_list">
         <item>Cameroun</item>
+        <item>Cameroon</item>
         <item>Sénégal</item>
+        <item>Senegal</item>
         <!--<item>Afghanistan</item>
         <item>Afrique du Sud</item>
         <item>Akrotiri</item>

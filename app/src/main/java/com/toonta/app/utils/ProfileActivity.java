@@ -170,7 +170,14 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (countryResidencePlace.getText() != null){
-                    toontaAddressInterceptor.updateToontaCitiesAdaptor(countryResidencePlace.getText().toString());
+                    switch (countryResidencePlace.getText().toString()) {
+                        case "Cameroun" :
+                            toontaAddressInterceptor.updateToontaCitiesAdaptor("Cameroon");
+                            break;
+                        default:
+                            toontaAddressInterceptor.updateToontaCitiesAdaptor(countryResidencePlace.getText().toString());
+                            break;
+                    }
                 }
             }
         });
@@ -276,8 +283,13 @@ public class ProfileActivity extends AppCompatActivity {
                     phoneNumber.getText().toString();
                 if (cityResidencePlace.getText() != null)
                     updatedUser.address.city = cityResidencePlace.getText().toString();
-                if (countryResidencePlace.getText() != null)
-                    updatedUser.address.country = countryResidencePlace.getText().toString();
+                if (countryResidencePlace.getText() != null) {
+                    if (countryResidencePlace.getText().toString().equalsIgnoreCase("cameroun")) {
+                        updatedUser.address.country = "Cameroon";
+                    } else {
+                        updatedUser.address.country = countryResidencePlace.getText().toString();
+                    }
+                }
                 updatedUser.profession = String.valueOf(professionalActivity.getSelectedItem());
                 updatedUser.sexe = sexe;
 
@@ -404,30 +416,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
         cursor.close();
         return res;
-    }
-
-    private void showAlertDialog () {
-        AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
-
-        builder.setMessage(R.string.toonta_field_modif_msg)
-                .setTitle(R.string.toonta_field_modif);
-
-        builder.setPositiveButton(R.string.toonat_ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                updatesAvailable = true;
-            }
-        });
-        builder.setNegativeButton(R.string.toonta_cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // Not necessary
-                updatesAvailable = false;
-            }
-        });
-
-
-        AlertDialog dialog = builder.create();
-
-        dialog.show();
     }
 
     private void populateTextViews(ToontaUser toontaUser) {

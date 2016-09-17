@@ -70,6 +70,7 @@
 
         <activity
             android:name=".utils.ProfileActivity"
+            android:windowSoftInputMode="adjustResize"
             android:parentActivityName=".HomeConnectedActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
