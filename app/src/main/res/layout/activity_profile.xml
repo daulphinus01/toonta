@@ -23,7 +23,8 @@
             android:layout_height="100dp"
             android:layout_marginRight="5dp"
             android:layout_marginEnd="5dp"
-            android:contentDescription="Upload profile picture"
+            android:contentDescription="@string/toonta_upload_profile_picture_desc"
+            android:scaleType="centerInside"
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
             android:src="@drawable/img_profile"/>

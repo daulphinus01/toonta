@@ -83,5 +83,14 @@ public class ToontaSharedPreferences extends Application{
         editor.putString(USER_ID, null);
         editor.apply();
         ToontaDAO.isAsFriendUserLogged = false;
+
+        // Suppression du path de la photo
+        clearProfilePicPathInPreference();
+    }
+
+    private static void clearProfilePicPathInPreference() {
+        SharedPreferences.Editor editorPF = toontaSharedPreferences.context.getSharedPreferences("ToontaProfileActivity", Context.MODE_PRIVATE).edit();
+        editorPF.putString(ToontaSharedPreferences.toontaSharedPreferences.userId + "profile_pic_name", null);
+        editorPF.apply();
     }
 }

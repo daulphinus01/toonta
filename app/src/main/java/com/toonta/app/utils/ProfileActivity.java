@@ -1,31 +1,26 @@
 package com.toonta.app.utils;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -40,23 +35,19 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.toonta.app.R;
 import com.toonta.app.ToontaSharedPreferences;
 import com.toonta.app.forms.ToontaUser;
-import com.toonta.app.model.ToontaBank;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private static final int GALLERY_INTENT_CALLED = 20;
-    private static final int GALLERY_KITKAT_INTENT_CALLED = 21;
-    private ProgressDialog progressDialog;
     private ToontaUserInterceptor toontaUserInterceptor;
 
-    private LinearLayout saveChangesLayout;
-    private Button saveChangesButton;
     private ToontaUser updatedUser;
 
     private EditText firstName;
@@ -75,21 +66,19 @@ public class ProfileActivity extends AppCompatActivity {
     // Other infos that needs to be sent when updating user's info
     private String sexe = "";
 
-    // Indicates that some fields have been modified
-    private boolean updatesAvailable = false;
-
     private EditText[] allEditTexts = new EditText[6];
 
-    private final int RESULT_LOAD_IMAGE = 100;
+    private static final int SELECT_PICTURE = 100;
+    private static final String TAG = "ToontaProfileActivity";
     private ImageView profilePic;
-    RoundImage roundedImage;
+    private RoundImage roundedImage;
+    private static final String PREF_PROFIL_PIC_TAG = ToontaSharedPreferences.toontaSharedPreferences.userId + "profile_pic_name";
 
     // Bithdate
     private int toontaUserBDyear;
     private int toontaUserBDmonth;
     private int toontaUserBDday;
     static final int DATE_DIALOG_ID = 999;
-    private static final int PICK_FROM_GALLERY = 2;
 
 
     @Override
@@ -120,12 +109,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         residencePlaceArea = (TextInputLayout) findViewById(R.id.city_of_residence_area);
 
-        // Shown when user decides to modify personal info
-        saveChangesLayout = (LinearLayout) findViewById(R.id.toonta_layout_save_changes);
-        assert saveChangesLayout != null;
-        // saveChangesLayout.setVisibility(View.INVISIBLE);
-
-        saveChangesButton = (Button) findViewById(R.id.toonta_save_changes_button);
+        Button saveChangesButton = (Button) findViewById(R.id.toonta_save_changes_button);
         assert saveChangesButton != null;
         saveChangesButton.setTransformationMethod(null);
 
@@ -201,41 +185,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         profilePic = (ImageView) findViewById(R.id.toonta_profile_pix);
         assert profilePic != null;
-        Bitmap bm = BitmapFactory.decodeResource(getResources(),R.drawable.img_profile);
-        roundedImage = new RoundImage(bm);
-        profilePic.setImageDrawable(roundedImage);
-        profilePic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                // call android default gallery
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                // ******** code for crop image
-                intent.putExtra("crop", "true");
-                intent.putExtra("aspectX", 0);
-                intent.putExtra("aspectY", 0);
-                intent.putExtra("outputX", 200);
-                intent.putExtra("outputY", 150);
-
-                try {
-
-                    intent.putExtra("return-data", true);
-                    startActivityForResult(Intent.createChooser(intent,
-                            "Complete action using"), PICK_FROM_GALLERY);
-                } catch (ActivityNotFoundException e) {
-                    // Do nothing for now
-                }
-            }
-        });
-
-
 
         // Setting profile picture
-        /*if (existProfilePicture()) {
-            profilePic.setImageBitmap(BitmapFactory.decodeFile(ToontaSharedPreferences.toontaSharedPreferences.profilePicPath));
-        }
-        // profilePic.setImageBitmap(BitmapFactory.decodeFile(ToontaSharedPreferences.toontaSharedPreferences.profilePicPath));*/
+        fetchProfilePicUriFromPreferencesAndSetImageView();
+
         profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -243,6 +196,9 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        /*************************************************************************************
+         *                              PROFILE PICTURE END
+         *************************************************************************************/
 
         toontaUserInterceptor = new ToontaUserInterceptor(getBaseContext(), new ToontaUserInterceptor.ToontaUserViewUpdater() {
             @Override
@@ -328,6 +284,10 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+    /*************************************************************************************
+     *                              PROFILE ACTIONBAR UTILS
+     *************************************************************************************/
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void setupActionBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -347,83 +307,17 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+    /*************************************************************************************
+     *                              PROFILE GO-UP UTILS
+     *************************************************************************************/
+
     public void goUp(View view) {
         NavUtils.navigateUpFromSameTask(ProfileActivity.this);
     }
 
-    @SuppressLint("NewApi")
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode != RESULT_LOAD_IMAGE) return;
-        if (data == null) return;
-        Uri selectedImage = data.getData();
-        if (requestCode == GALLERY_KITKAT_INTENT_CALLED) {
-            getContentResolver().takePersistableUriPermission(selectedImage, Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        }
-        String path = getPathFromURI(selectedImage);
-        Snackbar.make(findViewById(android.R.id.content), path, Snackbar.LENGTH_LONG).show();
-        profilePic.setImageBitmap(BitmapFactory.decodeFile(path));
-        //ToontaSharedPreferences.setToontaProfilePicPath(path);
-
-
-        roundedImage = new RoundImage(BitmapFactory.decodeFile(path));
-        profilePic.setImageDrawable(roundedImage);
-
-        /*if (requestCode == PICK_FROM_GALLERY) {
-            Bundle extras2 = data.getExtras();
-            if (extras2 != null) {
-                Bitmap photo = extras2.getParcelable("data");
-                profilePic.setImageBitmap(photo);
-
-            }
-        }*/
-    }
-
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case DATE_DIALOG_ID:
-                // set date picker as current date
-                final Calendar c = Calendar.getInstance();
-                int year = c.get(Calendar.YEAR);
-                int month = c.get(Calendar.MONTH);
-                int day = c.get(Calendar.DAY_OF_MONTH);
-                // TODO Use Theme_Material_Dialog_Alert instead of AlertDialog.THEME_HOLO_DARK
-                return new DatePickerDialog(this, AlertDialog.THEME_HOLO_DARK, datePickerListener,
-                        year, month,day);
-        }
-        return null;
-    }
-
-    /* Choose an image from Gallery */
-    public void openImageChooser() {
-        if (Build.VERSION.SDK_INT < 19){
-            Intent intent = new Intent();
-            intent.setType("image/jpeg");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_INTENT_CALLED);
-        } else {
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("image/jpeg");
-            startActivityForResult(intent, GALLERY_KITKAT_INTENT_CALLED);
-        }
-    }
-
-    /* Get the real path from the URI */
-    public String getPathFromURI(Uri contentUri) {
-        String res = null;
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
-        if (cursor.moveToFirst()) {
-            int columnIndex = cursor.getColumnIndex(proj[0]);
-            res = cursor.getString(columnIndex);
-        }
-        cursor.close();
-        return res;
-    }
+    /*************************************************************************************
+     *                              PROFILE FORM UTILS
+     *************************************************************************************/
 
     private void populateTextViews(ToontaUser toontaUser) {
         firstName.setText(toontaUser.firstname);
@@ -474,11 +368,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private boolean existProfilePicture() {
-        return ToontaSharedPreferences.toontaSharedPreferences.profilePicPath != null
-                && !ToontaSharedPreferences.toontaSharedPreferences.profilePicPath.isEmpty();
-    }
-
     private int getPosFromToontaProfessionByString(String profession) {
         String[] professions = getResources().getStringArray(R.array.toonta_profession_type);
         for (int i = 0; i < professions.length; i++) {
@@ -487,6 +376,26 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }
         return 0;
+    }
+
+    /*************************************************************************************
+     *                              PROFILE DATEPICKER UTILS
+     *************************************************************************************/
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case DATE_DIALOG_ID:
+                // set date picker as current date
+                final Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+                // TODO Use Theme_Material_Dialog_Alert instead of AlertDialog.THEME_HOLO_DARK
+                return new DatePickerDialog(this, AlertDialog.THEME_HOLO_DARK, datePickerListener,
+                        year, month,day);
+        }
+        return null;
     }
 
     private DatePickerDialog.OnDateSetListener datePickerListener
@@ -506,4 +415,89 @@ public class ProfileActivity extends AppCompatActivity {
                     .append(toontaUserBDday));
         }
     };
+
+    /*************************************************************************************
+     *                              PROFILE PICTURE UTILS
+     *************************************************************************************/
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == SELECT_PICTURE) {
+                // Get the url from data
+                Uri selectedImageUri = data.getData();
+                if (null != selectedImageUri) {
+                    // First we clear the preferences
+                    clearImageUriInPreferences();
+                    // Save Uri into preferences
+                    saveImageUriInPreferences(selectedImageUri);
+                    // Set the image in ImageView
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
+                        roundedImage = new RoundImage(bitmap, 100, 100);
+                        profilePic.setImageDrawable(roundedImage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    /* Choose an image from Gallery */
+    private void openImageChooser() {
+        Intent intent;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+        }else{
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+        }
+        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+    }
+
+    private void saveImageUriInPreferences(Uri profilePicUri) {
+        SharedPreferences myPrefs = getSharedPreferences(TAG, 0);
+        SharedPreferences.Editor myPrefsEdit = myPrefs.edit();
+
+        myPrefsEdit.putString(PREF_PROFIL_PIC_TAG, profilePicUri.toString());
+        myPrefsEdit.apply();
+    }
+
+    private void clearImageUriInPreferences() {
+        SharedPreferences myPrefs = getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        SharedPreferences.Editor myPrefsEdit = myPrefs.edit();
+        myPrefsEdit.putString(PREF_PROFIL_PIC_TAG, null);
+        myPrefsEdit.apply();
+    }
+
+    private void fetchProfilePicUriFromPreferencesAndSetImageView() {
+        SharedPreferences myPrefs = getSharedPreferences(TAG, 0);
+        String strUriPref = myPrefs.getString(PREF_PROFIL_PIC_TAG, "toontaDefaultProfPicString");
+        if (!strUriPref.equals("toontaDefaultProfPicString")) {
+            Uri imageUri = Uri.parse(myPrefs.getString(PREF_PROFIL_PIC_TAG, "toontaDefaultProfPicString"));
+            if (imageUri != null) {
+                try {
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                        final int takeFlags =  (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        getContentResolver().takePersistableUriPermission(imageUri, takeFlags);
+                    }
+                    // convert uri to bitmap
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                    roundedImage = new RoundImage(bitmap, 100, 100);
+                    profilePic.setImageDrawable(roundedImage);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            Bitmap bm = BitmapFactory.decodeResource(getResources(),R.drawable.img_profile);
+            roundedImage = new RoundImage(bm, 100, 100);
+            profilePic.setImageDrawable(roundedImage);
+        }
+    }
+
 }

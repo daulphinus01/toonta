@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
@@ -25,7 +26,21 @@ public class RoundImage extends Drawable{
     private final int mBitmapWidth;
     private final int mBitmapHeight;
 
-    public RoundImage(Bitmap bitmap) {
+    /*public RoundImage(Bitmap bitmap, int bitmapWidth, int bitmapHeight) {
+        mBitmap = bitmap;
+        mRectF = new RectF(0, 0, bitmapWidth, bitmapHeight);
+        mPaint = new Paint();
+        mPaint.setAntiAlias(true);
+        mPaint.setDither(true);
+        final BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+        mPaint.setShader(shader);
+
+        mBitmapWidth = bitmapWidth;
+        mBitmapHeight = bitmapHeight;
+    }*/
+
+    public RoundImage(Bitmap bitmap, int bitmapWidth, int bitmapHeight) {
+        //mBitmap = resize(bitmap, bitmapWidth, bitmapHeight);
         mBitmap = bitmap;
         mRectF = new RectF();
         mPaint = new Paint();
@@ -69,12 +84,12 @@ public class RoundImage extends Drawable{
 
     @Override
     public int getIntrinsicWidth() {
-        return mBitmapWidth;
+        return mBitmapWidth < mBitmapHeight ? mBitmapWidth:mBitmapHeight ;
     }
 
     @Override
     public int getIntrinsicHeight() {
-        return mBitmapHeight;
+        return mBitmapHeight < mBitmapWidth ? mBitmapHeight: mBitmapWidth;
     }
 
     public void setAntiAlias(boolean aa) {
@@ -96,5 +111,21 @@ public class RoundImage extends Drawable{
 
     public Bitmap getBitmap() {
         return mBitmap;
+    }
+
+    private Bitmap resize(Bitmap originalImage, int newWidth, int newHeight) {
+        Bitmap background = Bitmap.createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888);
+        float originalWidth = originalImage.getWidth();
+        float originalHeight = originalImage.getHeight();
+        Canvas canvas = new Canvas(background);
+        float scale = newWidth/originalWidth;
+        float xTranslation = 0.0f, yTranslation = (newHeight - originalHeight * scale)/2.0f;
+        Matrix transformation = new Matrix();
+        transformation.postTranslate(xTranslation, yTranslation);
+        transformation.preScale(scale, scale);
+        Paint paint = new Paint();
+        paint.setFilterBitmap(true);
+        canvas.drawBitmap(originalImage, transformation, paint);
+        return background;
     }
 }

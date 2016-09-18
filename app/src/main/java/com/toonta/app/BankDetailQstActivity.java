@@ -132,14 +132,14 @@ public class BankDetailQstActivity extends AppCompatActivity {
                 }
 
                 if (surveyElementArrayList.size() == 0) {
-                    Snackbar.make(findViewById(android.R.id.content), "No survies to show", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(android.R.id.content), R.string.toonta_No_surveys_to_show, Snackbar.LENGTH_LONG).show();
                 } else {
                     ToontaDAO.SurveysListAnswer tmp = new ToontaDAO.SurveysListAnswer();
                     tmp.surveyElements = surveyElementArrayList;
                     ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementsByAuthor =
                             getSurviesByAuthorId(authorId, Utils.getAnsweredSurvies(tmp));
                     if (surveyElementsByAuthor.size() < 1) {
-                        Snackbar.make(findViewById(android.R.id.content), "No survies to show", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(findViewById(android.R.id.content), R.string.toonta_No_surveys_to_show, Snackbar.LENGTH_LONG).show();
                     } else {
                         assert leftLabel != null;
                         leftLabel.setText(Utils.computeBanksTotalToons(surveyElementsByAuthor));
