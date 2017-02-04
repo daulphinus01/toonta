@@ -71,7 +71,7 @@
                         android:imeOptions="actionNext"
                         android:background="@android:color/transparent"
                         android:hint="@string/fisrt_name"
-                        android:textColor="@color/screen_1_text"/>
+                        android:textColor="@color/screen_1_1_bg"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -89,7 +89,7 @@
                         android:imeOptions="actionNext"
                         android:background="@android:color/transparent"
                         android:hint="@string/last_name"
-                        android:textColor="@color/screen_1_text"/>
+                        android:textColor="@color/screen_1_1_bg"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -108,7 +108,7 @@
                         android:singleLine="true"
                         android:background="@android:color/transparent"
                         android:hint="@string/birth_date"
-                        android:textColor="@color/screen_1_text"/>
+                        android:textColor="@color/screen_1_1_bg"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -137,7 +137,7 @@
                         android:imeOptions="actionNext"
                         android:background="@android:color/transparent"
                         android:hint="@string/email_address"
-                        android:textColor="@color/screen_1_text"/>
+                        android:textColor="@color/screen_1_1_bg"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -156,7 +156,7 @@
                         android:imeOptions="actionNext"
                         android:background="@android:color/transparent"
                         android:hint="@string/phone__number"
-                        android:textColor="@color/screen_1_text"/>
+                        android:textColor="@color/screen_1_1_bg"/>
 
                 </android.support.design.widget.TextInputLayout>
 

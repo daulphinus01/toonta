@@ -13,57 +13,59 @@
         <include layout="@layout/custom_actionbar_with_up_button_popup_window"/>
     </LinearLayout>
 
-    <!-- Zone de text : description -->
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/activity_horizontal_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin"
-        android:paddingBottom="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:background="@color/white_bg_opacity_87"
         android:layout_below="@+id/popup_window_action_bar"
-        android:layout_above="@+id/popup_window_zone_boutons">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="30dp"
-            android:id="@+id/survey_description"
-            android:textSize="18sp"/>
-    </ScrollView>
-
-    <!-- Zonne des boutons cancel et ok -->
-    <LinearLayout
-        android:id="@+id/popup_window_zone_boutons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:paddingTop="@dimen/activity_horizontal_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingStart="@dimen/activity_horizontal_margin"
         android:paddingBottom="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingEnd="@dimen/activity_horizontal_margin"
-        android:gravity="center"
-        android:layout_alignParentBottom="true">
+        android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatButton
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/popup_cancel_button"
-            android:text="@android:string/cancel"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"/>
+        <!-- Zone de text : description -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.85">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="30dp"
+                android:id="@+id/survey_description"
+                android:textSize="18sp"/>
+        </ScrollView>
 
-        <android.support.v7.widget.AppCompatButton
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/popup_ok_button"
-            android:text="@string/toonta_go_to_questions"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"/>
+        <!-- Zonne des boutons cancel et ok -->
+        <LinearLayout
+            android:id="@+id/popup_window_zone_boutons"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.15"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/popup_cancel_button"
+                android:text="@android:string/cancel"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/popup_ok_button"
+                android:text="@string/toonta_go_to_questions"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"/>
+        </LinearLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

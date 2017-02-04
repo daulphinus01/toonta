@@ -10,7 +10,8 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="15dp">
+            android:layout_marginBottom="15dp"
+            android:background="@color/white_bg_opacity_87">
 
             <LinearLayout
                 android:id="@+id/qst_resp_part_screen_no_answer"
