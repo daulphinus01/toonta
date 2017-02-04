@@ -12,10 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.toonta.app.HomeConnectedActivity;
 import com.toonta.app.R;
-import com.toonta.app.ToontaSharedPreferences;
 import com.toonta.app.activities.signup.SignupInteractor;
 import com.toonta.app.utils.Utils;
 
@@ -105,21 +103,6 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
-
-/*    @Override
-    public void onResume() {
-        super.onResume();
-        if (!ToontaSharedPreferences.isLoggedIn()) {
-            Intent intent = new Intent(getApplicationContext(), ToontaLogin.class);
-            if (!ToontaSharedPreferences.isFistUseSliderValidated()) {
-                intent.putExtra(NEED_FIRST_USE_SLIDER, true);
-            }
-            startActivity(intent);
-        } else {
-            startActivity(new Intent(getApplicationContext(), HomeConnectedActivity.class));
-        }
-        finish();
-    }*/
 
     private void loadLogo() {
         try {

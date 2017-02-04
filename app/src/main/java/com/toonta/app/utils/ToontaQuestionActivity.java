@@ -22,6 +22,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.toonta.app.BuildConfig;
 import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
 import com.toonta.app.ToontaSharedPreferences;
@@ -184,6 +185,7 @@ public class ToontaQuestionActivity extends AppCompatActivity {
         NewSurveysInteractor newSurveyInteractor = new NewSurveysInteractor(getApplicationContext(), new NewSurveysInteractor.OneSurveyViewUpdator() {
             @Override
             public void onGetSurvey(ToontaDAO.QuestionsList qstList) {
+                if (BuildConfig.DEBUG)
                 Log.v(TAG + " List ", qstList.toString());
                 questionsList = qstList;
 

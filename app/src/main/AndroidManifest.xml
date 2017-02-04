@@ -89,10 +89,6 @@
         </activity>
 
         <activity
-            android:name=".activities.LoadingActivity"
-            android:theme="@style/SplashTheme" />
-
-        <activity
             android:name=".utils.ToontaQuestionNoAnswerActivity"
             android:parentActivityName=".BankDetailQstActivity">
             <meta-data
@@ -103,10 +99,7 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="f93ba3685339753bc463fee8b4590adcad3e5655" />
-        <!--
-     ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

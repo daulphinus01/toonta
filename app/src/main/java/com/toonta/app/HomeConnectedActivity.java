@@ -100,7 +100,12 @@ public class HomeConnectedActivity extends AppCompatActivity {
                     final PopupWindow popupWindow = new PopupWindow(popupWindowLayout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
                     popupWindow.showAtLocation(findViewById(R.id.list_surveys), Gravity.CENTER, 0, 0);
 
-                    ((TextView) popupWindowLayout.findViewById(R.id.survey_description)).setText(surveyElement.summary);
+                    String popupWindowContentText = "No description available for this survey";
+                    if (surveyElement.summary != null && !surveyElement.summary.trim().isEmpty() && !surveyElement.summary.equals("string")) {
+                        popupWindowContentText = surveyElement.summary;
+                    }
+
+                    ((TextView) popupWindowLayout.findViewById(R.id.survey_description)).setText(popupWindowContentText);
 
                     AppCompatButton ok = (AppCompatButton) popupWindowLayout.findViewById(R.id.popup_ok_button);
                     ok.setTransformationMethod(null);

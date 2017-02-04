@@ -1,13 +1,10 @@
 package com.toonta.app.activities.new_surveys;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
-import com.toonta.app.model.SurveyResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionReportInteractor {

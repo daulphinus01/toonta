@@ -31,11 +31,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.toonta.app.BuildConfig;
 import com.toonta.app.R;
 import com.toonta.app.ToontaSharedPreferences;
 import com.toonta.app.forms.ToontaUser;
@@ -203,6 +202,7 @@ public class ProfileActivity extends AppCompatActivity {
         toontaUserInterceptor = new ToontaUserInterceptor(getBaseContext(), new ToontaUserInterceptor.ToontaUserViewUpdater() {
             @Override
             public void onToontaUserGet(ToontaUser toontaUser) {
+                if (BuildConfig.DEBUG)
                 Log.v("ProfileActivity ->", toontaUser.toString());
                 populateTextViews(toontaUser);
                 if (getCurrentFocus() != null) {
@@ -256,6 +256,7 @@ public class ProfileActivity extends AppCompatActivity {
                 updatedUser.profession = String.valueOf(professionalActivity.getSelectedItem());
                 updatedUser.sexe = sexe;
 
+                if (BuildConfig.DEBUG)
                 Log.e("***ProfileActivity***", "SaveChangeButton clicked [ " + updatedUser.toString() + " ]");
 
                 // Sending changes to server

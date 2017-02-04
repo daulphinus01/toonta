@@ -22,9 +22,7 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
     <string name="toonta_sign_up">Sign up</string>
     <string name="toonta_sign_in">Log in</string>
     <string name="sign_up_screen_img">Sign up screen</string>
@@ -48,8 +46,6 @@
     <string name="label_three">City of residence</string>
     <string name="upload_photo">Upload photo</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="submit">Submit</string>
 
 
@@ -114,7 +110,7 @@
     <string name="profile_change_success">Profile updated successefuly</string>
     <string name="validate_the_survey_as">Validate the survey as...</string>
     <string name="toonta_yourself_button">Yourself</string>
-    <string name="toonta_a_fiend">A fiend</string>
+    <string name="toonta_a_fiend">A friend</string>
     <string name="please_fill_in_the_below">Please fill in the below</string>
     <string name="toonta_validation_as_friend_validate">Validate</string>
     <string name="you_have_received_a_confirmation_code">You have received a confirmation code</string>
@@ -130,6 +126,8 @@
     <string name="toonta_go_to_questions">Go to questions</string>
     <string name="toonta_No_surveys_to_show">No surveys to show</string>
     <string name="toonta_upload_profile_picture_desc">Upload profile picture</string>
+
+    <string name="toonta_share_url">Try Toonta for Smartphone. Download it here : http://www.heebari.com/#team</string>
 
     <string-array name="toonta_profession_type">
         <item>ALL</item>

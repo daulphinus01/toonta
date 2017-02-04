@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 
+import com.toonta.app.BuildConfig;
 import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
 import com.toonta.app.model.SurveyResponse;
@@ -138,6 +139,7 @@ public class NewSurveysInteractor {
         ToontaDAO.getSurvey(surveyId, new ToontaDAO.SurveyNetworkCallInterface(){
             @Override
             public void onSuccess(ToontaDAO.QuestionsList questionsList) {
+                if (BuildConfig.DEBUG)
                 Log.v(TAG, questionsList.toString());
                 oneSurveyViewUpdator.onGetSurvey(questionsList);
             }
@@ -185,6 +187,7 @@ public class NewSurveysInteractor {
             ToontaDAO.getAnsweredSurveysIds(authorId, new ToontaDAO.SurveysListIDsNetworkCallInterface() {
                 @Override
                 public void onSuccess(List<String> surveysListAnswer) {
+                    if (BuildConfig.DEBUG)
                     Log.v("NewSurveysInteractor", surveysListAnswer.toString());
                     surviesIDsUpdater.onSuccess(surveysListAnswer.contains(surveyId));
                 }
@@ -201,6 +204,7 @@ public class NewSurveysInteractor {
         ToontaDAO.getCompanies(new ToontaDAO.CompaniesNetworkCallInterface() {
             @Override
             public void onSuccess(ToontaDAO.SurveysListAnswer surveysListAnswer) {
+                if (BuildConfig.DEBUG)
                 Log.v("NewSurveysInteractor", surveysListAnswer.toString());
                 companiesUpdater.onSuccess(surveysListAnswer);
             }

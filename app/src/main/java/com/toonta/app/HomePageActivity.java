@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -22,9 +21,10 @@ import android.widget.ViewFlipper;
 import com.crashlytics.android.Crashlytics;
 import com.toonta.app.forms.ToontaLogin;
 
-import io.fabric.sdk.android.Fabric;
 import java.io.IOException;
 import java.io.InputStream;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * @author Marcellin RWEGO

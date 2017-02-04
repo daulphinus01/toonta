@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.util.Log;
 import android.view.ActionMode;
@@ -18,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.toonta.app.BuildConfig;
 import com.toonta.app.HomePageActivity;
 import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
@@ -100,7 +102,7 @@ public class Utils {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject here");
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, "Try Toonta for Smartphone. Download it here : https://www.heebari.com");
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.toonta_share_url));
         context.startActivity(Intent.createChooser(sharingIntent,"Share using"));
     }
 
@@ -147,11 +149,13 @@ public class Utils {
 
                         RadioButton yesRB = new RadioButton(context);
                         yesRB.setText(R.string.toonta_radio_button_yes);
+                        yesRB.setTextColor(context.getResources().getColor(R.color.radiobutton_selector));
                         rg.addView(yesRB, buttonGroupLayoutParams);
                         yesRB.setId(context.getResources().getInteger(R.integer.YES_RADIO_BUTTON_ID));
 
                         RadioButton noRB = new RadioButton(context);
                         noRB.setText(R.string.toonta_radio_button_no);
+                        noRB.setTextColor(context.getResources().getColor(R.color.radiobutton_selector));
                         rg.addView(noRB, buttonGroupLayoutParams);
                         noRB.setId(context.getResources().getInteger(R.integer.NO_RADIO_BUTTON_ID));
 
@@ -184,6 +188,7 @@ public class Utils {
                             for (int k = 0; k < questionResponse.get(i).choices.size(); k++) {
                                 tabRB[k] = new RadioButton(context);
                                 tabRB[k].setText(questionResponse.get(i).choices.get(k).value);
+                                tabRB[k].setTextColor(ContextCompat.getColorStateList(context, R.color.radiobutton_selector));
                                 tabRB[k].setTag(questionResponse.get(i).choices.get(k).id);
                                 multipleChoiceRG.addView(tabRB[k], multipleChoiceRGGroupLayoutParams);
                             }
@@ -198,6 +203,7 @@ public class Utils {
                                                 ViewGroup.LayoutParams.WRAP_CONTENT);
                                 tabCheckBoxes[k] = new CheckBox(context);
                                 tabCheckBoxes[k].setText(questionResponse.get(i).choices.get(k).value);
+                                tabCheckBoxes[k].setTextColor(ContextCompat.getColorStateList(context, R.color.radiobutton_selector));
                                 tabCheckBoxes[k].setId(questionResponse.get(i).choices.get(k).id.hashCode());
                                 tabCheckBoxes[k].setTag(ToontaConstants.TOONTA_MULTIPLE_CHOICE_TAG + questionResponse.get(i).choices.get(k).id);
                                 tabCheckBoxes[k].setLayoutParams(boxLayoutParams);
@@ -248,6 +254,7 @@ public class Utils {
             content.put("respondentId", surveyResponse.respondentId);
             content.put("responses", respArray);
             content.put("surveyId", surveyResponse.surveyId);
+            if (BuildConfig.DEBUG)
             Log.v("Utils ", content.toString());
             return content;
         } catch (JSONException e) {
@@ -278,6 +285,7 @@ public class Utils {
             content.put("respondentId", asAFriendUserId);
             content.put("responses", respArray);
             content.put("surveyId", surveyResponse.surveyId);
+            if (BuildConfig.DEBUG)
             Log.v("Utils ", content.toString());
             return content;
         } catch (JSONException e) {

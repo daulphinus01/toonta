@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.toonta.app.BuildConfig;
 import com.toonta.app.HomeConnectedActivity;
 import com.toonta.app.HomePageActivity;
 import com.toonta.app.R;
@@ -65,6 +66,7 @@ public class ValidateQuestionActivity extends AppCompatActivity {
 
         // Getting bundles
         responsesToBeSent = getIntent().getParcelableExtra(ToontaConstants.SURVEY_RESPONSES_TO_BE_SENT);
+        if (BuildConfig.DEBUG)
         Log.v("=============>", responsesToBeSent.toString());
         final String titleQuestionScreen = getIntent().getStringExtra(ToontaConstants.QUESTION_TITLE);
 

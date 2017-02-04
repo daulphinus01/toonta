@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -83,6 +82,7 @@ public class ToontaDAO extends Application {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        if (BuildConfig.DEBUG)
                         Log.v(TAG + " LogIn", response.toString());
                         LoginAnswer loginAnswer = parseLogin(response);
                         if (loginAnswer.loggedIn) {
@@ -96,6 +96,7 @@ public class ToontaDAO extends Application {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        if (BuildConfig.DEBUG)
                         Log.e(TAG + " LogIn", error.toString());
                         if (error instanceof NoConnectionError) {
                             simpleNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
@@ -155,6 +156,7 @@ public class ToontaDAO extends Application {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
+                            if (BuildConfig.DEBUG)
                             Log.v(TAG + " Signup", response.toString());
                             LoginAnswer loginAnswer = parseLogin(response);
                             if (isAsFriendUserLogged) {
@@ -174,6 +176,7 @@ public class ToontaDAO extends Application {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            if (BuildConfig.DEBUG)
                             Log.e(TAG + " Signup", error.toString());
                             if (error instanceof NoConnectionError) {
                                 simpleNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
@@ -236,6 +239,7 @@ public class ToontaDAO extends Application {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
+                        if (BuildConfig.DEBUG)
                         Log.v(TAG + " Surveys list", response.toString());
                         surveysListNetworkCallInterface.onSuccess(parseSurveyList(response).surveyElements);
                     }
@@ -243,6 +247,7 @@ public class ToontaDAO extends Application {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        if (BuildConfig.DEBUG)
                         Log.e(TAG + " Surveys list", error.toString());
                         if (error instanceof NoConnectionError) {
                             surveysListNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
@@ -273,6 +278,7 @@ public class ToontaDAO extends Application {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        if (BuildConfig.DEBUG)
                         Log.v(TAG + " One Survey ", response.toString());
                         surveyNetworkCallInterface.onSuccess(parseQuestionsList(response));
                     }
@@ -280,6 +286,7 @@ public class ToontaDAO extends Application {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        if (BuildConfig.DEBUG)
                         Log.e(TAG + " One Survey ", error.toString());
                         if (error instanceof NoConnectionError) {
                             surveyNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
@@ -310,6 +317,7 @@ public class ToontaDAO extends Application {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        if (BuildConfig.DEBUG)
                         Log.v(TAG + " Surveys IDs list", response.toString());
                         surveysListNetworkCallInterface.onSuccess(parseSurveyIDs(response));
                     }
@@ -317,6 +325,7 @@ public class ToontaDAO extends Application {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        if (BuildConfig.DEBUG)
                         Log.e(TAG + " Surveys IDs list", error.toString());
                         if (error instanceof NoConnectionError) {
                             surveysListNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
@@ -347,6 +356,7 @@ public class ToontaDAO extends Application {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        if (BuildConfig.DEBUG)
                         Log.v(TAG + " Companies list", response.toString());
                         surveysListNetworkCallInterface.onSuccess(parseCompanies(response));
                     }
@@ -354,6 +364,7 @@ public class ToontaDAO extends Application {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        if (BuildConfig.DEBUG)
                         Log.e(TAG + " Companies list", error.toString());
                         if (error instanceof NoConnectionError) {
                             surveysListNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
@@ -384,6 +395,7 @@ public class ToontaDAO extends Application {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        if (BuildConfig.DEBUG)
                         Log.v(TAG + " ToontaUser ", response.toString());
                         toontaUserNetworkCallInterface.onSuccess(parseToontaUser(response));
                     }
@@ -391,6 +403,7 @@ public class ToontaDAO extends Application {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        if (BuildConfig.DEBUG)
                         Log.e(TAG + " ToontaUser ", error.toString());
                         if (error instanceof NoConnectionError) {
                             toontaUserNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
@@ -422,6 +435,7 @@ public class ToontaDAO extends Application {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        if (BuildConfig.DEBUG)
                         Log.v(TAG + " ToontaUser ", response.toString());
                         toontaUserNetworkCallInterface.onSuccess(parseToontaUser(response));
                     }
@@ -429,6 +443,7 @@ public class ToontaDAO extends Application {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        if (BuildConfig.DEBUG)
                         Log.e(TAG + " ToontaUser ", error.toString());
                         if (error instanceof NoConnectionError) {
                             toontaUserNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
@@ -463,9 +478,11 @@ public class ToontaDAO extends Application {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
+                                if (BuildConfig.DEBUG)
                                 Log.v(TAG + " Answer Success", response.getString("status"));
                                 surveyPostNetworkCallInterface.onSuccess();
                             } catch (JSONException e) {
+                                if (BuildConfig.DEBUG)
                                 Log.e(TAG + " Answer Success", e.getMessage());
                             }
                         }
@@ -474,12 +491,15 @@ public class ToontaDAO extends Application {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             if (error instanceof NoConnectionError) {
+                                if (BuildConfig.DEBUG)
                                 Log.e(TAG + " Answer Error", error.toString());
                                 surveyPostNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
                             } else if (error.toString().contains("Value OK of type")) {
+                                if (BuildConfig.DEBUG)
                                 Log.v(TAG + " Answer Success", " OK ");
                                 surveyPostNetworkCallInterface.onSuccess();
                             } else {
+                                if (BuildConfig.DEBUG)
                                 Log.e(TAG + " Answer Error", error.toString());
                                 surveyPostNetworkCallInterface.onFailure(NetworkAnswer.NO_SERVER);
                             }
@@ -510,9 +530,11 @@ public class ToontaDAO extends Application {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
+                                if (BuildConfig.DEBUG)
                                 Log.v(TAG + " Answer Success", response.getString("status"));
                                 surveyPostNetworkCallInterface.onSuccess();
                             } catch (JSONException e) {
+                                if (BuildConfig.DEBUG)
                                 Log.e(TAG + " Answer Success", e.getMessage());
                             }
                         }
@@ -521,12 +543,15 @@ public class ToontaDAO extends Application {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             if (error instanceof NoConnectionError) {
+                                if (BuildConfig.DEBUG)
                                 Log.e(TAG + " Answer Error", error.toString());
                                 surveyPostNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
                             } else if (error.toString().contains("Value OK of type")) {
+                                if (BuildConfig.DEBUG)
                                 Log.v(TAG + " Answer Success", " OK ");
                                 surveyPostNetworkCallInterface.onSuccess();
                             } else {
+                                if (BuildConfig.DEBUG)
                                 Log.e(TAG + " Answer Error", error.toString());
                                 surveyPostNetworkCallInterface.onFailure(NetworkAnswer.NO_SERVER);
                             }
@@ -969,6 +994,7 @@ public class ToontaDAO extends Application {
     public static void updateToontaUser(ToontaUser toontaUser, final UpdateToontaUserNetworkCallInterface updateToontaUserNetworkCallInterface) {
         try {
             JSONObject content = getToontaJSONObjectFromToontaUser(toontaUser);
+            if (BuildConfig.DEBUG)
             Log.e(TAG, "updateToontaUser(" + toontaUser.toString() + ")");
 
             String userId = ToontaSharedPreferences.toontaSharedPreferences.userId;
@@ -982,6 +1008,7 @@ public class ToontaDAO extends Application {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
+                            if (BuildConfig.DEBUG)
                             Log.v(TAG + " Update ToontaUser", response.toString());
                             String responseStatus = "";
 
@@ -1000,7 +1027,9 @@ public class ToontaDAO extends Application {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.e(TAG + " Update ToontaUser", error.toString());
+                            if (BuildConfig.DEBUG)
+                                if (BuildConfig.DEBUG)
+                                Log.e(TAG + " Update ToontaUser", error.toString());
                             if (error instanceof NoConnectionError) {
                                 updateToontaUserNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
                             } else {
@@ -1086,6 +1115,7 @@ public class ToontaDAO extends Application {
                             String authorID = rewardsObjectsKeys.next();
                             JSONObject company = rewardsObjects.getJSONObject(authorID);
                             if (company != null) {
+                                if (BuildConfig.DEBUG)
                                 Log.e("ToontaDAO Companies", company.toString());
                                 String sourceName = "Company undefined";
                                 if (company.has("sourceName")) {
@@ -1122,6 +1152,7 @@ public class ToontaDAO extends Application {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        if (BuildConfig.DEBUG)
                         Log.v(TAG + " Report for a question ", response.toString());
                         List<String> reponsesOfAQuestion = parseResponseOfQuestions(response);
                         reportSimpleNetworkCallInterface.onSuccess(reponsesOfAQuestion);
@@ -1130,6 +1161,7 @@ public class ToontaDAO extends Application {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        if (BuildConfig.DEBUG)
                         Log.e(TAG + " Report for a question ", error.toString());
                         if (error instanceof NoConnectionError) {
                             reportSimpleNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
@@ -1192,6 +1224,7 @@ public class ToontaDAO extends Application {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
+                        if (BuildConfig.DEBUG)
                         Log.v(TAG + " Cities by country ", response.toString());
                         List<String> cities = parseToontaAddressList(response);
                         addressNetworkCallInterface.onSuccess(cities);
@@ -1200,6 +1233,7 @@ public class ToontaDAO extends Application {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        if (BuildConfig.DEBUG)
                         Log.e(TAG + " Cities by country ", error.toString());
                         if (error instanceof NoConnectionError) {
                             addressNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
