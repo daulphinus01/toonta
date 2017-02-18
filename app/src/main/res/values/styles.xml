@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/screen_bg_title_color</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorHint">@color/screen_1_text</item>
+        <item name="android:textColorHint">@color/screen_1_1_bg</item>
 <!--        <item name="android:actionBarSize">75dp</item>
         <item name="actionBarSize">75dp</item>
         <item name="android:logo">@mipmap/toonta_logo</item>

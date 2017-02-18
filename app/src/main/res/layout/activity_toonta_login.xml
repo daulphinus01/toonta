@@ -30,8 +30,7 @@
                 <ImageView
                     android:id="@+id/toonta_logo"
                     android:layout_width="130dp"
-                    android:layout_height="130dp"
-                    android:background="@color/blue_opacity_09"/>
+                    android:layout_height="130dp"/>
 
             </RelativeLayout>
 
@@ -125,7 +124,7 @@
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             android:text="@string/toonta_sign_up"
-                            android:textColor="@color/colorPrimaryDark"
+                            android:textColor="@color/screen_1_1_bg"
                             android:background="@drawable/button_bg_yellow"
                             android:layout_gravity="center"/>
 
@@ -141,7 +140,7 @@
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             android:text="@string/toonta_sign_in"
-                            android:textColor="@color/colorPrimaryDark"
+                            android:textColor="@color/screen_1_1_bg"
                             android:background="@drawable/button_bg_yellow"
                             android:layout_gravity="center"/>
                     </LinearLayout>

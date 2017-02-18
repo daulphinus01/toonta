@@ -32,7 +32,6 @@
                     android:id="@+id/toonta_logo"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
-                    android:background="@color/blue_opacity_09"
                     android:contentDescription="@string/sign_up_screen_img"/>
 
             </RelativeLayout>
@@ -135,6 +134,7 @@
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:text="@string/toonta_sign_up"
+                        android:textColor="@color/screen_1_1_bg"
                         android:background="@drawable/button_bg_yellow"/>
                 </LinearLayout>
 
