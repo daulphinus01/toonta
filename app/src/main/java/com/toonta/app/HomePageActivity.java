@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -32,8 +33,11 @@ import io.fabric.sdk.android.Fabric;
  */
 public class HomePageActivity extends AppCompatActivity {
 
+    private static final int NBR_OF_SLIDES = 3;
+    private static final int FLIP_INTERVAL_MILLI = 40000;
+
     private ViewFlipper viewFlipper;
-    private float lastX;
+    private float initialX;
 
     private Context context;
 
@@ -147,41 +151,8 @@ public class HomePageActivity extends AppCompatActivity {
                     }
                 }
             });
-            viewFlipper.setFlipInterval(4000);
+            viewFlipper.setFlipInterval(FLIP_INTERVAL_MILLI);
             viewFlipper.startFlipping();
-
-            viewFlipper.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN :
-                            lastX = event.getX();
-                            return true;
-
-                        case MotionEvent.ACTION_UP :
-                            float currentX = event.getX();
-                            // Handling left to right screen swap.
-                            if (lastX < currentX) {
-                                // If there aren't any other children, just break.
-                                if (viewFlipper.getDisplayedChild() == 0)
-                                    break;
-                                viewFlipper.showNext();
-                            }
-                            // Handling right to left screen swap.
-                            if (lastX > currentX) {
-                                // If there is a child (to the left), kust break.
-                                if (viewFlipper.getDisplayedChild() == 1)
-                                    break;
-                                // Display previous screen.
-                                viewFlipper.showPrevious();
-                            }
-                            return true;
-                        default:
-                            break;
-                    }
-                    return false;
-                }
-            });
         }
     }
 
@@ -206,6 +177,38 @@ public class HomePageActivity extends AppCompatActivity {
             viewFlipper.stopFlipping();
         }
         super.onPause();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN :
+                initialX = event.getX();
+                break;
+
+            case MotionEvent.ACTION_UP :
+                float lastX = event.getX();
+                int currChild = viewFlipper.getDisplayedChild();
+
+                // Handling left to right screen swap.
+                if (initialX < lastX) {
+                    // If there aren't any other children on the left <--, just break.
+                    if (currChild == 0)
+                        break;
+                    viewFlipper.showPrevious();
+                } else if (initialX > lastX){
+                    // If there aren't any other children on the right -->, just break.
+                    if (currChild == NBR_OF_SLIDES - 1)
+                        break;
+                    viewFlipper.showNext();
+                } else {
+                    break;
+                }
+                break;
+            default:
+                break;
+        }
+        return false;
     }
 
     /**
