@@ -35,6 +35,7 @@
     <color name="screen_2_bg">#1B9196</color>
     <color name="screen_bg_qst">#129196</color>
     <color name="screen_bg_title_color">#138C91</color>
+    <color name="screen_1_text_action_bar">#f5f6f7</color>
     <color name="screen_1_text">#FB9D02</color>
     <color name="row_sub_title">#403118</color>
     <color name="bank_row">#CAE2E3</color>
@@ -44,5 +45,7 @@
     <!-- LOGIN SCREEN -->
     <color name="cadre_login">#F2D2B7</color>
     <color name="cadre_sign">#1C3839</color>
+
+    <color name="title_bg_color">#DCDFE0</color>
 
 </resources>

@@ -69,7 +69,7 @@ public class SurveysAdapter extends ArrayAdapter<ToontaDAO.SurveysListAnswer.Sur
         //il ne reste plus qu'à remplir notre vue
         viewHolder.textView.setText(survey.name);
         viewHolder.textView.setTransformationMethod(null);
-        viewHolder.textView.setTextColor(getContext().getResources().getColor(R.color.screen_1_text));
+        viewHolder.textView.setTextColor(getContext().getResources().getColor(R.color.screen_1_1_bg));
         viewHolder.imageView.setImageResource(R.mipmap.ic_plus_sign);
 
         return convertView;

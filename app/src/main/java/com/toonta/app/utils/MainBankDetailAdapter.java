@@ -81,7 +81,7 @@ public class MainBankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAns
         //Bank bank = getItem(position);
 
         //il ne reste plus qu'à remplir notre vue
-        int textColor = getContext().getResources().getColor(R.color.screen_1_text);
+        int textColor = getContext().getResources().getColor(R.color.screen_1_1_bg);
 
         viewHolder.bankTitleTextView.setText(survey.name);
         viewHolder.bankTitleTextView.setTransformationMethod(null);

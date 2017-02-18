@@ -22,8 +22,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
-                android:textColor="@color/screen_1_text"
-                android:background="@color/screen_bg_title_color"
+                android:textColor="@color/screen_1_1_bg"
+                android:background="@color/title_bg_color"
                 android:gravity="center"
                 android:paddingStart="5dp"
                 android:paddingLeft="5dp"
@@ -79,7 +79,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/screen_1_text"
+                        android:textColor="@color/screen_1_1_bg"
                         android:textSize="22sp"
                         android:text="@string/toonta_yourself_button"
                         android:layout_gravity="center|center_horizontal"/>
@@ -101,7 +101,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/screen_1_text"
+                        android:textColor="@color/screen_1_1_bg"
                         android:textSize="22sp"
                         android:text="@string/toonta_a_fiend"
                         android:layout_gravity="center|center_horizontal"/>

@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/screen_1_text"
+                android:textColor="@color/screen_1_1_bg"
                 android:text="@string/button_profile_text"/>
 
             <Button
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/profile_button"
                 android:layout_toStartOf="@+id/profile_button"
-                android:textColor="@color/screen_1_text"
+                android:textColor="@color/screen_1_1_bg"
                 android:text="@string/button_bank_text"/>
 
         </RelativeLayout>
@@ -53,7 +53,7 @@
                 android:gravity="center"
                 android:text="@string/unanswered_surveys"
                 android:textSize="22sp"
-                android:textColor="@color/screen_1_text"/>
+                android:textColor="@color/screen_1_1_bg"/>
 
         </LinearLayout>
 
