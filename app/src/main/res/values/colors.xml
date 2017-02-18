@@ -2,6 +2,8 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDarkHomePage">#273160</color>
+    <color name="colorPrimaryDarkHomePageText">#475681</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="blue">#0000FF</color>

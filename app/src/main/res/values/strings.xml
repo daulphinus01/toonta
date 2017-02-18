@@ -127,7 +127,8 @@
     <string name="toonta_No_surveys_to_show">No surveys to show</string>
     <string name="toonta_upload_profile_picture_desc">Upload profile picture</string>
 
-    <string name="toonta_share_url">Try Toonta for Smartphone. Download it here : http://www.heebari.com/#team</string>
+    <string name="toonta_share_url">Try Toonta for Android Smartphone. Download it here : https://play.google.com/store/apps/details?id=com.toonta.app</string>
+    <string name="toonta_app_logo_desc">Toonta App</string>
 
     <string-array name="toonta_profession_type">
         <item>ALL</item>

@@ -10,8 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatImageButton;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -119,7 +117,7 @@ public class HomePageActivity extends AppCompatActivity {
         assert skipThisButton != null;
         skipThisButton.setTransformationMethod(null);
 
-        AppCompatImageButton toontaLogoButton = (AppCompatImageButton) findViewById(R.id.toonta_logo);
+        ImageView toontaLogoButton = (ImageView) findViewById(R.id.toonta_logo);
         toontaSetOnClickListener(toontaLogoButton);
         toontaSetOnClickListener(skipThisButton);
 
