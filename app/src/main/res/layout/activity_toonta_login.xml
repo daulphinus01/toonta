@@ -80,7 +80,6 @@
                             android:hint="@string/prompt_email"
                             android:inputType="textEmailAddress"
                             android:maxLines="1"
-                            android:singleLine="true"
                             android:imeOptions="actionNext"
                             android:drawableLeft="@mipmap/ic_phone_call"
                             android:drawableStart="@mipmap/ic_phone_call"/>
@@ -100,7 +99,6 @@
                             android:imeOptions="actionUnspecified"
                             android:inputType="textPassword"
                             android:maxLines="1"
-                            android:singleLine="true"
                             android:drawableLeft="@mipmap/ic_cadenat"
                             android:drawableStart="@mipmap/ic_cadenat"/>
                     </android.support.design.widget.TextInputLayout>
