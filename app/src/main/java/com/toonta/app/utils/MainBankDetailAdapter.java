@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.toonta.app.R;
@@ -17,9 +16,12 @@ import com.toonta.app.ToontaDAO;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.toonta.app.utils.ToontaConstants.BOX_TITLE_TEXT_MAX_LENGTH;
+
 /**
  * @author Marcellin RWEGO
  * @since 1.0.0 [07/06/2016]
+ * @since 1.0.9 [08/03/2017]
  */
 public class MainBankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAnswer.SurveyElement> {
 
@@ -61,7 +63,6 @@ public class MainBankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAns
         if(viewHolder == null){
             viewHolder = new BankRowViewHolder();
             viewHolder.bankTitleTextView = (TextView) convertView.findViewById(R.id.bank_detail_row_title);
-            viewHolder.bankPlusSignImageView = (ImageView) convertView.findViewById(R.id.bank_row_detail_icon);
             viewHolder.bankDetailRowRemainingAnswers = (TextView) convertView.findViewById(R.id.bank_detail_row_remaining_answers);
             viewHolder.bankDetailRowRewards = (TextView) convertView.findViewById(R.id.bank_detail_row_answers_reward);
 
@@ -83,11 +84,9 @@ public class MainBankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAns
         //il ne reste plus qu'à remplir notre vue
         int textColor = getContext().getResources().getColor(R.color.screen_1_1_bg);
 
-        viewHolder.bankTitleTextView.setText(survey.name);
+        viewHolder.bankTitleTextView.setText(computeString(survey.name));
         viewHolder.bankTitleTextView.setTransformationMethod(null);
         viewHolder.bankTitleTextView.setTextColor(textColor);
-
-        viewHolder.bankPlusSignImageView.setImageResource(R.mipmap.ic_plus_sign);
 
         int remainigAnswers = survey.target - survey.receivedAnswer;
         String answersRemaining = "Answers remaining : " + ((remainigAnswers < 0) ? 0 : remainigAnswers);
@@ -102,9 +101,37 @@ public class MainBankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAns
     }
 
     private class BankRowViewHolder {
-        public TextView bankTitleTextView;
-        public TextView bankDetailRowRemainingAnswers;
-        public TextView bankDetailRowRewards;
-        public ImageView bankPlusSignImageView;
+        TextView bankTitleTextView;
+        TextView bankDetailRowRemainingAnswers;
+        TextView bankDetailRowRewards;
+    }
+
+    /**
+     * Cette méthode prend en entrée une chaîne de caractère, la découpe si la taille de cette chaîne est superieure
+     * à BOX_TITLE_TEXT_MAX_LENGTH en une chaîne c. On concatène à c trois points => c...
+     * @param bankTitleText la chaîne à traiter
+     * @return la chaîne c avec trois points à la fin ex.: c...
+     */
+    private String computeString(String bankTitleText) {
+        // On retourne la chaîne elle même si sa taille <= BOX_TITLE_TEXT_MAX_LENGTH
+        if (bankTitleText.length() <= BOX_TITLE_TEXT_MAX_LENGTH) {
+            return bankTitleText;
+        }
+        int cptr = 0;
+        StringBuilder tmpStr = new StringBuilder();
+        String[] bankTitleTextSplitted = bankTitleText.split(" ");
+        int boxTitleTextLengthForDots = BOX_TITLE_TEXT_MAX_LENGTH - 4;
+        // Si la taille du premier mot depasse BOX_TITLE_TEXT_MAX_LENGTH on le découpe
+        // et on envoi une partie
+        if (bankTitleTextSplitted[cptr].length() > BOX_TITLE_TEXT_MAX_LENGTH) {
+            tmpStr.append(bankTitleTextSplitted[cptr].substring(0, boxTitleTextLengthForDots)).append("... ");
+            return tmpStr.toString();
+        }
+
+        while (tmpStr.length() <= (boxTitleTextLengthForDots - bankTitleTextSplitted[cptr].length())) {
+            tmpStr.append(bankTitleTextSplitted[cptr]).append(" ");
+            cptr++;
+        }
+        return tmpStr.append("...").toString();
     }
 }

@@ -39,4 +39,6 @@ public class ToontaConstants {
 
     public static final String TOONTA_MULTIPLE_CHOICE_TAG = "TOONTA_MULTIPLE_CHOICE_TAG";
 
+    public static final int BOX_TITLE_TEXT_MAX_LENGTH = 50;
+
 }
