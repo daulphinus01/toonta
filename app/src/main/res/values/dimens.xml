@@ -7,7 +7,11 @@
     <integer name="NO_RADIO_BUTTON_ID">2222222</integer>
 
     <!-- Toonta dims -->
+    <dimen name="drop_down_vertical_offset">8dp</dimen>
     <dimen name="profile_pic_margin_bottom">15dp</dimen>
+    <dimen name="drop_down_vertical_offset_bis">13dp</dimen>
+    <dimen name="drop_down_horizontal_offset">-135dp</dimen>
+    <dimen name="drop_down_horizontal_offset_bis">-152dp</dimen>
 
     <dimen name="as_friend_form_edit_text_heught">50dp</dimen>
     <dimen name="box_sub_title_text_size">16sp</dimen>

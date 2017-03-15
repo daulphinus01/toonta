@@ -26,9 +26,9 @@ import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
 import com.toonta.app.forms.ToontaLogin;
 import com.toonta.app.utils.MainBankDetailAdapter;
 import com.toonta.app.utils.ProfileActivity;
+import com.toonta.app.utils.SettingsClickListener;
 import com.toonta.app.utils.ToontaConstants;
 import com.toonta.app.utils.ToontaQuestionActivity;
-import com.toonta.app.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -55,22 +55,7 @@ public class HomeConnectedActivity extends AppCompatActivity {
 
             // Settings
             ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
-            toontaMenuButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActionMode(Utils.initActionModeCallBack(HomeConnectedActivity.this));
-                    v.setSelected(true);
-                }
-            });
-
-            // Share
-            ImageView toontaShareButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_share);
-            toontaShareButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Utils.startShareActionIntent(HomeConnectedActivity.this);
-                }
-            });
+            toontaMenuButton.setOnClickListener(new SettingsClickListener(HomeConnectedActivity.this));
 
             Button bankButton = (Button) findViewById(R.id.bank_button);
             toontaSetOnClickListener(bankButton, BankDetailActivity.class);
@@ -145,21 +130,12 @@ public class HomeConnectedActivity extends AppCompatActivity {
                         }
                     });
 
-                    ImageView share = (ImageView) popupWindowLayout.findViewById(R.id.popup_window_toonta_share);
-                    share.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Utils.startShareActionIntent(HomeConnectedActivity.this);
-                        }
-                    });
-
                     ImageView settings = (ImageView) popupWindowLayout.findViewById(R.id.popup_window_menu_settings);
                     settings.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             popupWindow.dismiss();
-                            startActionMode(Utils.initActionModeCallBack(HomeConnectedActivity.this));
-                            v.setSelected(true);
+                            // TODO Ajouter le menu des settings
                         }
                     });
                 }

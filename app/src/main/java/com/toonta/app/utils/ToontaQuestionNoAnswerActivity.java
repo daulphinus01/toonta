@@ -65,22 +65,7 @@ public class ToontaQuestionNoAnswerActivity extends AppCompatActivity {
 
         // Settings
         ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
-        toontaMenuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActionMode(Utils.initActionModeCallBack(ToontaQuestionNoAnswerActivity.this));
-                v.setSelected(true);
-            }
-        });
-
-        // Share
-        ImageView toontaShareButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_share);
-        toontaShareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.startShareActionIntent(ToontaQuestionNoAnswerActivity.this);
-            }
-        });
+        toontaMenuButton.setOnClickListener(new SettingsClickListener(ToontaQuestionNoAnswerActivity.this));
 
         // Linear ou sont affichees les questions
         questionArea = (LinearLayout) findViewById(R.id.toonta_question_view_pager_area_no_answer);

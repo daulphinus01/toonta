@@ -45,7 +45,9 @@
                 android:value=".forms.ToontaLogin"/>
         </activity>
 
-        <activity android:name=".HomeConnectedActivity">
+        <activity
+            android:name=".HomeConnectedActivity"
+            android:theme="@style/FullscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -54,7 +56,7 @@
 
         <activity
             android:name=".BankDetailActivity"
-            android:theme="@style/FullscreenTheme"
+            android:theme="@style/FullscreenThemeBis"
             android:parentActivityName=".HomeConnectedActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -64,7 +66,8 @@
         <activity
             android:name=".BankDetailQstActivity"
             android:parentActivityName=".BankDetailActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/FullscreenThemeBis">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.toonta.app.BankDetailActivity" />
@@ -72,6 +75,7 @@
 
         <activity
             android:name=".utils.ProfileActivity"
+            android:theme="@style/FullscreenThemeBis"
             android:windowSoftInputMode="adjustResize"
             android:parentActivityName=".HomeConnectedActivity">
             <meta-data
@@ -80,6 +84,7 @@
         </activity>
 
         <activity
+            android:theme="@style/FullscreenThemeBis"
             android:name=".utils.ToontaQuestionActivity"
             android:parentActivityName=".HomeConnectedActivity"
             android:configChanges="orientation|screenSize">
@@ -89,6 +94,7 @@
         </activity>
 
         <activity
+            android:theme="@style/FullscreenThemeBis"
             android:name=".utils.ToontaQuestionNoAnswerActivity"
             android:parentActivityName=".BankDetailQstActivity">
             <meta-data
@@ -104,21 +110,27 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".utils.ValidateQuestionActivity"
+        <activity
+            android:theme="@style/FullscreenTheme"
+            android:name=".utils.ValidateQuestionActivity"
             android:parentActivityName=".utils.ToontaQuestionActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".utils.ToontaQuestionActivity" />
         </activity>
 
-        <activity android:name=".forms.SurveyValidationAsAFriendActivity"
+        <activity
+            android:theme="@style/FullscreenTheme"
+            android:name=".forms.SurveyValidationAsAFriendActivity"
             android:parentActivityName=".utils.ValidateQuestionActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".utils.ValidateQuestionActivity" />
         </activity>
 
-        <activity android:name=".forms.SMSValidationActivity"
+        <activity
+            android:theme="@style/FullscreenTheme"
+            android:name=".forms.SMSValidationActivity"
             android:parentActivityName=".forms.SurveyValidationAsAFriendActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

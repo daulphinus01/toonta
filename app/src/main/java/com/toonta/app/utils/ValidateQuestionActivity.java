@@ -47,22 +47,7 @@ public class ValidateQuestionActivity extends AppCompatActivity {
 
         // Settings
         ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
-        toontaMenuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActionMode(Utils.initActionModeCallBack(ValidateQuestionActivity.this));
-                v.setSelected(true);
-            }
-        });
-
-        // Share
-        ImageView toontaShareButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_share);
-        toontaShareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.startShareActionIntent(ValidateQuestionActivity.this);
-            }
-        });
+        toontaMenuButton.setOnClickListener(new SettingsClickListener(ValidateQuestionActivity.this));
 
         // Getting bundles
         responsesToBeSent = getIntent().getParcelableExtra(ToontaConstants.SURVEY_RESPONSES_TO_BE_SENT);

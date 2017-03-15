@@ -1,8 +1,6 @@
 <resources>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/screen_bg_title_color</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -11,8 +9,20 @@
 
     <style name="FullscreenTheme" parent="AppTheme">
         <item name="android:windowBackground">@null</item>
+        <item name="popupMenuStyle">@style/PopupMenuStyle</item>
         <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
         <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/PopupMenuTextAppearanceLarge</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/PopupMenuTextAppearanceSmall</item>
+    </style>
+
+    <style name="FullscreenThemeBis" parent="AppTheme">
+        <item name="android:windowBackground">@null</item>
+        <item name="popupMenuStyle">@style/PopupMenuStyleBis</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/PopupMenuTextAppearanceLarge</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/PopupMenuTextAppearanceSmall</item>
     </style>
 
     <style name="SplashTheme" parent="AppTheme.NoActionBar">
@@ -22,5 +32,27 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="PopupMenuStyle" parent="Theme.AppCompat.Light">
+        <item name="android:popupBackground">@color/screen_bg_title_color</item>
+        <item name="android:dropDownVerticalOffset">@dimen/drop_down_vertical_offset</item>
+        <item name="android:dropDownHorizontalOffset">@dimen/drop_down_horizontal_offset</item>
+    </style>
+
+    <style name="PopupMenuStyleBis" parent="Theme.AppCompat.Light">
+        <item name="android:popupBackground">@color/screen_bg_title_color</item>
+        <item name="android:dropDownVerticalOffset">@dimen/drop_down_vertical_offset_bis</item>
+        <item name="android:dropDownHorizontalOffset">@dimen/drop_down_horizontal_offset_bis</item>
+    </style>
+
+    <style name="PopupMenuTextAppearanceSmall">
+        <item name="android:textSize">@dimen/box_sub_title_text_size</item>
+        <item name="android:textColor">@color/screen_1_text_action_bar</item>
+    </style>
+
+    <style name="PopupMenuTextAppearanceLarge">
+        <item name="android:textSize">@dimen/box_sub_title_text_size</item>
+        <item name="android:textColor">@color/screen_1_text_action_bar</item>
     </style>
 </resources>

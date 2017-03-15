@@ -89,22 +89,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Settings
         ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
-        toontaMenuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActionMode(Utils.initActionModeCallBack(ProfileActivity.this));
-                v.setSelected(true);
-            }
-        });
-
-        // Share
-        ImageView toontaShareButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_share);
-        toontaShareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.startShareActionIntent(ProfileActivity.this);
-            }
-        });
+        toontaMenuButton.setOnClickListener(new SettingsClickListener(ProfileActivity.this));
 
         residencePlaceArea = (TextInputLayout) findViewById(R.id.city_of_residence_area);
 

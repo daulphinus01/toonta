@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
 import com.toonta.app.model.Bank;
 import com.toonta.app.utils.BankDetailAdapter;
+import com.toonta.app.utils.SettingsClickListener;
 import com.toonta.app.utils.ToontaConstants;
 import com.toonta.app.utils.ToontaQuestionActivity;
 import com.toonta.app.utils.ToontaQuestionNoAnswerActivity;
@@ -65,22 +66,7 @@ public class BankDetailQstActivity extends AppCompatActivity {
 
         // Settings
         ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
-        toontaMenuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActionMode(Utils.initActionModeCallBack(BankDetailQstActivity.this));
-                v.setSelected(true);
-            }
-        });
-
-        // Share
-        ImageView toontaShareButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_share);
-        toontaShareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.startShareActionIntent(BankDetailQstActivity.this);
-            }
-        });
+        toontaMenuButton.setOnClickListener(new SettingsClickListener(BankDetailQstActivity.this));
 
         surviesListView = (ListView) findViewById(R.id.bank_items_qst);
 

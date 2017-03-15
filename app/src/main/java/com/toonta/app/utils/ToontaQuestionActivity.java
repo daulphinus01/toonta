@@ -78,26 +78,8 @@ public class ToontaQuestionActivity extends AppCompatActivity {
         setupActionBar();
 
         // Settings
-        //noinspection ConstantConditions
         ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
-        toontaMenuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActionMode(Utils.initActionModeCallBack(ToontaQuestionActivity.this));
-                v.setSelected(true);
-            }
-        });
-
-        // Share
-        ImageView toontaShareButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_share);
-        toontaShareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.startShareActionIntent(ToontaQuestionActivity.this);
-            }
-        });
-
-        // questionsList = dummyData1();
+        toontaMenuButton.setOnClickListener(new SettingsClickListener(ToontaQuestionActivity.this));
 
         questionProgressBar = (LinearLayout) findViewById(R.id.toonta_question_answering_progress_bar);
 
@@ -186,7 +168,7 @@ public class ToontaQuestionActivity extends AppCompatActivity {
             @Override
             public void onGetSurvey(ToontaDAO.QuestionsList qstList) {
                 if (BuildConfig.DEBUG)
-                Log.v(TAG + " List ", qstList.toString());
+                // Log.v(TAG + " List ", qstList.toString());
                 questionsList = qstList;
 
                 // When there is non question for this survey, qstRespPart is hidden

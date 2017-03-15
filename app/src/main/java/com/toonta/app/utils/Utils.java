@@ -86,6 +86,10 @@ public class Utils {
                         context.startActivity(intent);
                         ((Activity)context).finish();
                         return true;
+                    case R.id.toonta_share_menu:
+                        mode.finish();
+                        startShareActionIntent(context);
+                        return true;
                     default:
                         return false;
                 }
@@ -93,7 +97,7 @@ public class Utils {
 
             @Override
             public void onDestroyActionMode(ActionMode mode) {
-                // actionModeCallBack = null;
+                mode = null;
             }
         };
     }

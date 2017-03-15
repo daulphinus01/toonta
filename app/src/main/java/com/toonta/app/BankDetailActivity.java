@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
 import com.toonta.app.model.Bank;
 import com.toonta.app.utils.BankDetailAdapter;
+import com.toonta.app.utils.SettingsClickListener;
 import com.toonta.app.utils.ToontaConstants;
 import com.toonta.app.utils.Utils;
 
@@ -49,33 +50,13 @@ public class BankDetailActivity extends AppCompatActivity {
 
         // Settings
         ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
-        toontaMenuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActionMode(Utils.initActionModeCallBack(BankDetailActivity.this));
-                v.setSelected(true);
-            }
-        });
-
-        // Share
-        ImageView toontaShareButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_share);
-        toontaShareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.startShareActionIntent(BankDetailActivity.this);
-            }
-        });
+        toontaMenuButton.setOnClickListener(new SettingsClickListener(BankDetailActivity.this));
 
         // Total toons
         rightLabel = (TextView) findViewById(R.id.right_label);
 
         // Label "Solde"
         TextView leftLabel = (TextView) findViewById(R.id.left_label);
-
-        // Progress mechanisme when verifying credential
-        // progressDialog = new ProgressDialog(BankDetailActivity.this);
-        // progressDialog.setIndeterminate(true);
-        // progressDialog.setMessage(getString(R.string.string_loading_survies_activity));
 
         surviesListView = (ListView) findViewById(R.id.bank_items);
 

@@ -27,6 +27,7 @@ import com.toonta.app.ToontaDAO;
 import com.toonta.app.activities.signup.SignupInteractor;
 import com.toonta.app.model.Responses;
 import com.toonta.app.model.SurveyResponse;
+import com.toonta.app.utils.SettingsClickListener;
 import com.toonta.app.utils.ToontaConstants;
 import com.toonta.app.utils.ToontaUserInterceptor;
 import com.toonta.app.utils.Utils;
@@ -57,22 +58,7 @@ public class SurveyValidationAsAFriendActivity extends AppCompatActivity {
 
         // Settings
         ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
-        toontaMenuButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActionMode(Utils.initActionModeCallBack(SurveyValidationAsAFriendActivity.this));
-                v.setSelected(true);
-            }
-        });
-
-        // Share
-        ImageView toontaShareButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_share);
-        toontaShareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.startShareActionIntent(SurveyValidationAsAFriendActivity.this);
-            }
-        });
+        toontaMenuButton.setOnClickListener(new SettingsClickListener(SurveyValidationAsAFriendActivity.this));
 
         // Getting bundles
         final String titleQuestionScreen = getIntent().getStringExtra(ToontaConstants.QUESTION_TITLE);

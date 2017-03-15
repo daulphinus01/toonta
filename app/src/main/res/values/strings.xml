@@ -118,7 +118,9 @@
     <string name="toonta_write_here">write here</string>
     <string name="toonta_dot">.</string>
     <string name="toonta_empty_text"> </string>
+    <string name="toonta_settings_text">Settings</string>
     <string name="toonta_logout_menu_text">Logout</string>
+    <string name="toonta_share_menu_text">Share</string>
     <string name="toonta_survey_validation_dialog_title">Survey Validation</string>
     <string name="toonta_survey_validation_dialog_msg">Survey validated successfully</string>
     <string name="toonta_survey_validation_dialog_msg_account_created">Survey validated successfully \nYou now have a Toonta account. \nLogin: the phone you selected \nPassword: your birthdate (YYYY-M-D)</string>
@@ -129,6 +131,7 @@
 
     <string name="toonta_share_url">Try Toonta for Android Smartphone. Download it here : https://play.google.com/store/apps/details?id=com.toonta.app</string>
     <string name="toonta_app_logo_desc">Toonta App</string>
+    <string name="accepter_les_notifications">Accepter les notifications</string>
 
     <string-array name="toonta_profession_type">
         <item>ALL</item>
