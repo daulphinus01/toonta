@@ -155,7 +155,8 @@ public class HomeConnectedActivity extends AppCompatActivity {
                     if (progressDialog != null && progressDialog.isShowing())
                         progressDialog.dismiss();
 
-                    surveysAdapter.addElements(surveyElementArrayList);
+                    // Only unanswered surveys sont affichés
+                    surveysAdapter.addElements(getUnsweredSuryes(surveyElementArrayList));
                 }
 
                 @Override
@@ -219,5 +220,15 @@ public class HomeConnectedActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> getUnsweredSuryes(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList) {
+        ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> unAnsweredSurveys = new ArrayList<>();
+        for (ToontaDAO.SurveysListAnswer.SurveyElement se : surveyElementArrayList) {
+            if (!se.answered) {
+                unAnsweredSurveys.add(se);
+            }
+        }
+        return unAnsweredSurveys;
     }
 }
