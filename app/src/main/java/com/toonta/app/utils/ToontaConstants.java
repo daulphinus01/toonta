@@ -41,4 +41,6 @@ public class ToontaConstants {
 
     public static final int BOX_TITLE_TEXT_MAX_LENGTH = 50;
 
+    public static final String NO_DESC_FOR_SURVEY = "No description available for this survey";
+
 }
