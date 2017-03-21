@@ -308,7 +308,7 @@ public class Utils {
         final PopupWindow popupWindow = new PopupWindow(popupWindowLayout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
         popupWindow.showAtLocation(listSurveys, Gravity.CENTER, 0, 0);
 
-        String popupWindowContentText = "No description available for this survey";
+        String popupWindowContentText = context.getString(R.string.no_desc_for_survey);
         if (surveyElement.summary != null && !surveyElement.summary.trim().isEmpty() && !surveyElement.summary.equals("string")) {
             popupWindowContentText = surveyElement.summary;
         }

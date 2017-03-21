@@ -55,6 +55,7 @@ tools:context="com.toonta.app.BankDetailActivity">
             android:layout_height="0dp"
             android:layout_weight="0.9"
             android:paddingTop="40dp"
+            android:divider="@null"
             android:dividerHeight="20.0px">
 
         </ListView>
