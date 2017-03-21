@@ -4,17 +4,24 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatButton;
 import android.text.InputType;
 import android.util.Log;
 import android.view.ActionMode;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -24,7 +31,6 @@ import com.toonta.app.HomePageActivity;
 import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
 import com.toonta.app.ToontaSharedPreferences;
-import com.toonta.app.model.Bank;
 import com.toonta.app.model.SurveyResponse;
 
 import org.json.JSONArray;
@@ -32,7 +38,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Utils {
@@ -241,7 +246,6 @@ public class Utils {
         return returnedLayout;
     }
 
-
     public static JSONObject prepareSurveyResponseAsJSONObject(SurveyResponse surveyResponse) {
         try {
             JSONObject content = new JSONObject();
@@ -296,5 +300,66 @@ public class Utils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static void packPopupWindow(final Context context, final ToontaDAO.SurveysListAnswer.SurveyElement surveyElement, View listSurveys) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View popupWindowLayout = inflater.inflate(R.layout.full_window_popup, null, true);
+        final PopupWindow popupWindow = new PopupWindow(popupWindowLayout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
+        popupWindow.showAtLocation(listSurveys, Gravity.CENTER, 0, 0);
+
+        String popupWindowContentText = "No description available for this survey";
+        if (surveyElement.summary != null && !surveyElement.summary.trim().isEmpty() && !surveyElement.summary.equals("string")) {
+            popupWindowContentText = surveyElement.summary;
+        }
+
+        ((TextView) popupWindowLayout.findViewById(R.id.survey_description)).setText(popupWindowContentText);
+
+        AppCompatButton ok = (AppCompatButton) popupWindowLayout.findViewById(R.id.popup_ok_button);
+        ok.setTransformationMethod(null);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ToontaQuestionActivity.class);
+                intent.putExtra(ToontaConstants.QUESTION_TITLE, surveyElement.name);
+                intent.putExtra(ToontaConstants.SURVEY_ID, surveyElement.surveyId);
+                intent.putExtra(ToontaConstants.SURVEY_REWRD, surveyElement.reward);
+                intent.putExtra(ToontaConstants.SURVEY_AUTHOR_ID, surveyElement.authorId);
+
+                context.startActivity(intent);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        popupWindow.dismiss();
+                    }
+                }, 3000);
+            }
+        });
+
+        AppCompatButton cancel = (AppCompatButton) popupWindowLayout.findViewById(R.id.popup_cancel_button);
+        cancel.setTransformationMethod(null);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+
+        ImageView goUp = (ImageView) popupWindowLayout.findViewById(R.id.popup_window_go_up);
+        goUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+
+        ImageView settings = (ImageView) popupWindowLayout.findViewById(R.id.popup_window_menu_settings);
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                // TODO Ajouter le menu des settings
+            }
+        });
     }
 }
