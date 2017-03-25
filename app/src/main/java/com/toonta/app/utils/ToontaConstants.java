@@ -39,7 +39,7 @@ public class ToontaConstants {
 
     public static final String TOONTA_MULTIPLE_CHOICE_TAG = "TOONTA_MULTIPLE_CHOICE_TAG";
 
-    public static final int BOX_TITLE_TEXT_MAX_LENGTH = 50;
+    public static final int BOX_TITLE_TEXT_MAX_LENGTH = 40;
 
     public static final String NO_DESC_FOR_SURVEY = "No description available for this survey";
 
