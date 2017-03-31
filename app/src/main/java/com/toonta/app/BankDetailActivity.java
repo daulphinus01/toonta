@@ -1,7 +1,6 @@
 package com.toonta.app;
 
 import android.annotation.TargetApi;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,11 +9,6 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.ActionMode;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -22,14 +16,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
-import com.toonta.app.model.Bank;
 import com.toonta.app.utils.BankDetailAdapter;
 import com.toonta.app.utils.SettingsClickListener;
 import com.toonta.app.utils.ToontaConstants;
 import com.toonta.app.utils.Utils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class BankDetailActivity extends AppCompatActivity {
 

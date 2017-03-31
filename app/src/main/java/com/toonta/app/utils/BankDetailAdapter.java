@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
-import com.toonta.app.model.Bank;
 
 import java.util.ArrayList;
 import java.util.List;

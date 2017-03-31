@@ -4,12 +4,11 @@ import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +18,10 @@ import android.widget.TextView;
 
 import com.toonta.app.BuildConfig;
 import com.toonta.app.HomeConnectedActivity;
-import com.toonta.app.HomePageActivity;
 import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
 import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
 import com.toonta.app.forms.SurveyValidationAsAFriendActivity;
-import com.toonta.app.model.Responses;
 import com.toonta.app.model.SurveyResponse;
 
 public class ValidateQuestionActivity extends AppCompatActivity {

@@ -8,9 +8,7 @@ import android.support.v7.view.menu.MenuPopupHelper;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.PopupWindow;
 
-import com.toonta.app.HomeConnectedActivity;
 import com.toonta.app.HomePageActivity;
 import com.toonta.app.R;
 import com.toonta.app.ToontaSharedPreferences;

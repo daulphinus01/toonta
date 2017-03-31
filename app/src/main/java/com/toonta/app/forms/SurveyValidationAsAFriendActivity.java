@@ -8,11 +8,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,16 +19,13 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.toonta.app.HomeConnectedActivity;
 import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
 import com.toonta.app.activities.signup.SignupInteractor;
-import com.toonta.app.model.Responses;
 import com.toonta.app.model.SurveyResponse;
 import com.toonta.app.utils.SettingsClickListener;
 import com.toonta.app.utils.ToontaConstants;
 import com.toonta.app.utils.ToontaUserInterceptor;
-import com.toonta.app.utils.Utils;
 
 import java.util.Calendar;
 

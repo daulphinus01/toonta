@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-
 import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
 

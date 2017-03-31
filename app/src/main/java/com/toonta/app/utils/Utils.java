@@ -160,13 +160,13 @@ public class Utils {
                         yesRB.setText(R.string.toonta_radio_button_yes);
                         yesRB.setTextColor(context.getResources().getColor(R.color.radiobutton_selector));
                         rg.addView(yesRB, buttonGroupLayoutParams);
-                        yesRB.setId(context.getResources().getInteger(R.integer.YES_RADIO_BUTTON_ID));
+                        // yesRB.setId(context.getResources().getInteger(R.integer.RADIO_BUTTON_ID_YES));
 
                         RadioButton noRB = new RadioButton(context);
                         noRB.setText(R.string.toonta_radio_button_no);
                         noRB.setTextColor(context.getResources().getColor(R.color.radiobutton_selector));
                         rg.addView(noRB, buttonGroupLayoutParams);
-                        noRB.setId(context.getResources().getInteger(R.integer.NO_RADIO_BUTTON_ID));
+                        // noRB.setId(context.getResources().getInteger(R.integer.RADIO_BUTTON_ID_NO));
 
                         returnedLayout[i].addView(rg);
                         break;

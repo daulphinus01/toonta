@@ -3,7 +3,6 @@ package com.toonta.app.activities.new_surveys;
 import android.content.Context;
 import android.util.Log;
 
-
 import com.toonta.app.BuildConfig;
 import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
@@ -74,7 +73,7 @@ public class NewSurveysInteractor {
 
     //Used by activity
 
-    public void submitRefreshList() {
+    void submitRefreshList() {
         newSurveysViewUpdater.onRefreshProgress();
         currentPage = 1;
         ToontaDAO.getSurveys(currentPage, new ToontaDAO.SurveysListNetworkCallInterface() {

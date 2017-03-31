@@ -2,7 +2,6 @@ package com.toonta.app.activities;
 
 import android.os.Bundle;
 
-
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
 import com.toonta.app.R;

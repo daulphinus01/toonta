@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.crashlytics.android.Crashlytics;
 import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
 import com.toonta.app.forms.ToontaLogin;
 import com.toonta.app.utils.MainBankDetailAdapter;
@@ -22,6 +23,7 @@ import com.toonta.app.utils.ProfileActivity;
 import com.toonta.app.utils.SettingsClickListener;
 import com.toonta.app.utils.Utils;
 
+import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 
 public class HomeConnectedActivity extends AppCompatActivity {
@@ -33,6 +35,7 @@ public class HomeConnectedActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_home_connected);
 
         ToontaSharedPreferences.init(getApplicationContext());
