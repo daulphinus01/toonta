@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-
 import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
 

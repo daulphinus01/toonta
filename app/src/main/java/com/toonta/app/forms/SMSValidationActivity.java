@@ -20,8 +20,6 @@ import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
 import com.toonta.app.model.SurveyResponse;
 import com.toonta.app.utils.SettingsClickListener;
 import com.toonta.app.utils.ToontaConstants;
-import com.toonta.app.utils.ToontaUserInterceptor;
-import com.toonta.app.utils.Utils;
 
 public class SMSValidationActivity extends AppCompatActivity {
 

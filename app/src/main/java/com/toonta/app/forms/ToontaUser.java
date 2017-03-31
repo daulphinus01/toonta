@@ -6,9 +6,6 @@ package com.toonta.app.forms;
 import com.toonta.app.model.ToontaAddress;
 import com.toonta.app.model.ToontaBank;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
  * @author Marcellin RWEGO
  * @since 1.0.0 [16/06/2016]

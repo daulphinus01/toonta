@@ -7,7 +7,6 @@ import android.content.Context;
 
 import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
-import com.toonta.app.forms.ToontaUser;
 
 import java.util.List;
 

@@ -11,7 +11,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -167,13 +166,14 @@ public class ToontaQuestionActivity extends AppCompatActivity {
         NewSurveysInteractor newSurveyInteractor = new NewSurveysInteractor(getApplicationContext(), new NewSurveysInteractor.OneSurveyViewUpdator() {
             @Override
             public void onGetSurvey(ToontaDAO.QuestionsList qstList) {
-                if (BuildConfig.DEBUG)
-                // Log.v(TAG + " List ", qstList.toString());
+                if (BuildConfig.DEBUG) {
+                    Log.v(TAG, qstList.toString());
+                }
                 questionsList = qstList;
 
                 // When there is non question for this survey, qstRespPart is hidden
                 qstRespPart = (LinearLayout) findViewById(R.id.qst_resp_part_screen);
-                if (questionsList.questionResponseElements.size() < 1) {
+                if (questionsList.questionResponseElements == null || questionsList.questionResponseElements.size() < 1) {
                     qstRespPart.setVisibility(View.INVISIBLE);
                     Snackbar.make(findViewById(android.R.id.content), R.string.toonta_no_qst_for_survey, Snackbar.LENGTH_LONG).show();
                 } else {

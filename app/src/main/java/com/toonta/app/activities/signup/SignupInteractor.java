@@ -2,7 +2,6 @@ package com.toonta.app.activities.signup;
 
 import android.content.Context;
 
-
 import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
 import com.toonta.app.activities.login.LoginInteractor;

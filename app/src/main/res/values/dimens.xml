@@ -3,8 +3,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <integer name="YES_RADIO_BUTTON_ID">1111111</integer>
-    <integer name="NO_RADIO_BUTTON_ID">2222222</integer>
 
     <!-- Toonta dims -->
     <dimen name="drop_down_vertical_offset">8dp</dimen>
