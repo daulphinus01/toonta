@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -173,8 +174,11 @@ public class Utils {
 
                     case "BASIC":
                         EditText editText = new EditText(context);
-                        editText.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_CLASS_TEXT);
+                        // Permet d'avoir le bouton Enter
+                        //editText.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_CLASS_TEXT);
                         editText.setMinLines(3);
+                        editText.setInputType(InputType.TYPE_CLASS_TEXT);
+                        editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
                         editText.setTag(ToontaConstants.TOONTA_BASIC_TAG + questionResponse.get(i).id);
                         editText.setLayoutParams(layoutParams);
 

@@ -11,7 +11,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -123,40 +125,7 @@ public class ToontaQuestionActivity extends AppCompatActivity {
         nextSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Verification que les questions ont bien ete repondues
-                String msgRetour = validateQuestionAndPrepareToSend(questionLinearLayouts[currentQuestionPos]);
-                if (msgRetour.trim().isEmpty()) {
-
-                    if (currentQuestionPos == nbrTotalPages) {
-                        // On envoie les reponses to the Validate As yourself/ A Friend activite
-                        Intent validateQuestionActivityIntent = new Intent(ToontaQuestionActivity.this, ValidateQuestionActivity.class);
-                        validateQuestionActivityIntent.putExtra(ToontaConstants.SURVEY_RESPONSES_TO_BE_SENT, responsesToBeSent);
-                        validateQuestionActivityIntent.putExtra(ToontaConstants.QUESTION_TITLE, titleQuestionScreen);
-                        validateQuestionActivityIntent.putExtra(ToontaConstants.SURVEY_AUTHOR_ID, authorId);
-                        startActivity(validateQuestionActivityIntent);
-                    } else {
-                        currentQuestionPos++;
-                        textViewQuestionPart.setText(questionsList.questionResponseElements.get(currentQuestionPos).question);
-
-                        // Si on est a la derniere page, le bouton next devient submit
-                        if (currentQuestionPos == nbrTotalPages) {
-                            nextSubmitButton.setText(R.string.submit);
-                        }
-
-                        questionArea.removeAllViews();
-                        questionArea.addView(questionLinearLayouts[currentQuestionPos]);
-
-                        // On met a jour la barre de progression
-                        progressBarDots[currentQuestionPos - 1].setTextColor(Color.BLACK);
-                        progressBarDots[currentQuestionPos].setTextColor(Color.WHITE);
-
-                        // On desactive le bouton previous
-                        previousButton.setEnabled(true);
-                    }
-                } else {
-                    // Validation de question echouee
-                    Snackbar.make(findViewById(android.R.id.content), msgRetour, Snackbar.LENGTH_LONG).show();
-                }
+                manageNextAction(titleQuestionScreen);
             }
         });
 
@@ -195,6 +164,9 @@ public class ToontaQuestionActivity extends AppCompatActivity {
 
                     // Tous les linearlayout pour toutes les reponses
                     questionLinearLayouts = Utils.instantiateItem(questionsList.questionResponseElements, ToontaQuestionActivity.this);
+
+                    // Ajout des click listeners pour tous les EditText
+                    addClickListenerToAllEditText(questionLinearLayouts, titleQuestionScreen);
 
                     // La partie de reponse
                     questionArea.addView(questionLinearLayouts[currentQuestionPos]);
@@ -399,6 +371,67 @@ public class ToontaQuestionActivity extends AppCompatActivity {
             default:
                 // Type de question inconu
                 return "Unknown type of question";
+        }
+    }
+
+    private void manageNextAction(String titleQuestionScreen) {
+        // Verification que les questions ont bien ete repondues
+        String msgRetour = validateQuestionAndPrepareToSend(questionLinearLayouts[currentQuestionPos]);
+        if (msgRetour.trim().isEmpty()) {
+
+            if (currentQuestionPos == nbrTotalPages) {
+                // On envoie les reponses to the Validate As yourself/ A Friend activite
+                Intent validateQuestionActivityIntent = new Intent(ToontaQuestionActivity.this, ValidateQuestionActivity.class);
+                validateQuestionActivityIntent.putExtra(ToontaConstants.SURVEY_RESPONSES_TO_BE_SENT, responsesToBeSent);
+                validateQuestionActivityIntent.putExtra(ToontaConstants.QUESTION_TITLE, titleQuestionScreen);
+                validateQuestionActivityIntent.putExtra(ToontaConstants.SURVEY_AUTHOR_ID, authorId);
+                startActivity(validateQuestionActivityIntent);
+            } else {
+                currentQuestionPos++;
+                textViewQuestionPart.setText(questionsList.questionResponseElements.get(currentQuestionPos).question);
+
+                // Si on est a la derniere page, le bouton next devient submit
+                if (currentQuestionPos == nbrTotalPages) {
+                    nextSubmitButton.setText(R.string.submit);
+                }
+
+                questionArea.removeAllViews();
+                questionArea.addView(questionLinearLayouts[currentQuestionPos]);
+
+                // On met a jour la barre de progression
+                progressBarDots[currentQuestionPos - 1].setTextColor(Color.BLACK);
+                progressBarDots[currentQuestionPos].setTextColor(Color.WHITE);
+
+                // On desactive le bouton previous
+                previousButton.setEnabled(true);
+            }
+        } else {
+            // Validation de question echouee
+            Snackbar.make(findViewById(android.R.id.content), msgRetour, Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * Lorsque l'utilisateur clique sur DONE, on fait la même action que le bouton Next/Submit
+     * @param linearLayouts l'ensemble des viues dans lesquelles se trouvent les EditText qui
+     *                      nous intéressent
+     * @param titleQuestionScreen le titre de l'écran
+     */
+    private void addClickListenerToAllEditText(LinearLayout[] linearLayouts, final String titleQuestionScreen) {
+        for (LinearLayout linearLayout : linearLayouts) {
+            final View editTextView = linearLayout.getChildAt(0);
+            if (editTextView instanceof EditText) {
+                ((EditText) editTextView).setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                            manageNextAction(titleQuestionScreen);
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+            }
         }
     }
 }
