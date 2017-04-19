@@ -374,6 +374,11 @@ public class ToontaQuestionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Gestion de l'évenement "Suivant" lorsqu'on est en train de répondre aux questionnaires
+     *
+     * @param titleQuestionScreen titre de l'écran
+     */
     private void manageNextAction(String titleQuestionScreen) {
         // Verification que les questions ont bien ete repondues
         String msgRetour = validateQuestionAndPrepareToSend(questionLinearLayouts[currentQuestionPos]);
