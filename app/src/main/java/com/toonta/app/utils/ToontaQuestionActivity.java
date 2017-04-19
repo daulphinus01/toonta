@@ -230,7 +230,7 @@ public class ToontaQuestionActivity extends AppCompatActivity {
             mActionBar.setDisplayHomeAsUpEnabled(false);
             mActionBar.setDisplayShowCustomEnabled(true);
 
-            View mCustomView = getLayoutInflater().inflate(R.layout.custom_actionbar_with_up_button, null);
+            View mCustomView = getLayoutInflater().inflate(R.layout.custom_actionbar_with_exit_survey_button, null);
             ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT,
                     ActionBar.LayoutParams.MATCH_PARENT);
             mActionBar.setCustomView(mCustomView, layoutParams);

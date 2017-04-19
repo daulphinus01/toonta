@@ -133,6 +133,8 @@
     <string name="toonta_app_logo_desc">Toonta App</string>
     <string name="accepter_les_notifications">Accepter les notifications</string>
     <string name="no_desc_for_survey">No description available for this survey</string>
+    <string name="toonta">Toonta</string>
+    <string name="exit_survey_button">Exit survey</string>
 
     <string-array name="toonta_profession_type">
         <item>ALL</item>
