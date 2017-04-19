@@ -302,6 +302,13 @@ public class Utils {
         }
     }
 
+    /**
+     * Affiche un écran de description d'un survey
+     *
+     * @param context the context of the parent view
+     * @param surveyElement the survey whose description is to be shown
+     * @param listSurveys the parent view
+     */
     public static void packPopupWindow(final Context context, final ToontaDAO.SurveysListAnswer.SurveyElement surveyElement, View listSurveys) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View popupWindowLayout = inflater.inflate(R.layout.full_window_popup, null, true);
