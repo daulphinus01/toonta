@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
+ * @since 31/03/2017 : MAJ pour ajouter l'état des notifications
+ *
  * Created by Guillaume on 22/05/2016.
  */
 public class ToontaSharedPreferences extends Application{
@@ -22,6 +24,8 @@ public class ToontaSharedPreferences extends Application{
     private static String USER_ID = "USER_ID";
     public String userId;
     public String profilePicPath;
+
+    private final static String TOONTA_STATE_NOTIF_PREF = "TOONTA_STATE_NOTIF_PREF_00009999";
 
     public static ToontaSharedPreferences toontaSharedPreferences;
 
@@ -86,6 +90,28 @@ public class ToontaSharedPreferences extends Application{
 
         // Suppression du path de la photo
         clearProfilePicPathInPreference();
+    }
+
+    /**
+     * Met à jour le booléen permettant de savoir si les notifications sont activées ou pas dans
+     * cette application
+     *
+     * @param stateNotif true si l'utilisateur vient d'activer les notifications, false sinon
+     */
+    public static void updateStateNotifications(boolean stateNotif) {
+        SharedPreferences.Editor editor = toontaSharedPreferences.context.getSharedPreferences(TAG, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(TOONTA_STATE_NOTIF_PREF, stateNotif);
+        editor.apply();
+    }
+
+    /**
+     * Récupère l'état des notification
+     *
+     * @return true si les notifications sont activées, false sinon
+     */
+    public static boolean getNotificationsState() {
+        SharedPreferences sharedPreferences = toontaSharedPreferences.context.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(TOONTA_STATE_NOTIF_PREF, false);
     }
 
     private static void clearProfilePicPathInPreference() {

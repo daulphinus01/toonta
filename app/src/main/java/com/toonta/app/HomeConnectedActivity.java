@@ -1,7 +1,10 @@
 package com.toonta.app;
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,23 +17,27 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
 import com.toonta.app.forms.ToontaLogin;
+import com.toonta.app.notifs.ToontaAlarmReceiver;
 import com.toonta.app.utils.MainBankDetailAdapter;
 import com.toonta.app.utils.ProfileActivity;
 import com.toonta.app.utils.SettingsClickListener;
 import com.toonta.app.utils.Utils;
 
-import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
+
+import io.fabric.sdk.android.Fabric;
 
 public class HomeConnectedActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
     private MainBankDetailAdapter surveysAdapter;
     private ListView surviesListView;
+    private PendingIntent pendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +54,15 @@ public class HomeConnectedActivity extends AppCompatActivity {
 
             // Actionbar
             setupActionBar();
+
+            // TODO Notifications
+            Intent alarmIntent = new Intent(HomeConnectedActivity.this, ToontaAlarmReceiver.class);
+            pendingIntent = PendingIntent.getBroadcast(HomeConnectedActivity.this, 0, alarmIntent, 0);
+            AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
+                    getResources().getInteger(R.integer.ALARM_INTERVAL),
+                    pendingIntent);
+            Toast.makeText(this, "Toonta Alarm Set", Toast.LENGTH_SHORT).show();
 
             // Settings
             ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
@@ -155,6 +171,12 @@ public class HomeConnectedActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getBaseContext(), cls);
+
+                    // TODO To be deleted
+                    AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                    manager.cancel(pendingIntent);
+                    Toast.makeText(HomeConnectedActivity.this, "Alarm Canceled", Toast.LENGTH_SHORT).show();
+
                     startActivity(intent);
                 }
             });
