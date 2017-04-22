@@ -104,7 +104,6 @@ public class SMSValidationActivity extends AppCompatActivity {
                 builder.setPositiveButton(R.string.toonat_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // startActivity(new Intent(ValidateQuestionActivity.this, HomeConnectedActivity.class));
                         return;
                     }
                 });

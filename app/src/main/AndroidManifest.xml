@@ -112,21 +112,7 @@
 
         <activity
             android:theme="@style/FullscreenTheme"
-            android:name=".utils.ValidateQuestionActivity"
-            android:parentActivityName=".utils.ToontaQuestionActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".utils.ToontaQuestionActivity" />
-        </activity>
-
-        <activity
-            android:theme="@style/FullscreenTheme"
-            android:name=".forms.SurveyValidationAsAFriendActivity"
-            android:parentActivityName=".utils.ValidateQuestionActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".utils.ValidateQuestionActivity" />
-        </activity>
+            android:name=".forms.SurveyValidationAsAFriendActivity"/>
 
         <activity
             android:theme="@style/FullscreenTheme"
