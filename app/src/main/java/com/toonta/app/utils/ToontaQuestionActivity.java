@@ -1,6 +1,7 @@
 package com.toonta.app.utils;
 
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -24,11 +26,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.toonta.app.BuildConfig;
+import com.toonta.app.HomeConnectedActivity;
 import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
 import com.toonta.app.ToontaSharedPreferences;
 import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
+import com.toonta.app.forms.SurveyValidationAsAFriendActivity;
 import com.toonta.app.model.SurveyResponse;
+import com.toonta.app.model.UserMode;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -60,6 +65,8 @@ public class ToontaQuestionActivity extends AppCompatActivity {
 
     private LinearLayout[] questionLinearLayouts;
     private LinearLayout questionArea;
+
+    private AlertDialog.Builder builder;
 
     public ToontaQuestionActivity() {
     }
@@ -189,6 +196,10 @@ public class ToontaQuestionActivity extends AppCompatActivity {
 
         // Fecthing survey
         newSurveyInteractor.fetchSurvey(surveyId);
+
+        // Affiche le msg selon si la reponse a bien ete envoye au serveur ou pas
+        builder = new AlertDialog.Builder(ToontaQuestionActivity.this);
+        builder.setTitle(getString(R.string.toonta_survey_validation_dialog_title));
 
     }
 
@@ -383,14 +394,33 @@ public class ToontaQuestionActivity extends AppCompatActivity {
         // Verification que les questions ont bien ete repondues
         String msgRetour = validateQuestionAndPrepareToSend(questionLinearLayouts[currentQuestionPos]);
         if (msgRetour.trim().isEmpty()) {
-
             if (currentQuestionPos == nbrTotalPages) {
-                // On envoie les reponses to the Validate As yourself/ A Friend activite
-                Intent validateQuestionActivityIntent = new Intent(ToontaQuestionActivity.this, ValidateQuestionActivity.class);
-                validateQuestionActivityIntent.putExtra(ToontaConstants.SURVEY_RESPONSES_TO_BE_SENT, responsesToBeSent);
-                validateQuestionActivityIntent.putExtra(ToontaConstants.QUESTION_TITLE, titleQuestionScreen);
-                validateQuestionActivityIntent.putExtra(ToontaConstants.SURVEY_AUTHOR_ID, authorId);
-                startActivity(validateQuestionActivityIntent);
+                int userMode = ToontaSharedPreferences.getUserMode();
+                if (userMode == UserMode.USER.getMode()) {
+                    NewSurveysInteractor newSurveysInteractorBis = new NewSurveysInteractor(ToontaQuestionActivity.this, new NewSurveysInteractor.SurviesIDsUpdater() {
+                        @Override
+                        public void onSuccess(boolean existAnsweredId) {
+                            if (existAnsweredId) {
+                                Snackbar.make(findViewById(android.R.id.content), "Survey already validated 'as yourself'", Snackbar.LENGTH_LONG).show();
+                            } else {
+                                createNewSurveysInteractorAndSendResponses(responsesToBeSent);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(String error) {
+
+                        }
+                    });
+                    newSurveysInteractorBis.existAnsweredId(authorId, responsesToBeSent.surveyId);
+                } else {
+                    // On demarre l'intent de formulaire de validation pour autrui
+                    Intent surveyValidationAsAFriendActivityIntent = new Intent(ToontaQuestionActivity.this, SurveyValidationAsAFriendActivity.class);
+                    surveyValidationAsAFriendActivityIntent.putExtra(ToontaConstants.QUESTION_TITLE, titleQuestionScreen);
+                    surveyValidationAsAFriendActivityIntent.putExtra(ToontaConstants.SURVEY_RESPONSES_TO_BE_SENT, responsesToBeSent);
+
+                    startActivity(surveyValidationAsAFriendActivityIntent);
+                }
             } else {
                 currentQuestionPos++;
                 textViewQuestionPart.setText(questionsList.questionResponseElements.get(currentQuestionPos).question);
@@ -438,5 +468,49 @@ public class ToontaQuestionActivity extends AppCompatActivity {
                 });
             }
         }
+    }
+
+    private NewSurveysInteractor createNewSurveysInteractorAndSendResponses(SurveyResponse surveyResponse) {
+
+        NewSurveysInteractor interactor = new NewSurveysInteractor(ToontaQuestionActivity.this, new NewSurveysInteractor.OneSurveyViewUpdator() {
+            @Override
+            public void onGetSurvey(ToontaDAO.QuestionsList QuestionsList) {
+                // Rien a faire ici
+            }
+
+            @Override
+            public void onPostResponse(String statusCode) {
+                // Msg retourne lors de l'envoie des reponses
+                builder.setMessage(getString(R.string.toonta_survey_validation_dialog_msg));
+                builder.setPositiveButton(R.string.toonat_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(ToontaQuestionActivity.this, HomeConnectedActivity.class));
+                        finish();
+                    }
+                });
+                builder.setCancelable(false);
+                builder.create().show();
+            }
+
+            @Override
+            public void onFailure(String error) {
+                builder.setMessage(getString(R.string.toonta_survey_validation_dialog_msg_error));
+                builder.setPositiveButton(R.string.toonat_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // startActivity(new Intent(ValidateQuestionActivity.this, HomeConnectedActivity.class));
+                        return;
+                    }
+                });
+                builder.setCancelable(false);
+                builder.create().show();
+
+            }
+        });
+
+        interactor.postSurveyResponse(surveyResponse);
+
+        return interactor;
     }
 }

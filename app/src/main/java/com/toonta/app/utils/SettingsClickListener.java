@@ -12,8 +12,11 @@ import android.view.View;
 import com.toonta.app.HomePageActivity;
 import com.toonta.app.R;
 import com.toonta.app.ToontaSharedPreferences;
+import com.toonta.app.model.UserMode;
 
 /**
+ * Ecouteur chargé du menu des paramètres
+ *
  * Created by Marcellin RWEGO on 14/03/2017.
  */
 
@@ -27,10 +30,18 @@ public class SettingsClickListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         v.setSelected(true);
+        final int userMode = ToontaSharedPreferences.getUserMode();
 
-        MenuBuilder builder = new MenuBuilder(context);
+        final MenuBuilder builder = new MenuBuilder(context);
         MenuInflater inflater = new MenuInflater(context);
         inflater.inflate(R.menu.toonta_menu, builder);
+        // Setting user mode title
+        MenuItem menuItem = builder.findItem(R.id.toonta_user_mode);
+        if (userMode == -1) {
+            menuItem.setTitle(R.string.switch_to_surveyor_mode);
+        } else {
+            menuItem.setTitle(R.string.switch_to_user_mode);
+        }
         MenuPopupHelper menuHelper = new MenuPopupHelper(context, builder, v);
         menuHelper.setForceShowIcon(true);
         builder.setCallback(new MenuBuilder.Callback() {
@@ -46,6 +57,13 @@ public class SettingsClickListener implements View.OnClickListener {
                         return true;
                     case R.id.toonta_share_menu:
                         Utils.startShareActionIntent(context);
+                        return true;
+                    case R.id.toonta_user_mode:
+                        if (userMode == -1) {
+                            ToontaSharedPreferences.setToontaUserMode(UserMode.SURVEYOR);
+                        } else {
+                            ToontaSharedPreferences.setToontaUserMode(UserMode.USER);
+                        }
                         return true;
                     default:
                         return false;

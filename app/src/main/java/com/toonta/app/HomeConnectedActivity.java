@@ -23,8 +23,9 @@ import com.toonta.app.utils.ProfileActivity;
 import com.toonta.app.utils.SettingsClickListener;
 import com.toonta.app.utils.Utils;
 
-import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
+
+import io.fabric.sdk.android.Fabric;
 
 public class HomeConnectedActivity extends AppCompatActivity {
 
@@ -143,7 +144,7 @@ public class HomeConnectedActivity extends AppCompatActivity {
             mActionBar.setDisplayShowTitleEnabled(false);
             LayoutInflater mInflater = LayoutInflater.from(this);
 
-            View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
+            View mCustomView = mInflater.inflate(R.layout.custom_actionbar_ecran_accueil, null);
             mActionBar.setCustomView(mCustomView);
             mActionBar.setDisplayShowCustomEnabled(true);
         }

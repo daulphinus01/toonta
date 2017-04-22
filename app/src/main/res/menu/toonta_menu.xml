@@ -8,4 +8,9 @@
         android:id="@+id/toonta_share_menu"
         android:title="@string/toonta_share_menu_text"
         android:icon="@mipmap/add_member_ic"/>
+
+    <item
+        android:id="@+id/toonta_user_mode"
+        android:title="@string/switch_to_surveyor_mode"
+        android:icon="@mipmap/profile_mode"/>
 </menu>
