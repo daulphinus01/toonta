@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 import com.toonta.app.R;
 import com.toonta.app.ToontaSharedPreferences;
@@ -25,8 +24,8 @@ public class ToontaBootReceiver extends BroadcastReceiver {
             case "android.intent.action.BOOT_COMPLETED":
                 // Récupération de l'état des notification dans les préférences
                 ToontaSharedPreferences.init(context);
-                boolean isNotifEnabled = ToontaSharedPreferences.isFistUseSliderValidated()
-                        && ToontaSharedPreferences.getNotificationsState();
+                boolean isNotifEnabled = ToontaSharedPreferences.isLoggedIn()
+                        && !ToontaSharedPreferences.getNotificationsState();
 
                 // Si utilisateur connecté et notifications activées, il faut relancer l'alarme
                 if (isNotifEnabled) {
@@ -37,9 +36,6 @@ public class ToontaBootReceiver extends BroadcastReceiver {
                     // TODO Intervalle à spécifier plus tard
                     manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
                             context.getResources().getInteger(R.integer.ALARM_INTERVAL), pendingIntent);
-
-                    // TODO Ligne de code à supprimer à la fin des tests
-                    Toast.makeText(context, "Toonta Alarm Set", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

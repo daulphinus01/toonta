@@ -1,10 +1,8 @@
 package com.toonta.app;
 
 import android.annotation.TargetApi;
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,12 +15,10 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
 import com.toonta.app.forms.ToontaLogin;
-import com.toonta.app.notifs.ToontaAlarmReceiver;
 import com.toonta.app.utils.MainBankDetailAdapter;
 import com.toonta.app.utils.ProfileActivity;
 import com.toonta.app.utils.SettingsClickListener;
@@ -31,6 +27,8 @@ import com.toonta.app.utils.Utils;
 import java.util.ArrayList;
 
 import io.fabric.sdk.android.Fabric;
+
+import static com.toonta.app.utils.Utils.getUnsweredSuryes;
 
 public class HomeConnectedActivity extends AppCompatActivity {
 
@@ -54,15 +52,6 @@ public class HomeConnectedActivity extends AppCompatActivity {
 
             // Actionbar
             setupActionBar();
-
-            // TODO Notifications
-            Intent alarmIntent = new Intent(HomeConnectedActivity.this, ToontaAlarmReceiver.class);
-            pendingIntent = PendingIntent.getBroadcast(HomeConnectedActivity.this, 0, alarmIntent, 0);
-            AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
-                    getResources().getInteger(R.integer.ALARM_INTERVAL),
-                    pendingIntent);
-            Toast.makeText(this, "Toonta Alarm Set", Toast.LENGTH_SHORT).show();
 
             // Settings
             ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
@@ -110,8 +99,14 @@ public class HomeConnectedActivity extends AppCompatActivity {
                     if (progressDialog != null && progressDialog.isShowing())
                         progressDialog.dismiss();
 
+                    // Surveys non répondus
+                    ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> unansweredSurveys = getUnsweredSuryes(surveyElementArrayList);
+
+                    // On met le nombre de surveys non répondus dans les préférebces
+                    ToontaSharedPreferences.setSharedPreferencesSurveysNbr(unansweredSurveys.size());
+
                     // Only unanswered surveys sont affichés
-                    surveysAdapter.addElements(getUnsweredSuryes(surveyElementArrayList));
+                    surveysAdapter.addElements(unansweredSurveys);
                 }
 
                 @Override
@@ -171,25 +166,9 @@ public class HomeConnectedActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getBaseContext(), cls);
-
-                    // TODO To be deleted
-                    AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                    manager.cancel(pendingIntent);
-                    Toast.makeText(HomeConnectedActivity.this, "Alarm Canceled", Toast.LENGTH_SHORT).show();
-
                     startActivity(intent);
                 }
             });
         }
-    }
-
-    private ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> getUnsweredSuryes(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList) {
-        ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> unAnsweredSurveys = new ArrayList<>();
-        for (ToontaDAO.SurveysListAnswer.SurveyElement se : surveyElementArrayList) {
-            if (!se.answered) {
-                unAnsweredSurveys.add(se);
-            }
-        }
-        return unAnsweredSurveys;
     }
 }

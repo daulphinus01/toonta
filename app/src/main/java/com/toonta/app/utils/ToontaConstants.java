@@ -9,13 +9,12 @@ package com.toonta.app.utils;
  */
 public class ToontaConstants {
 
-    public static final String TOONTA_QUESTION = "toontaQuestionToBeAsked";
-
     public static final String QUESTION_TITLE = "questionEnCours";
     public static final String SURVEY_ID = "toonta_Survey_Id_String";
     public static final String SURVEY_REWRD = "toonta_Survey_Reward_Long";
-    public static final String SURVEY_RESPONSES_TO_BE_SENT = "toonta_survey_responses_to_be_sent";
     public static final String SURVEY_AUTHOR_ID = "toonta_survey_author_id";
+    public static final String TOONTA_QUESTION = "toontaQuestionToBeAsked";
+    public static final String SURVEY_RESPONSES_TO_BE_SENT = "toonta_survey_responses_to_be_sent";
 
     public static final int QUESTION_ZONE_LINE_NBR = 4;
 
@@ -33,13 +32,15 @@ public class ToontaConstants {
     // Id of every NO radio button in this app
     public static int NO_RADIO_BUTTON_ID = 2222222;
 
-    public static final String TOONTA_YES_NO_TAG = "TOONTA_YES_NO_TAG";
+    public static final int DEFAULT_NBR_SURVEYS = -999;
+
+    public static final int BOX_TITLE_TEXT_MAX_LENGTH = 40;
 
     public static final String TOONTA_BASIC_TAG = "TOONTA_BASIC_TAG";
 
-    public static final String TOONTA_MULTIPLE_CHOICE_TAG = "TOONTA_MULTIPLE_CHOICE_TAG";
+    public static final String TOONTA_YES_NO_TAG = "TOONTA_YES_NO_TAG";
 
-    public static final int BOX_TITLE_TEXT_MAX_LENGTH = 40;
+    public static final String TOONTA_MULTIPLE_CHOICE_TAG = "TOONTA_MULTIPLE_CHOICE_TAG";
 
     public static final String NO_DESC_FOR_SURVEY = "No description available for this survey";
 

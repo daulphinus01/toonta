@@ -8,4 +8,9 @@
         android:id="@+id/toonta_share_menu"
         android:title="@string/toonta_share_menu_text"
         android:icon="@mipmap/add_member_ic"/>
+
+    <item
+        android:id="@+id/toonta_notification_menu"
+        android:title="@string/enable_notifications"
+        android:icon="@mipmap/notifications_enable"/>
 </menu>
