@@ -5,31 +5,36 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.toonta.app.model.UserMode;
+import static com.toonta.app.utils.ToontaConstants.DEFAULT_NBR_SURVEYS;
 
 /**
+ * @since 31/03/2017 : MAJ pour ajouter l'état des notifications
+ *
  * Created by Guillaume on 22/05/2016.
  */
 public class ToontaSharedPreferences extends Application{
 
     private static String TAG = "ToontaSharedPreferences";
 
-    private static String FIRST_USE_SLIDER_VALIDATION = "FIRST_USE_SLIDER_VALIDATION";
-    private static String LOGGED_IN = "LOGGED_IN";
 
-    private static String TOONTA_PROFILE_PIC_PATH = "toonta_profile_picture_path";
+
+
+    public String userId;
+    private Context context;
+    public String requestToken;
+    public String profilePicPath;
+    private static String USER_ID = "USER_ID";
+    private static String LOGGED_IN = "LOGGED_IN";
+    private static String REQUEST_TOKEN = "REQUEST_TOKEN";
 
     private static String TOONTA_USER_MODE = "toonta_user_mode_int_000999";
-
-    private static String REQUEST_TOKEN = "REQUEST_TOKEN";
-    public String requestToken;
-
-    private static String USER_ID = "USER_ID";
-    public String userId;
-    public String profilePicPath;
+    private static String TOONTA_PROFILE_PIC_PATH = "toonta_profile_picture_path";
+    private static String FIRST_USE_SLIDER_VALIDATION = "FIRST_USE_SLIDER_VALIDATION";
+    private final static String TOONTA_NUMBER_SURVEYS = "TOONTA_NUMBER_SURVEYS_99999998";
+    private final static String TOONTA_STATE_NOTIF_PREF = "TOONTA_STATE_NOTIF_PREF_99999999";
 
     public static ToontaSharedPreferences toontaSharedPreferences;
 
-    private Context context;
 
     public static void init(Context context) {
         toontaSharedPreferences = new ToontaSharedPreferences();
@@ -91,6 +96,41 @@ public class ToontaSharedPreferences extends Application{
 
         // Suppression du path de la photo
         clearProfilePicPathInPreference();
+
+        // Réinitialisation de l'état des notifications
+        initNotificationsState();
+    }
+
+    /**
+     * Met à jour le booléen permettant de savoir si les notifications sont activées ou pas dans
+     * cette application
+     */
+    public static void updateNotificationsState() {
+        boolean stateNotif = !getNotificationsState();
+        SharedPreferences.Editor editor = toontaSharedPreferences.context.getSharedPreferences(TAG, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(TOONTA_STATE_NOTIF_PREF, stateNotif);
+        editor.apply();
+    }
+
+    /**
+     * Récupère l'état des notification
+     *
+     * @return true si les notifications sont activées, false sinon
+     */
+    public static boolean getNotificationsState() {
+        SharedPreferences sharedPreferences = toontaSharedPreferences.context.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(TOONTA_STATE_NOTIF_PREF, false);
+    }
+
+    public static int getSharedPreferencesSurveysNbr() {
+        SharedPreferences sharedPreferences = toontaSharedPreferences.context.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(TOONTA_NUMBER_SURVEYS, DEFAULT_NBR_SURVEYS);
+    }
+
+    public static void setSharedPreferencesSurveysNbr(int nbrSurveys) {
+        SharedPreferences.Editor editor = toontaSharedPreferences.context.getSharedPreferences(TAG, Context.MODE_PRIVATE).edit();
+        editor.putInt(TOONTA_NUMBER_SURVEYS, nbrSurveys);
+        editor.apply();
     }
 
     private static void clearProfilePicPathInPreference() {
@@ -113,5 +153,11 @@ public class ToontaSharedPreferences extends Application{
     public static int getUserMode() {
         SharedPreferences sharedPreferences = toontaSharedPreferences.context.getSharedPreferences(TAG, Context.MODE_PRIVATE);
         return sharedPreferences.getInt(TOONTA_USER_MODE, -1);
+    }
+
+    private static void initNotificationsState() {
+        SharedPreferences.Editor editor = toontaSharedPreferences.context.getSharedPreferences(TAG, Context.MODE_PRIVATE).edit();
+        editor.putBoolean(TOONTA_STATE_NOTIF_PREF, false);
+        editor.apply();
     }
 }

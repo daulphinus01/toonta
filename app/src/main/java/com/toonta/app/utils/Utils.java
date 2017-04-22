@@ -373,4 +373,21 @@ public class Utils {
             }
         });
     }
+
+    /**
+     * Retourne une liste de questionnaires non répondus
+     *
+     * @param surveyElementArrayList ensemble de questionnaires récupérés depuis le serveur
+     * @return  liste de questionnaires non répondus
+     */
+    public static ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> getUnsweredSuryes(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList) {
+        ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> unAnsweredSurveys = new ArrayList<>();
+        for (ToontaDAO.SurveysListAnswer.SurveyElement se : surveyElementArrayList) {
+            if (!se.answered) {
+                unAnsweredSurveys.add(se);
+            }
+        }
+        return unAnsweredSurveys;
+    }
+
 }

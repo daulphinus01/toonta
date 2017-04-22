@@ -1,6 +1,7 @@
 package com.toonta.app;
 
 import android.annotation.TargetApi;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
@@ -27,11 +28,15 @@ import java.util.ArrayList;
 
 import io.fabric.sdk.android.Fabric;
 
+import static com.toonta.app.utils.Utils.getUnsweredSuryes;
+
+
 public class HomeConnectedActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
     private MainBankDetailAdapter surveysAdapter;
     private ListView surviesListView;
+    private PendingIntent pendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +100,14 @@ public class HomeConnectedActivity extends AppCompatActivity {
                     if (progressDialog != null && progressDialog.isShowing())
                         progressDialog.dismiss();
 
+                    // Surveys non répondus
+                    ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> unansweredSurveys = getUnsweredSuryes(surveyElementArrayList);
+
+                    // On met le nombre de surveys non répondus dans les préférebces
+                    ToontaSharedPreferences.setSharedPreferencesSurveysNbr(unansweredSurveys.size());
+
                     // Only unanswered surveys sont affichés
-                    surveysAdapter.addElements(getUnsweredSuryes(surveyElementArrayList));
+                    surveysAdapter.addElements(unansweredSurveys);
                 }
 
                 @Override
@@ -160,15 +171,5 @@ public class HomeConnectedActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    private ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> getUnsweredSuryes(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList) {
-        ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> unAnsweredSurveys = new ArrayList<>();
-        for (ToontaDAO.SurveysListAnswer.SurveyElement se : surveyElementArrayList) {
-            if (!se.answered) {
-                unAnsweredSurveys.add(se);
-            }
-        }
-        return unAnsweredSurveys;
     }
 }

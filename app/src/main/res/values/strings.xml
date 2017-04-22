@@ -175,10 +175,13 @@
         <item>Sénégal</item>
         <item>Senegal</item>
     </string-array>
-    
-    <!-- Notifications -->
-    
+
     <!-- mode surveyor -->
     <string name="switch_to_surveyor_mode">Switch to surveyor mode</string>
     <string name="switch_to_user_mode">Switch to user mode</string>
+
+    <!-- String related to notifications -->
+    <string name="enable_notifications">Enable notifications</string>
+    <string name="disable_notifications">Disable notifications</string>
+    <string name="message_notifications">A new survey is available</string>
 </resources>
