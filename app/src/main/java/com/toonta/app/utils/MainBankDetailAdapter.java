@@ -72,11 +72,7 @@ public class MainBankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAns
         //getItem(position) va récupérer l'item [position] de la List<Survey> surveyList
         ToontaDAO.SurveysListAnswer.SurveyElement survey = getItem(position);
 
-        if (survey.answered) {
-            convertView.setBackground(context.getResources().getDrawable(R.drawable.survey_row_zone_border_bg_green));
-        } else {
-            convertView.setBackground(context.getResources().getDrawable(R.drawable.survey_row_zone_border_bg_bleu_clair));
-        }
+        convertView.setBackground(context.getResources().getDrawable(R.drawable.survey_row_zone_border_bg_bleu_clair));
 
         // getItem(position) va récupérer l'item [position] de la List<Survey> surveyList
         //Bank bank = getItem(position);
@@ -98,6 +94,10 @@ public class MainBankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAns
         viewHolder.bankDetailRowRewards.setTransformationMethod(null);
 
         return convertView;
+    }
+
+    public void clearElements() {
+        surveyList.clear();
     }
 
     private class BankRowViewHolder {

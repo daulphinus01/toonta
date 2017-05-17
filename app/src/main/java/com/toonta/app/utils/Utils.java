@@ -337,13 +337,8 @@ public class Utils {
                 intent.putExtra(ToontaConstants.SURVEY_REWRD, surveyElement.reward);
                 intent.putExtra(ToontaConstants.SURVEY_AUTHOR_ID, surveyElement.authorId);
 
+                popupWindow.dismiss();
                 context.startActivity(intent);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        popupWindow.dismiss();
-                    }
-                }, 3000);
             }
         });
 

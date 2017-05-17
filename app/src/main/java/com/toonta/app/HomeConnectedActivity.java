@@ -1,7 +1,6 @@
 package com.toonta.app;
 
 import android.annotation.TargetApi;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
@@ -36,7 +35,8 @@ public class HomeConnectedActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private MainBankDetailAdapter surveysAdapter;
     private ListView surviesListView;
-    private PendingIntent pendingIntent;
+    private ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> allSurveys;
+    private ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> unansweredSurveys;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,8 @@ public class HomeConnectedActivity extends AppCompatActivity {
 
             // Settings
             ImageView toontaMenuButton = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.toonta_menu_settings);
-            toontaMenuButton.setOnClickListener(new SettingsClickListener(HomeConnectedActivity.this));
+            final SettingsClickListener settingsClickListener = new SettingsClickListener(HomeConnectedActivity.this);
+            toontaMenuButton.setOnClickListener(settingsClickListener);
 
             Button bankButton = (Button) findViewById(R.id.bank_button);
             toontaSetOnClickListener(bankButton, BankDetailActivity.class);
@@ -74,6 +75,7 @@ public class HomeConnectedActivity extends AppCompatActivity {
             surveysAdapter = new MainBankDetailAdapter(getBaseContext());
             assert surviesListView != null;
             surviesListView.setAdapter(surveysAdapter);
+            settingsClickListener.setSurveysAdapter(surveysAdapter);
 
             surviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -100,14 +102,25 @@ public class HomeConnectedActivity extends AppCompatActivity {
                     if (progressDialog != null && progressDialog.isShowing())
                         progressDialog.dismiss();
 
+                    // Surveys total
+                    allSurveys = surveyElementArrayList;
                     // Surveys non répondus
-                    ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> unansweredSurveys = getUnsweredSuryes(surveyElementArrayList);
+                    unansweredSurveys = getUnsweredSuryes(surveyElementArrayList);
+
+                    // MAJ du listener
+                    settingsClickListener.setAllSurveys(allSurveys);
+                    settingsClickListener.setUnansweredSurveys(unansweredSurveys);
 
                     // On met le nombre de surveys non répondus dans les préférebces
                     ToontaSharedPreferences.setSharedPreferencesSurveysNbr(unansweredSurveys.size());
 
-                    // Only unanswered surveys sont affichés
-                    surveysAdapter.addElements(unansweredSurveys);
+                    // En mode user, on affiche les surveys non répondus. Sinon on affiche tous les surveys
+                    // -1 correspond au mode USER
+                    if (ToontaSharedPreferences.getUserMode() == -1) {
+                        surveysAdapter.addElements(unansweredSurveys);
+                    } else {
+                        surveysAdapter.addElements(allSurveys);
+                    }
                 }
 
                 @Override
