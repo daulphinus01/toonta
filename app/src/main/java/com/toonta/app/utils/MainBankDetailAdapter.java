@@ -4,6 +4,7 @@
 package com.toonta.app.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,6 @@ import com.toonta.app.ToontaDAO;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.toonta.app.utils.ToontaConstants.BOX_TITLE_TEXT_MAX_LENGTH;
 
 /**
  * @author Marcellin RWEGO
@@ -74,15 +73,14 @@ public class MainBankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAns
 
         convertView.setBackground(context.getResources().getDrawable(R.drawable.survey_row_zone_border_bg_bleu_clair));
 
-        // getItem(position) va récupérer l'item [position] de la List<Survey> surveyList
-        //Bank bank = getItem(position);
-
         //il ne reste plus qu'à remplir notre vue
         int textColor = getContext().getResources().getColor(R.color.screen_1_1_bg);
 
-        viewHolder.bankTitleTextView.setText(computeString(survey.name));
+        viewHolder.bankTitleTextView.setText(survey.name);
         viewHolder.bankTitleTextView.setTransformationMethod(null);
         viewHolder.bankTitleTextView.setTextColor(textColor);
+        viewHolder.bankTitleTextView.setEllipsize(TextUtils.TruncateAt.END);
+        viewHolder.bankTitleTextView.setSingleLine();
 
         int remainigAnswers = survey.target - survey.receivedAnswer;
         String answersRemaining = "Answers remaining : " + ((remainigAnswers < 0) ? 0 : remainigAnswers);
@@ -96,7 +94,7 @@ public class MainBankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAns
         return convertView;
     }
 
-    public void clearElements() {
+    void clearElements() {
         surveyList.clear();
     }
 
@@ -104,34 +102,5 @@ public class MainBankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAns
         TextView bankTitleTextView;
         TextView bankDetailRowRemainingAnswers;
         TextView bankDetailRowRewards;
-    }
-
-    /**
-     * Cette méthode prend en entrée une chaîne de caractère, la découpe si la taille de cette chaîne est superieure
-     * à BOX_TITLE_TEXT_MAX_LENGTH en une chaîne c. On concatène à c trois points => c...
-     * @param bankTitleText la chaîne à traiter
-     * @return la chaîne c avec trois points à la fin ex.: c...
-     */
-    private String computeString(String bankTitleText) {
-        // On retourne la chaîne elle même si sa taille <= BOX_TITLE_TEXT_MAX_LENGTH
-        if (bankTitleText.length() <= BOX_TITLE_TEXT_MAX_LENGTH) {
-            return bankTitleText;
-        }
-        int cptr = 0;
-        StringBuilder tmpStr = new StringBuilder();
-        String[] bankTitleTextSplitted = bankTitleText.split(" ");
-        int boxTitleTextLengthForDots = BOX_TITLE_TEXT_MAX_LENGTH - 4;
-        // Si la taille du premier mot depasse BOX_TITLE_TEXT_MAX_LENGTH on le découpe
-        // et on envoi une partie
-        if (bankTitleTextSplitted[cptr].length() > BOX_TITLE_TEXT_MAX_LENGTH) {
-            tmpStr.append(bankTitleTextSplitted[cptr].substring(0, boxTitleTextLengthForDots)).append("... ");
-            return tmpStr.toString();
-        }
-
-        while (tmpStr.length() <= (boxTitleTextLengthForDots - bankTitleTextSplitted[cptr].length())) {
-            tmpStr.append(bankTitleTextSplitted[cptr]).append(" ");
-            cptr++;
-        }
-        return tmpStr.append("...").toString();
     }
 }
