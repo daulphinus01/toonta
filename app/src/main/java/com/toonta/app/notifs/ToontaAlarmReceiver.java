@@ -75,7 +75,7 @@ public class ToontaAlarmReceiver extends BroadcastReceiver {
     }
 
     /**
-     * Créée une notification à afficher     *
+     * Créée une notification à afficher
      * @param context contexte de la notification
      */
     private void createNotification(Context context) {

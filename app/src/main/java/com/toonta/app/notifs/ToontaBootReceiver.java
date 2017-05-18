@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.toonta.app.R;
+import com.toonta.app.ToontaDAO;
 import com.toonta.app.ToontaSharedPreferences;
 
 /**
@@ -24,6 +25,7 @@ public class ToontaBootReceiver extends BroadcastReceiver {
             case "android.intent.action.BOOT_COMPLETED":
                 // Récupération de l'état des notification dans les préférences
                 ToontaSharedPreferences.init(context);
+                ToontaDAO.init(context);
                 boolean isNotifEnabled = ToontaSharedPreferences.isLoggedIn()
                         && !ToontaSharedPreferences.getNotificationsState();
 
