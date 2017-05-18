@@ -1,7 +1,6 @@
 package com.toonta.app;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -10,7 +9,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,7 +16,6 @@ import android.widget.TextView;
 import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
 import com.toonta.app.utils.BankDetailAdapter;
 import com.toonta.app.utils.SettingsClickListener;
-import com.toonta.app.utils.ToontaConstants;
 import com.toonta.app.utils.Utils;
 
 public class BankDetailActivity extends AppCompatActivity {
@@ -58,24 +55,7 @@ public class BankDetailActivity extends AppCompatActivity {
         assert surviesListView != null;
         surviesListView.setAdapter(bankDetailAdapter);
 
-        // TODO Set correctely the listener
-        surviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getBaseContext(), BankDetailQstActivity.class);
-
-                ToontaDAO.SurveysListAnswer.SurveyElement surveyElement = bankDetailAdapter.getItem(position);
-                intent.putExtra(ToontaConstants.QUESTION_TITLE, surveyElement.name);
-                intent.putExtra(ToontaConstants.SURVEY_ID, surveyElement.surveyId);
-                intent.putExtra(ToontaConstants.SURVEY_REWRD, surveyElement.reward);
-                intent.putExtra(ToontaConstants.SURVEY_AUTHOR_ID, surveyElement.authorId);
-
-                startActivity(intent);
-            }
-        });
-
         // Showing loading window
-        // progressDialog.show();
         NewSurveysInteractor newSurveysInteractor = new NewSurveysInteractor(BankDetailActivity.this, new NewSurveysInteractor.CompaniesUpdater() {
             @Override
             public void onSuccess(ToontaDAO.SurveysListAnswer surveyElementArrayList) {

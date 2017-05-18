@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -78,15 +77,6 @@ public class BankDetailQstActivity extends AppCompatActivity {
         bankDetailAdapter = new BankDetailAdapter(getBaseContext());
         assert surviesListView != null;
         surviesListView.setAdapter(bankDetailAdapter);
-
-        surviesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ToontaDAO.SurveysListAnswer.SurveyElement surveyElement = bankDetailAdapter.getItem(position);
-                // PopupWindow affichant la description du survey
-                Utils.packPopupWindow(BankDetailQstActivity.this, surveyElement, findViewById(R.id.bank_items_qst));
-            }
-        });
 
         // Showing loading window
         progressDialog.show();
