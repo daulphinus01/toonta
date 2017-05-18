@@ -171,7 +171,6 @@ public class SettingsClickListener implements View.OnClickListener {
         if (surveysAdapter != null
                 && allSurveys != null
                 && unansweredSurveys != null) {
-            surveysAdapter.clearElements();
             // -1 correspond au mode USER
             if (ToontaSharedPreferences.getUserMode() == -1) {
                 surveysAdapter.addElements(allSurveys);

@@ -34,6 +34,8 @@ public class ToontaConstants {
 
     public static final int DEFAULT_NBR_SURVEYS = -999;
 
+    public static final int NOTIFS_TAG = 999900;
+
     public static final int BOX_TITLE_TEXT_MAX_LENGTH = 40;
 
     public static final String TOONTA_BASIC_TAG = "TOONTA_BASIC_TAG";

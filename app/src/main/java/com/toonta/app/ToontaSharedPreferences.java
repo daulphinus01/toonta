@@ -127,7 +127,7 @@ public class ToontaSharedPreferences extends Application{
         return sharedPreferences.getInt(TOONTA_NUMBER_SURVEYS, DEFAULT_NBR_SURVEYS);
     }
 
-    public static void setSharedPreferencesSurveysNbr(int nbrSurveys) {
+    public static synchronized void setSharedPreferencesSurveysNbr(int nbrSurveys) {
         SharedPreferences.Editor editor = toontaSharedPreferences.context.getSharedPreferences(TAG, Context.MODE_PRIVATE).edit();
         editor.putInt(TOONTA_NUMBER_SURVEYS, nbrSurveys);
         editor.apply();

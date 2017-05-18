@@ -49,6 +49,7 @@ public class MainBankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAns
     }
 
     public void addElements(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList) {
+        this.surveyList.clear();
         this.surveyList.addAll(surveyElementArrayList);
         notifyDataSetChanged();
     }
@@ -92,10 +93,6 @@ public class MainBankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAns
         viewHolder.bankDetailRowRewards.setTransformationMethod(null);
 
         return convertView;
-    }
-
-    void clearElements() {
-        surveyList.clear();
     }
 
     private class BankRowViewHolder {

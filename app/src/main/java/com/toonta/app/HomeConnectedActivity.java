@@ -1,6 +1,7 @@
 package com.toonta.app;
 
 import android.annotation.TargetApi;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
@@ -10,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,6 +29,8 @@ import java.util.ArrayList;
 
 import io.fabric.sdk.android.Fabric;
 
+import static com.toonta.app.utils.ToontaConstants.DEFAULT_NBR_SURVEYS;
+import static com.toonta.app.utils.ToontaConstants.NOTIFS_TAG;
 import static com.toonta.app.utils.Utils.getUnsweredSuryes;
 
 
@@ -35,6 +39,7 @@ public class HomeConnectedActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private MainBankDetailAdapter surveysAdapter;
     private ListView surviesListView;
+    private NewSurveysInteractor newSurveysInteractor;
     private ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> allSurveys;
     private ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> unansweredSurveys;
 
@@ -88,9 +93,11 @@ public class HomeConnectedActivity extends AppCompatActivity {
                 }
             });
 
+            surviesListView.setOnScrollListener(scrollListener);
+
             // Showing loading window
             progressDialog.show();
-            NewSurveysInteractor newSurveysInteractor = new NewSurveysInteractor(getApplicationContext(), new NewSurveysInteractor.NewSurveysViewUpdater() {
+            newSurveysInteractor = new NewSurveysInteractor(getApplicationContext(), new NewSurveysInteractor.NewSurveysViewUpdater() {
                 @Override
                 public void onNewSurveys(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList, boolean reset) {
                     // TODO Empty method
@@ -98,10 +105,6 @@ public class HomeConnectedActivity extends AppCompatActivity {
 
                 @Override
                 public void onPopulateSurvies(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList) {
-                    // Dismissing loading window
-                    if (progressDialog != null && progressDialog.isShowing())
-                        progressDialog.dismiss();
-
                     // Surveys total
                     allSurveys = surveyElementArrayList;
                     // Surveys non répondus
@@ -121,6 +124,10 @@ public class HomeConnectedActivity extends AppCompatActivity {
                     } else {
                         surveysAdapter.addElements(allSurveys);
                     }
+
+                    // Dismissing loading window
+                    if (progressDialog != null && progressDialog.isShowing())
+                        progressDialog.dismiss();
                 }
 
                 @Override
@@ -185,4 +192,26 @@ public class HomeConnectedActivity extends AppCompatActivity {
             });
         }
     }
+
+    private AbsListView.OnScrollListener scrollListener = new AbsListView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            boolean hasTouchedBottom = (firstVisibleItem + visibleItemCount) == totalItemCount;
+            if (hasTouchedBottom && allSurveys != null) {
+                int surveysNbr = Utils.getUnsweredSuryes(allSurveys).size();
+                int storedNbrSurveys = ToontaSharedPreferences.getSharedPreferencesSurveysNbr();
+                // S'il y a des nouveaux questionnaires, on met à jour la page entière
+                if (surveysNbr != DEFAULT_NBR_SURVEYS && surveysNbr != storedNbrSurveys) {
+                    newSurveysInteractor.fetchAllSurvies();
+                    NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    notificationManager.cancel(NOTIFS_TAG);
+                }
+            }
+        }
+    };
 }

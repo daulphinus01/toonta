@@ -17,6 +17,7 @@ import com.toonta.app.utils.Utils;
 
 import java.util.ArrayList;
 
+import static com.toonta.app.utils.ToontaConstants.NOTIFS_TAG;
 import static com.toonta.app.utils.ToontaConstants.DEFAULT_NBR_SURVEYS;
 
 /**
@@ -28,7 +29,6 @@ import static com.toonta.app.utils.ToontaConstants.DEFAULT_NBR_SURVEYS;
  */
 
 public class ToontaAlarmReceiver extends BroadcastReceiver {
-    private static final int TAG = 999900;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -97,6 +97,6 @@ public class ToontaAlarmReceiver extends BroadcastReceiver {
         NotificationManager notifiManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         // TAG allows to update the notification later on.
-        notifiManager.notify(TAG, notifBuilder.build());
+        notifiManager.notify(NOTIFS_TAG, notifBuilder.build());
     }
 }
