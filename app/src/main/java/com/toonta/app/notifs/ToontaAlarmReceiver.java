@@ -51,7 +51,7 @@ public class ToontaAlarmReceiver extends BroadcastReceiver {
                 int surveysNbr = Utils.getUnsweredSuryes(surveyElementArrayList).size();
                 int storedNbrSurveys = ToontaSharedPreferences.getSharedPreferencesSurveysNbr();
                 // S'il y a des nouveaux questionnaires, on affiche une notification
-                if (surveysNbr != DEFAULT_NBR_SURVEYS && surveysNbr != storedNbrSurveys) {
+                if (surveysNbr != DEFAULT_NBR_SURVEYS && surveysNbr > storedNbrSurveys) {
                     ToontaSharedPreferences.setSharedPreferencesSurveysNbr(surveysNbr);
                     createNotification(context);
                 }
