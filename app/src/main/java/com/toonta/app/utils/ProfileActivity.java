@@ -22,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -93,7 +94,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         residencePlaceArea = (TextInputLayout) findViewById(R.id.city_of_residence_area);
 
-        Button saveChangesButton = (Button) findViewById(R.id.toonta_save_changes_button);
+        final Button saveChangesButton = (Button) findViewById(R.id.toonta_save_changes_button);
         assert saveChangesButton != null;
         saveChangesButton.setTransformationMethod(null);
 
@@ -161,6 +162,9 @@ public class ProfileActivity extends AppCompatActivity {
         cityResidencePlace.setThreshold(1);
         allEditTexts[5] = cityResidencePlace;
 
+        // Par défaut, le soft keyboard est caché
+        hideKeyboard();
+
         addOnEditorActionListener();
 
         /*************************************************************************************
@@ -204,6 +208,9 @@ public class ProfileActivity extends AppCompatActivity {
                 Snackbar.make(findViewById(android.R.id.content), responseStatus, Snackbar.LENGTH_LONG).show();
                 firstName.requestFocus();
                 populateTextViews(updatedUser);
+                saveChangesButton.setText(R.string.toonta_modify_profile);
+                hideKeyboard();
+                firstName.setEnabled(false);
             }
 
             @Override
@@ -218,34 +225,37 @@ public class ProfileActivity extends AppCompatActivity {
         saveChangesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updatedUser = new ToontaUser();
-                if (birthDate.getText() != null)
-                    updatedUser.birthdate = birthDate.getText().toString();
-                if (emailAddress.getText() != null)
-                    updatedUser.email = emailAddress.getText().toString();
-                if (firstName.getText() != null)
-                    updatedUser.firstname = firstName.getText().toString();
-                if (lastName.getText() != null)
-                    lastName.getText().toString();
-                if (phoneNumber.getText() != null)
-                    phoneNumber.getText().toString();
-                if (cityResidencePlace.getText() != null)
-                    updatedUser.address.city = cityResidencePlace.getText().toString();
-                if (countryResidencePlace.getText() != null) {
-                    if (countryResidencePlace.getText().toString().equalsIgnoreCase("cameroun")) {
-                        updatedUser.address.country = "Cameroon";
-                    } else {
-                        updatedUser.address.country = countryResidencePlace.getText().toString();
+                String scbText = saveChangesButton.getText().toString();
+                if ("Modify profile".equals(scbText)) {
+                    saveChangesButton.setText(R.string.toonta_save_changes);
+                    firstName.setEnabled(true);
+                } else {
+                    updatedUser = new ToontaUser();
+                    if (birthDate.getText() != null)
+                        updatedUser.birthdate = birthDate.getText().toString();
+                    if (emailAddress.getText() != null)
+                        updatedUser.email = emailAddress.getText().toString();
+                    if (firstName.getText() != null)
+                        updatedUser.firstname = firstName.getText().toString();
+                    if (lastName.getText() != null)
+                        lastName.getText().toString();
+                    if (phoneNumber.getText() != null)
+                        phoneNumber.getText().toString();
+                    if (cityResidencePlace.getText() != null)
+                        updatedUser.address.city = cityResidencePlace.getText().toString();
+                    if (countryResidencePlace.getText() != null) {
+                        if (countryResidencePlace.getText().toString().equalsIgnoreCase("cameroun")) {
+                            updatedUser.address.country = "Cameroon";
+                        } else {
+                            updatedUser.address.country = countryResidencePlace.getText().toString();
+                        }
                     }
+                    updatedUser.profession = String.valueOf(professionalActivity.getSelectedItem());
+                    updatedUser.sexe = sexe;
+
+                    // Sending changes to server
+                    toontaUserInterceptor.updateToontaUser(updatedUser);
                 }
-                updatedUser.profession = String.valueOf(professionalActivity.getSelectedItem());
-                updatedUser.sexe = sexe;
-
-                if (BuildConfig.DEBUG)
-                Log.e("***ProfileActivity***", "SaveChangeButton clicked [ " + updatedUser.toString() + " ]");
-
-                // Sending changes to server
-                toontaUserInterceptor.updateToontaUser(updatedUser);
             }
         });
 
@@ -268,6 +278,10 @@ public class ProfileActivity extends AppCompatActivity {
                 Snackbar.make(findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void hideKeyboard() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     /*************************************************************************************
@@ -354,6 +368,11 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Récupère la position de la profession sélectionnée par l'utilisateur
+     * @param profession sélectionnée par l'utilisateur
+     * @return la position de la profession choisie
+     */
     private int getPosFromToontaProfessionByString(String profession) {
         String[] professions = getResources().getStringArray(R.array.toonta_profession_type);
         for (int i = 0; i < professions.length; i++) {

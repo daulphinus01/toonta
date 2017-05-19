@@ -106,6 +106,7 @@
     <string name="toonat_ok">Ok</string>
     <string name="toonta_cancel">Cancel</string>
     <string name="toonta_save_changes">Save changes</string>
+    <string name="toonta_modify_profile">Modify profile</string>
     <string name="no_modif_wright">You have no wright of modification</string>
     <string name="profile_change_success">Profile updated successefuly</string>
     <string name="validate_the_survey_as">Validate the survey as...</string>
