@@ -3,29 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorPrimaryDarkHomePage">#273160</color>
-    <color name="colorPrimaryDarkHomePageText">#475681</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="blue">#0000FF</color>
     <color name="blue_transparent">#100000ff</color>
-
-    <color name="blue_opacity_09">#170000FF</color>
-
-    <color name="black_overlay">#66000000</color>
-
-    <color name="black_gray">#657378</color>
-
-    <color name="blue_bcgnd">#33b5e5</color>
-
-    <color name="white_bg">#ffffff</color>
 
     <color name="white_bg_opacity_82">#d1ffffff</color>
 
     <color name="white_bg_opacity_87">#deffffff</color>
-
-    <color name="white_bg_transparent">#80ffffff</color>
-
-    <color name="black_color">#000000</color>
 
     <color name="black_color_transparent">#80000000</color>
 
@@ -33,18 +17,12 @@
     <color name="screen_1_bg">#14A1A7</color>
     <color name="screen_1_1_bg">#018287</color>
     <color name="screen_2_bg">#1B9196</color>
-    <color name="screen_bg_qst">#129196</color>
     <color name="screen_bg_title_color">#138C91</color>
     <color name="screen_1_text_action_bar">#f5f6f7</color>
     <color name="screen_1_text">#FB9D02</color>
     <color name="row_sub_title">#403118</color>
-    <color name="bank_row">#CAE2E3</color>
-    <color name="answered_row">#D4FFC6</color>
-    <color name="bank_row_profile_form">#DAEAEB</color>
 
     <!-- LOGIN SCREEN -->
-    <color name="cadre_login">#F2D2B7</color>
-    <color name="cadre_sign">#1C3839</color>
 
     <color name="title_bg_color">#DCDFE0</color>
 

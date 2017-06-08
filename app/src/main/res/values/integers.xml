@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="RADIO_BUTTON_ID_YES">1111111</integer>
-    <integer name="RADIO_BUTTON_ID_NO">2222222</integer>
     <integer name="ALARM_INTERVAL">1000</integer>
 </resources>

@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">Toonta</string>
 
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">WELCOME TO TOONTA APP</string>
-
     <string name="toonta_skip_this">Skip this</string>
     <string name="screen_1_middle_text">Toonta is all about sharing thoughts and opinions.</string>
     <string name="screen1_img1_desc">Sharing knowledge</string>
@@ -16,13 +13,7 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Login</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
     <string name="toonta_sign_up">Sign up</string>
     <string name="toonta_sign_in">Log in</string>
     <string name="sign_up_screen_img">Sign up screen</string>
@@ -34,17 +25,14 @@
     <string name="unanswered_surveys">Surveys</string>
     <string name="row_access">Access</string>
     <string name="bank_solde">Solde :</string>
-    <string name="grands_moulins">Grands Moulins</string>
     <string name="fisrt_name">Fisrt Name</string>
     <string name="last_name">Last Name</string>
     <string name="birth_date">Birth Date</string>
     <string name="email_address">Email address</string>
     <string name="phone__number">Phone number</string>
-    <string name="activity_profession">Activity / Profession</string>
     <string name="place_of_residence">Country of residence</string>
     <string name="cumulated_points">Cumulated points</string>
     <string name="label_three">City of residence</string>
-    <string name="upload_photo">Upload photo</string>
 
     <string name="submit">Submit</string>
 
@@ -55,25 +43,13 @@
 
 
     <!-- Strings related to login -->
-    <string name="string_login_activity_email_placeholder">Email</string>
-    <string name="string_login_activity_password_placeholder">Password</string>
-    <string name="string_login_activity_login_button">Login</string>
-    <string name="string_login_activity_sign_up_button">No account yet? Create one</string>
     <string name="string_login_activity_password_error">Between 4 and 10 alphanumeric characters</string>
-    <string name="string_login_activity_email_error">Enter a valid email address</string>
     <string name="string_login_activity_authenticating">Authenticating…</string>
     <string name="string_login_activity_failed_login">Wrong phone number or password</string>
 
     <!-- Strings related to signup -->
-    <string name="string_sign_up_activity_first_name_placeholder">First name</string>
-    <string name="string_sign_up_activity_last_name_placeholder">Last name</string>
-    <string name="string_sign_up_activity_phone_number_placeholder">Phone number</string>
-    <string name="string_sign_up_activity_sign_up_button">Create account</string>
-    <string name="string_sign_up_activity_name_error">Enter a valid name</string>
     <string name="string_sign_up_activity_phone_number_error">Enter a valid phone number</string>
     <string name="string_sign_up_activity_creating_new_account">Creating new account…</string>
-    <string name="string_sign_up_activity_account_already_exists">Account already exists</string>
-    <string name="title_activity_first_use_slider">FirstUseSlider</string>
 
     <!-- Strings related to first use slider -->
     <string name="string_first_use_activity_1">Toonta is all about sharing thoughts and opinions</string>
@@ -81,17 +57,9 @@
     <string name="string_first_use_activity_3">As such we celebrate loyalty when it drives quality</string>
 
     <!-- Strings related to dashboard use slider -->
-    <string name="string_dashboard_activity_profile_button">Profile</string>
-    <string name="string_dashboard_activity_new_surveys_button">Answer a survey</string>
-    <string name="string_dashboard_activity_old_surveys_button">Past surveys</string>
-    <string name="string_dashboard_activity_share_button">Share</string>
-    <string name="string_dashboard_activity_share_dialog_title">Share via</string>
-    <string name="string_dashboard_activity_share_sentence">Get money, fuck bitches</string>
-    <string name="string_dashboard_activity_logout_button">Logout</string>
 
     <!-- Strings related to survey list -->
     <string name="string_list_survey_activity_empty_list">No survey !</string>
-    <string name="connected_fetching_survies">Fetching surveys...</string>
     <string name="string_loading_survies_activity">Loading surveys…</string>
     <string name="toonta_no_qst_for_survey">No questions to display for this survey</string>
     <string name="toonta_radio_button_yes">Yes</string>
@@ -101,24 +69,17 @@
     <string name="select_one_button">Check one of the answer</string>
     <string name="smth_wrong_re_answer_the_qst">Something went wrong, re-answer the question</string>
     <string name="answer_qst_before_moving_to_next">The question must be answered to be able to move to next</string>
-    <string name="toonta_field_modif">Fields modification</string>
-    <string name="toonta_field_modif_msg">All modified fields will be saved automatically when living this page</string>
     <string name="toonat_ok">Ok</string>
-    <string name="toonta_cancel">Cancel</string>
     <string name="toonta_save_changes">Save changes</string>
     <string name="toonta_modify_profile">Modify profile</string>
     <string name="no_modif_wright">You have no wright of modification</string>
     <string name="profile_change_success">Profile updated successefuly</string>
-    <string name="validate_the_survey_as">Validate the survey as...</string>
-    <string name="toonta_yourself_button">Yourself</string>
-    <string name="toonta_a_fiend">A friend</string>
     <string name="please_fill_in_the_below">Please fill in the below</string>
     <string name="toonta_validation_as_friend_validate">Validate</string>
     <string name="you_have_received_a_confirmation_code">You have received a confirmation code</string>
     <string name="toonta_confirm_button">Confirm</string>
     <string name="toonta_write_here">write here</string>
     <string name="toonta_dot">.</string>
-    <string name="toonta_empty_text"> </string>
     <string name="toonta_settings_text">Settings</string>
     <string name="toonta_logout_menu_text">Logout</string>
     <string name="toonta_share_menu_text">Share</string>
@@ -132,8 +93,6 @@
 
     <string name="toonta_share_url">Try Toonta for Android Smartphone. Download it here : https://play.google.com/store/apps/details?id=com.toonta.app</string>
     <string name="toonta_app_logo_desc">Toonta App</string>
-    <string name="accepter_les_notifications">Accepter les notifications</string>
-    <string name="no_desc_for_survey">No description available for this survey</string>
     <string name="toonta">Toonta</string>
     <string name="exit_survey_button">Exit survey</string>
 
@@ -162,12 +121,6 @@
         <item>DOCTOR</item>
         <item>STUDENT</item>
         <item>OTHERS</item>
-    </string-array>
-
-    <string-array name="toonta_sexe_values">
-        <item>U</item>
-        <item>F</item>
-        <item>M</item>
     </string-array>
 
     <string-array name="toonta_countries_list">
