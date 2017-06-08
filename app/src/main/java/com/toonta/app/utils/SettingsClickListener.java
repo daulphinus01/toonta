@@ -139,7 +139,8 @@ public class SettingsClickListener implements View.OnClickListener {
     }
 
     /**
-     * Active l'alarme gérant les notifications
+     * Active l'alarme gérant les notifications. Cette méthode active également
+     * le boot receiver
      */
     private void enableNotifications() {
         Intent alarmIntent = new Intent(context, ToontaAlarmReceiver.class);
@@ -154,7 +155,8 @@ public class SettingsClickListener implements View.OnClickListener {
     }
 
     /**
-     * Désactive l'alarme gérant les notifications.
+     * Désactive l'alarme gérant les notifications. Cette méthode désactive également
+     * le boot receiver
      */
     private void disableNotifications() {
         Intent alarmIntent = new Intent(context, ToontaAlarmReceiver.class);

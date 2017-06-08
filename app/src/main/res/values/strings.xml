@@ -49,7 +49,7 @@
     <string name="submit">Submit</string>
 
 
-    <string name="string_error_no_server">Server error</string>
+    <string name="string_error_no_server">Error while contacting server</string>
     <string name="string_error_no_network">Can not connect to internet</string>
     <string name="string_error_auth_failure">Authentication error</string>
 

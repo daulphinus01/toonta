@@ -17,8 +17,8 @@ import com.toonta.app.utils.Utils;
 
 import java.util.ArrayList;
 
-import static com.toonta.app.utils.ToontaConstants.NOTIFS_TAG;
 import static com.toonta.app.utils.ToontaConstants.DEFAULT_NBR_SURVEYS;
+import static com.toonta.app.utils.ToontaConstants.NOTIFS_TAG;
 
 /**
  * Selon l'intervalle donné, cette classe doit envoyer une requête au serveur pour
@@ -32,7 +32,12 @@ public class ToontaAlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        queryServer(context);
+        if (ToontaSharedPreferences.toontaSharedPreferences.userId == null) {
+            ToontaSharedPreferences.init(context);
+        }
+        if (ToontaSharedPreferences.toontaSharedPreferences.userId != null) {
+            queryServer(context);
+        }
     }
 
     /**

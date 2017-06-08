@@ -21,10 +21,9 @@ public class ToontaBootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         switch (intent.getAction()) {
-            case "android.intent.action.BOOT_COMPLETED":
+            case Intent.ACTION_BOOT_COMPLETED:
                 // Récupération de l'état des notification dans les préférences
                 ToontaSharedPreferences.init(context);
-                //ToontaDAO.init(context);
                 boolean isNotifEnabled = ToontaSharedPreferences.isLoggedIn()
                         && !ToontaSharedPreferences.getNotificationsState();
 
@@ -34,7 +33,6 @@ public class ToontaBootReceiver extends BroadcastReceiver {
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
 
                     AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                    // TODO Intervalle à spécifier plus tard
                     manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
                             context.getResources().getInteger(R.integer.ALARM_INTERVAL), pendingIntent);
                 }
