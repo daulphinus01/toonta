@@ -1,20 +1,14 @@
 package com.toonta.app.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.text.InputType;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -28,10 +22,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.toonta.app.BuildConfig;
-import com.toonta.app.HomePageActivity;
 import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
-import com.toonta.app.ToontaSharedPreferences;
 import com.toonta.app.model.SurveyResponse;
 
 import org.json.JSONArray;
@@ -64,48 +56,6 @@ public class Utils {
 
     public static boolean bothPwdHaveToBeTheSame(String pwd, String pwdConfrm) {
         return pwd.equals(pwdConfrm);
-    }
-
-    public static ActionMode.Callback initActionModeCallBack(final Context context) {
-        return new ActionMode.Callback() {
-            @Override
-            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                // Inflate a menu resource providing context menu items
-                MenuInflater inflater = mode.getMenuInflater();
-                inflater.inflate(R.menu.toonta_menu, menu);
-                return true;
-            }
-
-            @Override
-            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                return false;
-            }
-
-            @Override
-            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.toonta_logout_menu:
-                        ToontaSharedPreferences.logOut();
-                        mode.finish(); // Action picked, so close the CAB
-                        Intent intent = new Intent(context, HomePageActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        context.startActivity(intent);
-                        ((Activity)context).finish();
-                        return true;
-                    case R.id.toonta_share_menu:
-                        mode.finish();
-                        startShareActionIntent(context);
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-
-            @Override
-            public void onDestroyActionMode(ActionMode mode) {
-                mode = null;
-            }
-        };
     }
 
     public static void startShareActionIntent(Context context) {
@@ -370,7 +320,7 @@ public class Utils {
     }
 
     /**
-     * Retourne une liste de questionnaires non répondus
+     * Retourne une liste de questionnairesactifs et non répondus
      *
      * @param surveyElementArrayList ensemble de questionnaires récupérés depuis le serveur
      * @return  liste de questionnaires non répondus
@@ -378,11 +328,10 @@ public class Utils {
     public static ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> getUnsweredSuryes(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList) {
         ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> unAnsweredSurveys = new ArrayList<>();
         for (ToontaDAO.SurveysListAnswer.SurveyElement se : surveyElementArrayList) {
-            if (!se.answered) {
+            if (se.active && !se.answered) {
                 unAnsweredSurveys.add(se);
             }
         }
         return unAnsweredSurveys;
     }
-
 }

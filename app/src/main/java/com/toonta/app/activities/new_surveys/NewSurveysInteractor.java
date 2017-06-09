@@ -119,7 +119,7 @@ public class NewSurveysInteractor {
         ToontaDAO.getSurveys(page, new ToontaDAO.SurveysListNetworkCallInterface() {
             @Override
             public void onSuccess(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveysListAnswer) {
-                newSurveysViewUpdater.onPopulateSurvies(getActiveSurvies(surveysListAnswer));
+                newSurveysViewUpdater.onPopulateSurvies(surveysListAnswer);
             }
 
             @Override
@@ -225,15 +225,5 @@ public class NewSurveysInteractor {
         } else {
             return context.getString(R.string.string_error_no_network);
         }
-    }
-
-    private ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> getActiveSurvies(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveysListAnswer) {
-        ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> tmp = new ArrayList<>();
-        for (ToontaDAO.SurveysListAnswer.SurveyElement se : surveysListAnswer) {
-            if (se.active) {
-                tmp.add(se);
-            }
-        }
-        return tmp;
     }
 }

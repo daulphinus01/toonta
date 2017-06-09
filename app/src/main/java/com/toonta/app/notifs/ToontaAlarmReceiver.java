@@ -7,15 +7,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+import com.toonta.app.BuildConfig;
 import com.toonta.app.HomeConnectedActivity;
 import com.toonta.app.R;
 import com.toonta.app.ToontaDAO;
 import com.toonta.app.ToontaSharedPreferences;
-import com.toonta.app.activities.new_surveys.NewSurveysInteractor;
 import com.toonta.app.utils.Utils;
 
-import java.util.ArrayList;
+import org.json.JSONArray;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.toonta.app.utils.ToontaConstants.DEFAULT_NBR_SURVEYS;
 import static com.toonta.app.utils.ToontaConstants.NOTIFS_TAG;
@@ -32,11 +42,15 @@ public class ToontaAlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (ToontaSharedPreferences.toontaSharedPreferences.userId == null) {
+        if (ToontaSharedPreferences.toontaSharedPreferences == null) {
             ToontaSharedPreferences.init(context);
         }
-        if (ToontaSharedPreferences.toontaSharedPreferences.userId != null) {
-            queryServer(context);
+        if (ToontaSharedPreferences.toontaSharedPreferences != null
+                && ToontaSharedPreferences.toontaSharedPreferences.userId != null
+                && ToontaSharedPreferences.toontaSharedPreferences.requestToken != null) {
+            queryServer(context,
+                    ToontaSharedPreferences.toontaSharedPreferences.userId,
+                    ToontaSharedPreferences.toontaSharedPreferences.requestToken);
         }
     }
 
@@ -44,39 +58,43 @@ public class ToontaAlarmReceiver extends BroadcastReceiver {
      * Requête le server pour voir s'il y a des nouveaux questionnaires.
      * @param context le contexte utilisé
      */
-    private void queryServer(final Context context) {
-        new NewSurveysInteractor(context, new NewSurveysInteractor.NewSurveysViewUpdater() {
+    private void queryServer(final Context context, final String userId, final String userToken) {
+        Volley.newRequestQueue(context).add(new JsonArrayRequest(Request.Method.GET,
+                "http://92.222.90.138:8080/toonta-api/survey/list?user=" + userId,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        if (BuildConfig.DEBUG) {
+                            Log.v("ALMRCVER Surveys list", response.toString());
+                        }
+                        int surveysNbr = Utils.getUnsweredSuryes(ToontaDAO.parseSurveyList(response).surveyElements).size();
+                        int storedNbrSurveys = ToontaSharedPreferences.getSharedPreferencesSurveysNbr();
+                        // S'il y a des nouveaux questionnaires, on affiche une notification
+                        if (surveysNbr != DEFAULT_NBR_SURVEYS && surveysNbr > storedNbrSurveys) {
+                            ToontaSharedPreferences.setSharedPreferencesSurveysNbr(surveysNbr);
+                            createNotification(context);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (BuildConfig.DEBUG) {
+                            Log.e("ALMRCVER Surveys list", error.toString());
+                        }
+                    }
+                })
+        {
             @Override
-            public void onNewSurveys(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList, boolean reset) {
-                // Rien à faire
-            }
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<>();
+                params.put("userId", userId);
+                params.put("userToken", userToken);
 
-            @Override
-            public void onPopulateSurvies(ArrayList<ToontaDAO.SurveysListAnswer.SurveyElement> surveyElementArrayList) {
-                int surveysNbr = Utils.getUnsweredSuryes(surveyElementArrayList).size();
-                int storedNbrSurveys = ToontaSharedPreferences.getSharedPreferencesSurveysNbr();
-                // S'il y a des nouveaux questionnaires, on affiche une notification
-                if (surveysNbr != DEFAULT_NBR_SURVEYS && surveysNbr > storedNbrSurveys) {
-                    ToontaSharedPreferences.setSharedPreferencesSurveysNbr(surveysNbr);
-                    createNotification(context);
-                }
+                return params;
             }
-
-            @Override
-            public void onRefreshProgress() {
-                // Rien à faire
-            }
-
-            @Override
-            public void onRefreshDone() {
-                // Rien à faire
-            }
-
-            @Override
-            public void onFailure(String error) {
-                // Rien à faire
-            }
-        }).fetchAllSurvies();
+        });
     }
 
     /**

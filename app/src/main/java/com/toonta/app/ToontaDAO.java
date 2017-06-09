@@ -880,30 +880,29 @@ public class ToontaDAO extends Application {
         return questionsList;
     }
 
-    private static SurveysListAnswer parseSurveyList(JSONArray jsonArray) {
+    public static SurveysListAnswer parseSurveyList(JSONArray jsonArray) {
         SurveysListAnswer surveysListAnswer = new SurveysListAnswer();
         try {
             if (jsonArray != null) {
                 for (int index = 0; index < jsonArray.length(); index++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(index);
-                    //boolean isActive = jsonObject.getBoolean("active ");
                     String name = jsonObject.getString("name");
                     int reward = jsonObject.getInt("reward");
                     String surveyId = jsonObject.getString("id");
                     String authId = jsonObject.getString("authorId");
                     int receivedAnswer = jsonObject.getInt("receivedAnswer");
                     int target = jsonObject.getInt("target");
-                    boolean active;
-                    boolean answered;
                     if (name != null) {
                         surviesIDs.add(surveyId);
                         authorsIDs.add(authId);
                         SurveysListAnswer.SurveyElement surveyElement = new SurveysListAnswer.SurveyElement(name, reward, surveyId);
+                        // TODO : Remplacer le try suivant par : jsonObject.has("active")
                         try {
                             surveyElement.active = jsonObject.getBoolean("active");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        // TODO : Remplacer le try suivant par : jsonObject.has("seen")
                         try {
                             surveyElement.answered = jsonObject.getBoolean("seen");
                         } catch (JSONException e) {
@@ -1153,7 +1152,7 @@ public class ToontaDAO extends Application {
                     @Override
                     public void onResponse(JSONObject response) {
                         if (BuildConfig.DEBUG)
-                        Log.v(TAG + " Report for a question ", response.toString());
+                        Log.v(" Report for a question ", response.toString());
                         List<String> reponsesOfAQuestion = parseResponseOfQuestions(response);
                         reportSimpleNetworkCallInterface.onSuccess(reponsesOfAQuestion);
                     }
@@ -1162,7 +1161,7 @@ public class ToontaDAO extends Application {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (BuildConfig.DEBUG)
-                        Log.e(TAG + " Report for a question ", error.toString());
+                        Log.e(" Report for a question ", error.toString());
                         if (error instanceof NoConnectionError) {
                             reportSimpleNetworkCallInterface.onFailure(NetworkAnswer.NO_NETWORK);
                         } else if (error instanceof AuthFailureError) {
