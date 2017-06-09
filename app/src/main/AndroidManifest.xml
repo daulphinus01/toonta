@@ -67,16 +67,6 @@
         </activity>
 
         <activity
-            android:name=".BankDetailQstActivity"
-            android:parentActivityName=".BankDetailActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/FullscreenThemeBis">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.toonta.app.BankDetailActivity" />
-        </activity>
-
-        <activity
             android:name=".utils.ProfileActivity"
             android:theme="@style/FullscreenThemeBis"
             android:windowSoftInputMode="adjustResize"
@@ -94,15 +84,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeConnectedActivity" />
-        </activity>
-
-        <activity
-            android:theme="@style/FullscreenThemeBis"
-            android:name=".utils.ToontaQuestionNoAnswerActivity"
-            android:parentActivityName=".BankDetailQstActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".BankDetailQstActivity" />
         </activity>
 
         <meta-data
