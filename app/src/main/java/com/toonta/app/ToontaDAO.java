@@ -23,8 +23,6 @@ import com.toonta.app.utils.Utils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.http.HttpStatus;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,7 +30,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *
  * Created by Guillaume on 22/05/2016.
+ *
  */
 public class ToontaDAO extends Application {
 
@@ -1014,9 +1014,9 @@ public class ToontaDAO extends Application {
                             if (response.has("phoneNumber")) {
                                 updateToontaUserNetworkCallInterface.onSuccess(NetworkAnswer.OK_UPDATING);
                                 // updateToontaUserNetworkCallInterface.onFailure(NetworkAnswer.FAILED_UPDATING);
-                            } else if (responseStatus.equals(HttpStatus.CREATED.name())){
+                            } else if (responseStatus.toLowerCase().contains("created")){
                                 updateToontaUserNetworkCallInterface.onSuccess(NetworkAnswer.OK_UPDATING);
-                            } else if (responseStatus.equals(HttpStatus.FORBIDDEN)) {
+                            } else if (responseStatus.toLowerCase().contains("forbidden")) {
                                 updateToontaUserNetworkCallInterface.onSuccess(NetworkAnswer.FORBIDDEN);
                             } else {
                                 updateToontaUserNetworkCallInterface.onFailure(NetworkAnswer.FAILED_UPDATING);

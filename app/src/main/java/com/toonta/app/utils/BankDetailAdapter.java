@@ -63,7 +63,6 @@ public class BankDetailAdapter extends ArrayAdapter<ToontaDAO.SurveysListAnswer.
             convertView.setTag(viewHolder);
         }
 
-        //getItem(position) va récupérer l'item [position] de la List<Survey> surveyList
         ToontaDAO.SurveysListAnswer.SurveyElement survey = getItem(position);
 
         //il ne reste plus qu'à remplir notre vue
