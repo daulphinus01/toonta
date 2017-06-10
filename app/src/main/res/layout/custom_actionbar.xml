@@ -4,24 +4,13 @@
     android:layout_height="match_parent"
     android:background="@color/screen_bg_title_color">
 
-    <LinearLayout
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/toonta"
-            android:textColor="@color/screen_1_text_action_bar"
-            android:textSize="22sp"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/toonta_logo"/>
-
-    </LinearLayout>
+        android:text="@string/toonta"
+        android:layout_centerVertical="true"
+        android:textColor="@color/screen_1_text_action_bar"
+        android:textSize="22sp"/>
 
     <ImageView
         android:id="@+id/toonta_menu_settings"

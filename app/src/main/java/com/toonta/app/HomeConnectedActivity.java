@@ -175,7 +175,7 @@ public class HomeConnectedActivity extends AppCompatActivity {
             mActionBar.setDisplayShowTitleEnabled(false);
             LayoutInflater mInflater = LayoutInflater.from(this);
 
-            View mCustomView = mInflater.inflate(R.layout.custom_actionbar_ecran_accueil, null);
+            View mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
             mActionBar.setCustomView(mCustomView);
             mActionBar.setDisplayShowCustomEnabled(true);
         }
